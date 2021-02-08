@@ -5,10 +5,10 @@
         <div class="nk-ecwg nk-ecwg6">
             <div class="card-inner">
                 {{-- card header section --}}
-                <div class="card-title-group bg-gray mb-5">
+                <div class="card-title-group bg-gray mb-5 card-header-section" >
                     <div class="form-group col-xxl-3 col-sm-3 m-0">
                         <div class="col-xxl-12 col-sm-12 p-0 m-0">
-                            <label for="">Operator</label>
+                            <label for="">Operator :</label>
                             <select name="" id="">
                                 <option value="">option1</option>
                                 <option value="">option1</option>
@@ -16,7 +16,7 @@
                             </select>
                         </div>
                         <div class="col-xxl-12 col-sm-12 p-0 m-0">
-                            <label for="">warehouse</label>
+                            <label for="">warehouse :</label>
                             <select name="" id="">
                                 <option value="">option1</option>
                                 <option value="">option1</option>

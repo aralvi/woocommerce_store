@@ -5631,6 +5631,10 @@ input[type="button"].btn-block {
     color: #fff;
 }
 
+.card-header-section {
+    height: 100px;
+}
+
 .card {
     position: relative;
     display: flex;
