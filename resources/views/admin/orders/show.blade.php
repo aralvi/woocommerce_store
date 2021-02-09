@@ -25,25 +25,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($orders as $order)
+                                @foreach ($order->line_items as $product)
                                     
                                 <tr>
                                     <td><img src="{{ asset('assets/images/icons/logo-dark.png') }}" alt="" /></td>
                                     <td>xyz</td>
-                                    <td>{{ $order->line_items[0]->quantity }}</td>
+                                    <td>{{ $product->quantity }}</td>
                                     <td class="w-296">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <button type="button" id="sub" class="sub border" onclick="calculateTotal()">--</button>
                                             <button type="button" id="sub" class="sub border" onclick="calculateTotal()" >-</button>
-                                            <input type="number" id="1" value="{{ $order->line_items[0]->quantity }}" min="0" class="quantity"/>
+                                            <input type="number" id="1" value="{{ $product->quantity }}" min="0" class="quantity"/>
                                             <button type="button" id="add" class="add border" onclick="calculateTotal()">+</button>
                                             <button type="button" id="add" class="add border" onclick="calculateTotal()">++</button>
                                         </div>
                                     </td>
-                                    <td>{{ $order->line_items[0]->sku }}</td>
+                                    <td>{{ $product->sku }}</td>
                                     <td>supplier1</td>
                                     <td>1001231532143215</td>
-                                    <td>{{ $order->line_items[0]->name }}</td>
+                                    <td>{{ $product->name }}</td>
                                     <td class="text-success">{{ $order->status }}</td>
                                 </tr>
                                 @endforeach

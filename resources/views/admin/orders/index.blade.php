@@ -36,7 +36,7 @@
                                     <td>{{ $order->total }}</td>
                                     <td></td>
                                     <td>{{ count($order->line_items) }}</td>
-                                    <td><a href="{{ url('orders/show/'.$order->id) }}">view more</a> </td>
+                                    <td><a href="{{ route('orders.show',$order->id) }}">view more</a> </td>
                                 </tr>
                                 @endforeach
                                 

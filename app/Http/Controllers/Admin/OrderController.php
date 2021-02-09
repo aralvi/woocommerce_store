@@ -16,7 +16,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::all();
-        return view('admin.orders.index',compact('orders'));
+        return view('admin.orders.index', compact('orders'));
     }
 
     /**
@@ -48,8 +48,9 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::findOrFail($id);
-        return view('admin.orders.show',compact('order'));
+        $orders = Order::find($id);
+        dd($orders[0]->status);
+        // return view('admin.orders.show',compact('order'));
     }
 
     /**
