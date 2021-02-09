@@ -39,31 +39,23 @@
                         <div class="nk-sidebar-content">
                             <div class="nk-sidebar-menu" data-simplebar>
                                 <ul class="nk-menu">
-                                    <li class="nk-menu-heading">
-                                        <h6 class="overline-title text-primary-alt">Use-Case Preview</h6>
-                                    </li>
-                                    <!-- .nk-menu-item -->
-                                    <li class="nk-menu-item">
-                                        <a href="html/ecommerce/index.html" class="nk-menu-link">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-bag"></em></span>
-                                            <span class="nk-menu-text">E-Commerce Panel</span><span class="nk-menu-badge badge-danger">HOT</span>
-                                        </a>
-                                    </li>
-                                    <!-- .nk-menu-item -->
-                                    <li class="nk-menu-heading">
-                                        <h6 class="overline-title text-primary-alt">Dashboards</h6>
-                                    </li>
-                                    <!-- .nk-menu-item -->
-
                                     <!-- .nk-menu-heading -->
-                                    <li class="nk-menu-item has-sub">
+                                    <li class="nk-menu-item has-sub {{ Request::is('home*')?'active':'' }}">
+                                        <a href="{{ route('home') }}" class="nk-menu-link ">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-app"></em></span>
+                                            <span class="nk-menu-text">Dashboard</span>
+                                        </a>
+                                        <!-- .nk-menu-sub -->
+                                    </li>
+                                    <!-- .nk-menu-heading -->
+                                    <li class="nk-menu-item has-sub {{ Request::is('orders*')?'active':'' }}">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill"></em></span>
                                             <span class="nk-menu-text">Orders</span>
                                         </a>
                                         <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item">
-                                                <a href="{{ route('orders.index') }}" class="nk-menu-link"><span class="nk-menu-text">Orders</span></a>
+                                            <li class="nk-menu-item {{ Request::is('orders*')?'active':'' }}">
+                                                <a href="{{ route('orders.index') }}" class="nk-menu-link "><span class="nk-menu-text">Orders</span></a>
                                             </li>
                                             
                                         </ul>
@@ -116,7 +108,7 @@
                                 <!-- .nk-header-news -->
                                 <div class="nk-header-tools">
                                     <ul class="nk-quick-nav">
-                                        <li class="dropdown chats-dropdown hide-mb-xs">
+                                        {{-- <li class="dropdown chats-dropdown hide-mb-xs">
                                             <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
                                                 <div class="icon-status icon-status-na"><em class="icon ni ni-comments"></em></div>
                                             </a>
@@ -331,7 +323,7 @@
                                                     <a href="#">View All</a>
                                                 </div>
                                             </div>
-                                        </li>
+                                        </li> --}}
                                         <li class="dropdown user-dropdown">
                                             <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown">
                                                 <div class="user-toggle">

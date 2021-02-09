@@ -1,4 +1,4 @@
-@extends('layouts.admin') @section('title','dashboard') @section('page-title','Order Preparation') @section('content')
+@extends('layouts.admin') @section('title','Order detail') @section('page-title','Order Detail') @section('content')
 <div class="col-xxl-12 col-sm-12">
     <div class="card">
         <div class="nk-ecwg nk-ecwg6">
@@ -25,11 +25,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($order->line_items as $product)
+                                @foreach ($orders['line_items'] as $product)
                                     
                                 <tr>
-                                    <td><img src="{{ asset('assets/images/icons/logo-dark.png') }}" alt="" /></td>
-                                    <td>xyz</td>
+                                    <td></td>
+                                    <td></td>
                                     <td>{{ $product->quantity }}</td>
                                     <td class="w-296">
                                         <div class="d-flex justify-content-between align-items-center">
@@ -41,10 +41,10 @@
                                         </div>
                                     </td>
                                     <td>{{ $product->sku }}</td>
-                                    <td>supplier1</td>
-                                    <td>1001231532143215</td>
+                                    <td></td>
+                                    <td></td>
                                     <td>{{ $product->name }}</td>
-                                    <td class="text-success">{{ $order->status }}</td>
+                                    <td class="text-success"></td>
                                 </tr>
                                 @endforeach
                                 
@@ -100,17 +100,7 @@
                 grandTotal.value = sum;
             }
 
-            $(document).ready(function(){
-
-                $.ajax({
-
-                    type : 'GET',
-                    url: "{{ url('api/orders') }}",
-                    success:function(data){
-                        console.log(data.success.status);
-                    }
-                });
-            });
+           
 
 
 

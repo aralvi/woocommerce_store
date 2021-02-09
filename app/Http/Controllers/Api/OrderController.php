@@ -48,7 +48,8 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $orders = Order::find($id);
+        return response()->json($orders);
     }
 
     /**

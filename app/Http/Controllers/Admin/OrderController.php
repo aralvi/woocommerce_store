@@ -49,8 +49,8 @@ class OrderController extends Controller
     public function show($id)
     {
         $orders = Order::find($id);
-        dd($orders[0]->status);
-        // return view('admin.orders.show',compact('order'));
+        // dd($orders['status']);
+        return view('admin.orders.show',compact('orders'));
     }
 
     /**
