@@ -16,8 +16,8 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::all();
-        dd($orders[0]['line_items'][0]);
-        return view('admin.orders.index',compact('orders'));
+        dd($orders[0]->line_items[0]->name);
+        // return view('admin.orders.index',compact('orders'));
     }
 
     /**
