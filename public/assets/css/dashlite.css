@@ -16492,6 +16492,10 @@ input[type="radio"]:checked~label {
     line-height: 1.1;
 }
 
+.table td.w-296 {
+    width: 296px;
+}
+
 .table th.overline-title {
     line-height: 1.25rem;
     font-weight: 500;
@@ -16504,8 +16508,8 @@ input[type="radio"]:checked~label {
 
 .table-bordered td,
 .table-bordered th {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    /* padding-left: 1rem;
+    padding-right: 1rem; */
 }
 
 .table-plain td:first-child,
