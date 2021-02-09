@@ -22,3 +22,4 @@ Route::view('admin','check');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('orders', 'Admin\OrderController');

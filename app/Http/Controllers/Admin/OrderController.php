@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,7 +16,8 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::all();
-        return response()->json($orders);
+        dd($orders[0]['line_items'][0]);
+        return view('admin.orders.index',compact('orders'));
     }
 
     /**

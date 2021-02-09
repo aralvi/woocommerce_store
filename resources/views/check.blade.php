@@ -4,6 +4,7 @@
     <div class="card">
         <div class="nk-ecwg nk-ecwg6">
             <div class="card-inner">
+                {{ $orders[0]->status }}
                 {{-- card header section --}}
                 <div class="card-title-group bg-gray mb-5 card-header-section" >
                     <div class="form-group col-xxl-3 col-sm-3 m-0">

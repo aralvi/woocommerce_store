@@ -6,7 +6,6 @@
                 {{-- card header section --}}
                 <div class="card-title-group"></div>
                 {{-- card header section end --}}
-{{ $orders[0]->status }}
                 <div class="data">
                     <div class="data-group table-responsive">
                         <table class="table table-hover table-bordered">
@@ -26,6 +25,8 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($orders as $order)
+                                    
                                 <tr>
                                     <td><img src="{{ asset('assets/images/icons/logo-dark.png') }}" alt="" /></td>
                                     <td>xyz</td>
@@ -42,9 +43,10 @@
                                     <td>10001</td>
                                     <td>supplier1</td>
                                     <td>1001231532143215</td>
-                                    <td>Demo product</td>
-                                    <td class="text-success">success</td>
+                                    <td>{{ $order['line_items'] }}</td>
+                                    <td class="text-success">{{ $order->status }}</td>
                                 </tr>
+                                @endforeach
                                 <tr>
                                     <td><img src="{{ asset('assets/images/icons/logo-dark.png') }}" alt="" /></td>
                                     <td>xyz</td>
