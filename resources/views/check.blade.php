@@ -67,19 +67,25 @@
                             </select>
                         </div>
                         <div class="col-xxl-6 col-sm-6 p-0 d-flex justify-content-around">
-                            <select name="" id="">
-                                <option value="">Actions</option>
-                                <option value="">Prepare</option>
-                            </select>
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                </ul>
-                            </nav>
+                            <div class="">
+
+                                <select name="" id="">
+                                    <option value="">20</option>
+                                    <option value="">30</option>
+                                </select> Per page
+                            </div>
+                            <div class="">
+
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
 

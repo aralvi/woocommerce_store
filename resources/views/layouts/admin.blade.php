@@ -55,30 +55,7 @@
                                     <h6 class="overline-title text-primary-alt">Dashboards</h6>
                                 </li>
                                 <!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
-                                    <a href="html/index.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-cart-fill"></em></span>
-                                        <span class="nk-menu-text">Default</span>
-                                    </a>
-                                </li>
-                                <!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
-                                    <a href="html/index-sales.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-activity-round-fill"></em></span>
-                                        <span class="nk-menu-text">Sales</span>
-                                    </a>
-                                </li>
-                                <!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
-                                    <a href="html/index-analytics.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
-                                        <span class="nk-menu-text">Analytics</span>
-                                    </a>
-                                </li>
-                                <!-- .nk-menu-item -->
-                                <li class="nk-menu-heading">
-                                    <h6 class="overline-title text-primary-alt">Applications</h6>
-                                </li>
+                                
                                 <!-- .nk-menu-heading -->
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -124,53 +101,7 @@
                                     <!-- .nk-menu-sub -->
                                 </li>
                                 <!-- .nk-menu-item -->
-                                <li class="nk-menu-item has-sub">
-                                    <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-cc-alt2-fill"></em></span>
-                                        <span class="nk-menu-text">Orders</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="html/orders-default.html" class="nk-menu-link"><span class="nk-menu-text">Order List - Default</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="html/orders-regular.html" class="nk-menu-link"><span class="nk-menu-text">Order List - Regular</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="html/orders-sales.html" class="nk-menu-link"><span class="nk-menu-text">Order List - Sales</span></a>
-                                        </li>
-                                    </ul>
-                                    <!-- .nk-menu-sub -->
-                                </li>
-                                <!-- .nk-menu-item -->
-                                <li class="nk-menu-item has-sub">
-                                    <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-grid-alt-fill"></em></span>
-                                        <span class="nk-menu-text">Applications</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="html/apps-messages.html" class="nk-menu-link"><span class="nk-menu-text">Messages</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="html/apps-inbox.html" class="nk-menu-link"><span class="nk-menu-text">Inbox / Mail</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="html/apps-file-manager.html" class="nk-menu-link"><span class="nk-menu-text">File Manager</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="html/apps-chats.html" class="nk-menu-link"><span class="nk-menu-text">Chats / Messenger</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="html/apps-calendar.html" class="nk-menu-link"><span class="nk-menu-text">Calendar</span><span class="nk-menu-badge badge-warning">New</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="html/apps-kanban.html" class="nk-menu-link"><span class="nk-menu-text">Kanban Board</span><span class="nk-menu-badge badge-warning">New</span></a>
-                                        </li>
-                                    </ul>
-                                    <!-- .nk-menu-sub -->
-                                </li>
-                                <!-- .nk-menu-item -->
+                               
                                 
                                 
                                
@@ -489,14 +420,14 @@
                                 </div>
                                 <!-- .nk-block-head -->
                                 <div class="nk-block">
-                                    <div class="row g-gs">
-                                        <div class="col-xxl-12 col-sm-12">
+                                    {{-- <div class="row g-gs">
+                                        <div class="col-xxl-12 col-sm-12"> --}}
                                             <div class="card">
                                                @yield('content')
                                                 <!-- .nk-ecwg -->
-                                            </div>
+                                            {{-- </div>
                                             <!-- .card -->
-                                        </div>
+                                        </div> --}}
                                         <!-- .col -->
                                         
                                     </div>

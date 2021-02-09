@@ -18,6 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::view('admin','check');
+Route::view('login/admin','auth.login-2');
+Route::view('password/reset1','auth.passwords.reset-2');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
