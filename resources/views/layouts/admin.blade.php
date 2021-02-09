@@ -59,42 +59,25 @@
                                     <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill"></em></span>
-                                            <span class="nk-menu-text">Projects</span>
+                                            <span class="nk-menu-text">Orders</span>
                                         </a>
                                         <ul class="nk-menu-sub">
                                             <li class="nk-menu-item">
-                                                <a href="html/project-card.html" class="nk-menu-link"><span class="nk-menu-text">Project Cards</span></a>
+                                                <a href="{{ route('orders.index') }}" class="nk-menu-link"><span class="nk-menu-text">Orders</span></a>
                                             </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/project-list.html" class="nk-menu-link"><span class="nk-menu-text">Project List</span></a>
-                                            </li>
+                                            
                                         </ul>
                                         <!-- .nk-menu-sub -->
                                     </li>
                                     <!-- .nk-menu-item -->
                                     <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
-                                            <span class="nk-menu-text">User Manage</span>
+                                            <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span>
+                                            <span class="nk-menu-text">Products</span>
                                         </a>
                                         <ul class="nk-menu-sub">
                                             <li class="nk-menu-item">
                                                 <a href="html/user-list-default.html" class="nk-menu-link"><span class="nk-menu-text">User List - Default</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/user-list-regular.html" class="nk-menu-link"><span class="nk-menu-text">User List - Regular</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/user-list-compact.html" class="nk-menu-link"><span class="nk-menu-text">User List - Compact</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/user-details-regular.html" class="nk-menu-link"><span class="nk-menu-text">User Details - Regular</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/user-profile-regular.html" class="nk-menu-link"><span class="nk-menu-text">User Profile - Regular</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/user-card.html" class="nk-menu-link"><span class="nk-menu-text">User Contact - Card</span> <span class="nk-menu-badge badge-warning">New</span></a>
                                             </li>
                                         </ul>
                                         <!-- .nk-menu-sub -->
@@ -356,8 +339,7 @@
                                                         <em class="icon ni ni-user-alt"></em>
                                                     </div>
                                                     <div class="user-info d-none d-xl-block">
-                                                        <div class="user-status user-status-unverified">Unverified</div>
-                                                        <div class="user-name dropdown-indicator">Abu Bin Ishityak</div>
+                                                        <div class="user-name dropdown-indicator">{{ Auth::user()->name }}</div>
                                                     </div>
                                                 </div>
                                             </a>
@@ -368,8 +350,8 @@
                                                             <span>AB</span>
                                                         </div>
                                                         <div class="user-info">
-                                                            <span class="lead-text">Abu Bin Ishtiyak</span>
-                                                            <span class="sub-text">infooftnio.com</span>
+                                                            <span class="lead-text">{{ Auth::user()->name }}</span>
+                                                            <span class="sub-text">{{ Auth::user()->email }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
