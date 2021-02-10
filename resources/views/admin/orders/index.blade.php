@@ -8,17 +8,21 @@
                 {{-- card header section end --}}
                 <div class="data">
                     <div class="row mb-4">
-                        <div class="col-md-10">
+                        <div class="col-md-8">
 
 
                         </div>
                         <div class="col-md-2">
-
-                            <form action="">
+                                <div class="form-group">
+                                    <label for="filter By Status" class="mb-0">Search</label>
+                                    <input class="mu-input-box form-control" name="order_search" id="search_order" type="text"  placeholder="search order status" />
+                                </div>
+                        </div>
+                        <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="filter By Status" class="mb-0">Filter Status</label>
                                     <select id="order_status" name="order_status" class="form-control" >
-                                        <option value="" selected disabled>choose status</option>
+                                        <option value="all" selected>All</option>
                                         <option value="pending">Pending payment</option>
                                         <option value="processing" >Processing</option>
                                         <option value="on-hold">On hold</option>
@@ -27,9 +31,7 @@
                                         <option value="refunded">Refunded</option>
                                         <option value="failed">Failed</option>
                                     </select>
-                                    
                                 </div>
-                            </form>
                         </div>
                     </div>
                     <div class="data-group table-responsive">
@@ -53,7 +55,7 @@
 
                                 <tr>
                                     <td><input type="checkbox" name="" id=""></td>
-                                    <td>{{ $order->order_key }}</td>
+                                    <td>{{ $order->id }}</td>
                                     <td>{{ $order->status }}</td>
                                     <td class="w-296">
                                         {{$order->date_created}}
@@ -91,6 +93,20 @@
                 $('#order_table').html(data);
             }
         });
+
+    });
+    $('#search_order').on('input',function(e){
+        var query = $(this).val();
+        $.ajax({
+        type: "post",
+        url: "{{ route('order.search')}}",
+        data: {query: query, _token: "{{ csrf_token() }}"},
+
+        success: function(data) {
+            $('#order_table').empty();
+            $('#order_table').html(data);
+        }
+        , });
 
     });
 </script>

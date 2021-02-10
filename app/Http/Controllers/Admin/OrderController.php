@@ -97,9 +97,25 @@ class OrderController extends Controller
      */
     public function filter($status)
     {       
-        $orders = Order::where('status',$status)->get();
-        // dd($orders['status']);
-        // return $orders;
+        if($status == 'all'){
+            $orders = Order::all();
+        }else{
+
+            $orders = Order::where('status',$status)->get();
+        }
+        
         return view('admin.orders.filter_status', compact('orders'));
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->get('query');
+        if (isset($query)) {
+            $orders = Order::where('id', 'LIKE', "%{$query}%")->get();
+            return view('admin.orders.search', compact('orders'));
+        } else {
+            $orders = Order::all();
+            return view('admin.orders.search', compact('orders'));
+        }
     }
 }
