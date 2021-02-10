@@ -109,13 +109,7 @@ calculateTotal();
             
         }
     });
-    $(document.body).on("change", "input.quantity", function () {
-        console.log($(this).val())
-            var ProductPrice = $(this).parent("td").siblings("td").children("input.price").val();
-            var quantity = $(this).val();
-            
-
-        });
+   
 });
         function calculateTotal() {
                 let inputs = document.querySelectorAll("td  input.quantity");
