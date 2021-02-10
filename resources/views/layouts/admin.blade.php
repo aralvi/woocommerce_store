@@ -69,7 +69,31 @@
                                         </a>
                                         <ul class="nk-menu-sub">
                                             <li class="nk-menu-item">
-                                                <a href="html/user-list-default.html" class="nk-menu-link"><span class="nk-menu-text">User List - Default</span></a>
+                                                <a href="html/user-list-default.html" class="nk-menu-link"><span class="nk-menu-text">Products</span></a>
+                                            </li>
+                                        </ul>
+                                        <!-- .nk-menu-sub -->
+                                    </li>
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-building"></em></span>
+                                            <span class="nk-menu-text">Stores</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/user-list-default.html" class="nk-menu-link"><span class="nk-menu-text">Stores</span></a>
+                                            </li>
+                                        </ul>
+                                        <!-- .nk-menu-sub -->
+                                    </li>
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-bus-front-12"></em></span>
+                                            <span class="nk-menu-text">Curior Companies</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/user-list-default.html" class="nk-menu-link"><span class="nk-menu-text">Curior Companies</span></a>
                                             </li>
                                         </ul>
                                         <!-- .nk-menu-sub -->

@@ -11,10 +11,10 @@
                         <table class="table table-hover table-bordered">
                             <thead class="thead-dark">
                                 <tr>
+                                    <th scope="col">#</th>
                                     <th scope="col">
                                         Image
                                     </th>
-                                    <th scope="col">Bin Location</th>
                                     <th scope="col">Qty to ship</th>
                                     <th scope="col"><button class="border-0">-</button> Qty <button class="border-0">+</button></th>
                                     <th scope="col">Sku</th>
@@ -28,6 +28,7 @@
                                 @foreach ($orders['line_items'] as $key=> $product)
                                     
                                 <tr>
+                                    <td>{{ $product->product_id }}</td>
                                     <td>
                                         @foreach ($products as $item)
                                         @if ($product->product_id == $item->id)
@@ -35,7 +36,6 @@
                                         @endif
                                         @endforeach
                                     </td>
-                                    <td></td>
                                     <td>{{ $product->quantity }}</td>
                                     <td class="w-296">
                                         <div class="d-flex justify-content-between align-items-center">

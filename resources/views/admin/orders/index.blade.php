@@ -8,38 +8,63 @@
                 {{-- card header section end --}}
                 <div class="data">
                     <div class="row mb-4">
-                        <div class="col-md-8">
-
-
-                        </div>
                         <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="filter By Status" class="mb-0">Search</label>
-                                    <input class="mu-input-box form-control" name="order_search" id="search_order" type="text"  placeholder="search order status" />
-                                </div>
-                        </div>
-                        <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="filter By Status" class="mb-0">Filter Status</label>
-                                    <select id="order_status" name="order_status" class="form-control" >
-                                        <option value="all" selected>All</option>
-                                        <option value="pending">Pending payment</option>
-                                        <option value="processing" >Processing</option>
-                                        <option value="on-hold">On hold</option>
-                                        <option value="completed">Completed</option>
-                                        <option value="cancelled">Cancelled</option>
-                                        <option value="refunded">Refunded</option>
-                                        <option value="failed">Failed</option>
+                            <div class="form-group">
+                                <label for="" class="mb-0">Select Store</label>
+                                <div class="form-control-wrap">
+                                    <select class="form-select form-control form-control-lg" data-search="on">
+                                        <option value="default_option">Choose store</option>
+                                        <option value="option_select_name">Store 1</option>
+                                        <option value="option_select_name">Store 2</option>
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="" class="mb-0">Select curior Service</label>
+                                <div class="form-control-wrap">
+                                    <select class="form-select form-control form-control-lg" data-search="on">
+                                        <option value="default_option">Choose Curier service</option>
+                                        <option value="option_select_name">TCS</option>
+                                        <option value="option_select_name">Lepord</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            {{-- <div class="form-group">
+                                <label for="filter By Status" class="mb-0">Search</label>
+                                <input class="mu-input-box form-control" name="order_search" id="search_order"
+                                    type="text" placeholder="search order status" />
+                            </div> --}}
+                        </div>
+                        <div class="col-md-4">
+
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="filter By Status" class="mb-0">Filter Status</label>
+                                <select id="order_status" name="order_status" class="form-control form-select" data-search="on">
+                                    <option value="all" selected>All</option>
+                                    <option value="pending">Pending payment</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="on-hold">On hold</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="refunded">Refunded</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="data-group table-responsive">
+                    {{-- <div class="data-group table-responsive ">
                         <table class="table table-hover table-bordered">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">
-                                        <input type="checkbox" name="" id="">
+                                        <input type="checkbox" name="" class="order_check" id="orders_check">
                                     </th>
                                     <th scope="col">Order# </th>
                                     <th scope="col">Status</th>
@@ -54,7 +79,7 @@
                                 @foreach ($orders as $order)
 
                                 <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
+                                    <td><input type="checkbox" name="" class="order_check"></td>
                                     <td>{{ $order->id }}</td>
                                     <td>{{ $order->status }}</td>
                                     <td class="w-296">
@@ -63,14 +88,72 @@
                                     <td>{{ $order->total }}</td>
                                     <td></td>
                                     <td>{{ count($order->line_items) }}</td>
-                                    <td><a href="{{ route('orders.show',$order->id) }}">view more</a> </td>
+                                    <td><a href="{{ route('orders.show',$order->id) }}"><i
+                                                class="icon ni ni-eye"></i></a> </td>
                                 </tr>
                                 @endforeach
 
                             </tbody>
 
                         </table>
-                    </div>
+                    </div> --}}
+                    <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
+                        <thead class="thead-dark">
+                            <tr class="nk-tb-item nk-tb-head">
+                                <th class="nk-tb-col nk-tb-col-check">
+                                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                                        <input type="checkbox" name="" class="order_check " id="orders_check">
+                                    </div>
+                                </th>
+                                <th class="nk-tb-col"><span class="sub-text">Order# </span></th>
+                                <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
+                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Date</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Total</span></th>
+                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tracking</span></th>
+                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Itmes</span></th>
+                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Action</span></th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody id="order_table">
+
+                            @foreach ($orders as $order)
+                                
+                            <tr class="nk-tb-item">
+                                <td class="nk-tb-col nk-tb-col-check">
+                                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                                        <input type="checkbox" name="" class="order_check ">
+                                    </div>
+                                </td>
+                                <td class="nk-tb-col">
+                                        <div class="user-info">
+                                            <span class="tb-lead">{{ $order->id }}<span  class="dot dot-success d-md-none ml-1"></span></span>
+                                        </div>
+                                </td>
+                                <td class="nk-tb-col tb-col-mb">
+                                    <span class="tb-amount">{{ $order->status }}</span>
+                                </td>
+                                <td class="nk-tb-col tb-col-md">
+                                    <span>{{$order->date_created}}</span>
+                                </td>
+                                <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                    {{ $order->total }}
+                                </td>
+                                <td class="nk-tb-col tb-col-lg">
+                                </td>
+                                <td class="nk-tb-col tb-col-lg">
+                                    {{ count($order->line_items) }}
+                                </td>
+                                <td class="nk-tb-col tb-col-md">
+                                   <a href="{{ route('orders.show',$order->id) }}"><i
+                                            class="icon ni ni-eye"></i></a>
+                                </td>
+                                
+                            </tr><!-- .nk-tb-item  -->
+                            @endforeach
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <!-- .card-inner -->
@@ -81,33 +164,47 @@
 </div>
 @endsection @section('script')
 <script>
-     $("#order_status").on('change',function(){
-        $status = $(this).val();
+    $("#orders_check").click( function(){
+   if( $(this).is(':checked') ){
+
+        $('.order_check').attr('checked','checked');
+   }else{
         
+        $('.order_check').removeAttr('checked','checked');
+
+   }
+});
+    $("#order_status").on('change', function () {
+        $status = $(this).val();
+
 
         $.ajax({
             type: 'get',
-            url : "{{ url('order')}}"+"/"+$status,
-            success: function(data){
+            url: "{{ url('order')}}" + "/" + $status,
+            success: function (data) {
                 $('#order_table').empty();
                 $('#order_table').html(data);
             }
         });
 
     });
-    $('#search_order').on('input',function(e){
+    $('#search_order').on('input', function (e) {
         var query = $(this).val();
         $.ajax({
-        type: "post",
-        url: "{{ route('order.search')}}",
-        data: {query: query, _token: "{{ csrf_token() }}"},
+            type: "post",
+            url: "{{ route('order.search')}}",
+            data: {
+                query: query,
+                _token: "{{ csrf_token() }}"
+            },
 
-        success: function(data) {
-            $('#order_table').empty();
-            $('#order_table').html(data);
-        }
-        , });
+            success: function (data) {
+                $('#order_table').empty();
+                $('#order_table').html(data);
+            },
+        });
 
     });
+
 </script>
 @endsection
