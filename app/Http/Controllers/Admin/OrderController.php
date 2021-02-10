@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Codexshaper\WooCommerce\Facades\Order;
+use Codexshaper\WooCommerce\Facades\Product;
 
 class OrderController extends Controller
 {
@@ -16,6 +17,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::all();
+        
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -49,8 +51,9 @@ class OrderController extends Controller
     public function show($id)
     {
         $orders = Order::find($id);
-        // dd($orders['status']);
-        return view('admin.orders.show',compact('orders'));
+        $products = Product::all();
+        // dd($products);
+        return view('admin.orders.show',compact('orders','products'));
     }
 
     /**
@@ -85,5 +88,18 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function filter($status)
+    {       
+        $orders = Order::where('status',$status)->get();
+        // dd($orders['status']);
+        // return $orders;
+        return view('admin.orders.filter_status', compact('orders'));
     }
 }

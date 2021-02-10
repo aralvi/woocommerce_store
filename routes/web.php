@@ -20,6 +20,9 @@ Route::get('/', function () {
 Route::view('admin','check');
 
 Auth::routes();
+Route::group([ 'middleware' => ['auth']], function () {
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('orders', 'Admin\OrderController');
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('orders', 'Admin\OrderController');
+    Route::get('order/{status}', 'Admin\OrderController@filter')->name('order.status');
+});

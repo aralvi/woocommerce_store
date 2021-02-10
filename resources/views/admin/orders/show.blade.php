@@ -25,10 +25,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($orders['line_items'] as $product)
+                                @foreach ($orders['line_items'] as $key=> $product)
                                     
                                 <tr>
-                                    <td></td>
+                                    <td>
+                                        @foreach ($products as $item)
+                                        @if ($product->product_id == $item->id)
+                                            <img src="{{ $item->images[0]->src }}" alt="" width="60" height="60">
+                                        @endif
+                                        @endforeach
+                                    </td>
                                     <td></td>
                                     <td>{{ $product->quantity }}</td>
                                     <td class="w-296">
@@ -44,7 +50,13 @@
                                     <td></td>
                                     <td></td>
                                     <td>{{ $product->name }}</td>
-                                    <td class="text-success"></td>
+                                    <td>
+                                        @foreach ($products as $item)
+                                        @if ($product->product_id == $item->id)
+                                            <p class="{{ $item->stock_status == 'instock'? "text-success":'text-danger' }} ">{{ $item->stock_status }}</p>
+                                        @endif
+                                        @endforeach
+                                    </td>
                                 </tr>
                                 @endforeach
                                 
