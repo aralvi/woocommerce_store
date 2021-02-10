@@ -33,11 +33,11 @@
                                     <td>{{ $product->quantity }}</td>
                                     <td class="w-296">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <button type="button" id="sub" class="sub border" onclick="calculateTotal()">--</button>
-                                            <button type="button" id="sub" class="sub border" onclick="calculateTotal()" >-</button>
+                                            <button type="button" id="sub" class="sub border" >--</button>
+                                            <button type="button" id="sub" class="sub border"  >-</button>
                                             <input type="number" id="1" value="{{ $product->quantity }}" min="0" class="quantity"/>
-                                            <button type="button" id="add" class="add border" onclick="calculateTotal()">+</button>
-                                            <button type="button" id="add" class="add border" onclick="calculateTotal()">++</button>
+                                            <button type="button" id="add" class="add border" >+</button>
+                                            <button type="button" id="add" class="add border" >++</button>
                                         </div>
                                     </td>
                                     <td>{{ $product->sku }}</td>
@@ -68,24 +68,55 @@
 @endsection @section('script')
 <script>
     
+$(document).ready(function(){
+    
+calculateTotal();
+
     $(".add").click(function () {
         $(this)
             .prev()
             .val(+$(this).prev().val() + 1);
+             
+            let inputs = document.querySelectorAll("td  input.quantity");
+    
+                let sum = 0;
+                for (let input of inputs) {
+                    sum += +input.value;
+                }
+    
+                let grandTotal = document.querySelector(".count");
+    
+                // console.log(sum);
+                grandTotal.value = sum;
         
     });
     $(".sub").click(function () {
-        if ($(this).next().val() > 1 || $(this).next().next().val() > 1) {
+        if ($(this).next().val() > 1 ) {
             $(this)
                 .next()
                 .val(+$(this).next().val() - 1);
-            $(this)
-                .next()
-                .next()
-                .val(+$(this).next().next().val() - 1);
+                let inputs = document.querySelectorAll("td  input.quantity");
+    
+                let sum = 0;
+                for (let input of inputs) {
+                    sum += +input.value;
+                }
+    
+                let grandTotal = document.querySelector(".count");
+    
+                // console.log(sum);
+                grandTotal.value = sum;
+            
         }
     });
+    $(document.body).on("change", "input.quantity", function () {
+        console.log($(this).val())
+            var ProductPrice = $(this).parent("td").siblings("td").children("input.price").val();
+            var quantity = $(this).val();
+            
 
+        });
+});
         function calculateTotal() {
                 let inputs = document.querySelectorAll("td  input.quantity");
     
