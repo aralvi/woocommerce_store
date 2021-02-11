@@ -17,7 +17,7 @@
     <div class="form-group">
         <label class="form-label" for="Consumer Key">Password</label>
         <div class="form-control-wrap">
-            <input type="password" class="form-control" name="password" value="{{ $user->password }}" required>
+            <input type="password" class="form-control" name="password" value="" required>
         </div>
     </div>
     
@@ -26,7 +26,7 @@
     </div>
     <div class="modal-footer bg-light">
         <div class="form-group">
-            <button type="submit" class="btn btn-lg btn-primary">Update Informations</button>
+            <button type="submit" class="btn btn-lg btn-dim btn-primary">Update Informations</button>
         </div>
     </div>
 </form>
