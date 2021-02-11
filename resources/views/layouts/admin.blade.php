@@ -114,14 +114,14 @@
                                                                     <a href="{{route('users.create')}}" class="nk-menu-link"><span class="nk-menu-text">Add Users</span></a>
                                                                 </li>
                                                                 <li class="nk-menu-item">
-                                                                    <a href="{{asset('users')}}" class="nk-menu-link"><span class="nk-menu-text">All Users</span></a>
+                                                                    <a href="{{route('users.index')}}" class="nk-menu-link"><span class="nk-menu-text">All Users</span></a>
                                                                 </li>
                                                             </ul>
                                                             <!-- .nk-menu-sub -->
                                                         </li>
                                          
                                             <li class="nk-menu-item">
-                                                <a href="{{ url('settings') }}" class="nk-menu-link"><span class="nk-menu-text">Add Store</span></a>
+                                                <a href="{{ route('stores.index') }}" class="nk-menu-link"><span class="nk-menu-text">Add Store</span></a>
                                             </li>
                                         </ul>
                                         <!-- .nk-menu-sub -->
