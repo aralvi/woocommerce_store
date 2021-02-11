@@ -15,9 +15,12 @@
                                     <select class="form-select form-control form-control-lg" id="stores" name="store" data-search="on">
                                         <option value="default_option">Choose store</option>
                                         @foreach ($shops as $shop)
+                                        @if (Auth::user()->id == $shop->user_id)
+                                            
                                         <option  class="text-capitalize" value="{{ $shop->store_url }}" 
                                         data-key="{{ $shop->consumer_key }}"
                                         data-secret="{{ $shop->consumer_secret }}">{{ $shop->name }}</option>
+                                        @endif
                                             
                                         @endforeach
                                             

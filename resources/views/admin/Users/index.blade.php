@@ -1,39 +1,27 @@
-@extends('layouts.admin') @section('title','Users') @section('page-title','Add User')
-
-@section('content')
+@extends('layouts.admin') @section('title','Users') @section('page-title','Add User') @section('content')
 <div class="col-xxl-12 col-sm-12">
     <div class="card">
         <div class="nk-ecwg nk-ecwg6">
             <div class="card-inner">
                 {{-- card header section --}}
                 <div class="card-title-group">
-                     <button type="button" class="btn btn-dim btn-primary" data-toggle="modal" data-target="#modalForm">Add User</button>
+                    <button type="button" class="btn btn-dim btn-primary" data-toggle="modal" data-target="#modalForm">Add User</button>
                 </div>
                 {{-- card header section end --}}
                 <div class="data">
                     <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
                         <thead class="thead-dark">
                             <tr class="nk-tb-item nk-tb-head">
-                                <!-- <th class="nk-tb-col nk-tb-col-check">
-                                    <div class="custom-control custom-control-sm custom-checkbox notext">
-                                        <input type="checkbox" name="" class="order_check " id="orders_check">
-                                    </div>
-                                </th> -->
-                                <th class="nk-tb-col">Id </th>
+                                <th class="nk-tb-col">Id</th>
                                 <th class="nk-tb-col tb-col-mb">User Name</th>
                                 <th class="nk-tb-col tb-col-md">Email</th>
                                 <th class="nk-tb-col tb-col-lg">Actions</th>
-
-
                             </tr>
                         </thead>
-                        <tbody id="order_table">
-
-
+                        <tbody>
                             @foreach($Users as $user)
 
                             <tr class="nk-tb-item" id="target_{{ $user->id }}">
-
                                 <td class="nk-tb-col">
                                     <div class="user-info">
                                         <span class="tb-lead"><span class="dot dot-success d-md-none ml-1"></span>{{$user->id}}</span>
@@ -49,14 +37,12 @@
                                     <span class="tb-amount">{{$user->password}}</span>
                                 </td> -->
 
-
-                                </td>
                                 <td class="nk-tb-col tb-col-md">
                                     <button type="button" class="btn btn-dim btn-primary editUser" data-userId="{{ $user->id }}"><i class="icon ni ni-pen"></i></button>
-                                    <button type="button" class="btn btn-dim btn-primary deleteUsere" data-userId="{{ $user->id }}"><i class="icon ni ni-trash"></i></button>
+                                    <button type="button" class="btn btn-dim btn-primary deleteUser" data-userId="{{ $user->id }}"><i class="icon ni ni-trash"></i></button>
                                 </td>
-
-                            </tr><!-- .nk-tb-item  -->
+                            </tr>
+                            <!-- .nk-tb-item  -->
                             @endforeach
                         </tbody>
                     </table>
@@ -69,54 +55,52 @@
     <!-- .card -->
 </div>
 
-
-
-{{-- Add modal  --}}
+{{-- Add modal --}}
 
 <div class="modal fade zoom" tabindex="-1" id="modalForm">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Store</h5>
-                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
-                        <em class="icon ni ni-cross"></em>
-                    </a>
-                </div>
-                <div class="modal-body">
-                    <form action="{{route('users.store')}}" method="POST">
-            @csrf
-                <div class="row g-4">   
-                    <div class="col-lg-12">
-                        <div class="form-group"><label class="form-label" for="full-name-1">Name</label>
-                            <div class="form-control-wrap"><input type="text" name="name" class="form-control" id="full-name-1"></div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add User</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('users.store')}}" method="POST">
+                    @csrf
+                    <div class="row g-4">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label" for="full-name-1">Name</label>
+                                <div class="form-control-wrap"><input type="text" name="name" class="form-control" id="full-name-1" /></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label" for="email-address-1">Email </label>
+                                <div class="form-control-wrap"><input type="email" name="email" class="form-control" id="email-address-1" /></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label" for="phone-no-1">password</label>
+                                <div class="form-control-wrap"><input type="password" name="password" class="form-control" id="phone-no-1" /></div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group"><button type="submit" class="btn btn-lg btn-primary">Save Informations</button></div>
                         </div>
                     </div>
-                    <div class="col-lg-12">
-                        <div class="form-group"><label class="form-label" for="email-address-1">Email </label>
-                            <div class="form-control-wrap"><input type="text" name="email" class="form-control" id="email-address-1"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="form-group"><label class="form-label" for="phone-no-1">password</label>
-                            <div class="form-control-wrap"><input type="password" name="password" class="form-control" id="phone-no-1"></div>
-                        </div>
-                    </div>
-                    
-              
-                  
-                    <div class="col-12">
-                        <div class="form-group"><button type="submit" class="btn btn-lg btn-primary">Save Informations</button></div>
-                    </div>
-                    
-                </div>
-                    </form>
+                </form>
             </div>
         </div>
     </div>
 
- {{-- delete mdal  --}}
+    {{-- delete mdal --}}
 
-    <div class="modal fade zoom" tabindex="-1" id="DeleteModal">
+    <div class="modal fade zoom" tabindex="-1" id="DeleteUserModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -136,7 +120,7 @@
     </div>
 
     {{-- edit modal --}}
-    <div class="modal fade zoom" tabindex="-1" id="editModal">
+    <div class="modal fade zoom" tabindex="-1" id="editUserModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -145,10 +129,9 @@
                         <em class="icon ni ni-cross"></em>
                     </a>
                 </div>
-                <div class="modal-body requestdata">
-                
-                
+                <div class="modal-body requestdata"></div>
             </div>
         </div>
+        @endsection
     </div>
-@endsection
+</div>

@@ -16,26 +16,15 @@
                     <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
                         <thead class="thead-dark">
                             <tr class="nk-tb-item nk-tb-head">
-                                <!-- <th class="nk-tb-col nk-tb-col-check">
-                                    <div class="custom-control custom-control-sm custom-checkbox notext">
-                                        <input type="checkbox" name="" class="order_check " id="orders_check">
-                                    </div>
-                                </th> -->
                                 <th class="nk-tb-col">Id </th>
                                 <th class="nk-tb-col tb-col-mb">Store Name</th>
                                 <th class="nk-tb-col tb-col-md">Store Url</th>
                                 <th class="nk-tb-col tb-col-lg">Actions</th>
-
-
                             </tr>
                         </thead>
-                        <tbody id="order_table">
-
-
+                        <tbody >
                             @foreach($shops as $shop)
-
                             <tr class="nk-tb-item" id="target_{{ $shop->id }}">
-
                                 <td class="nk-tb-col">
                                     <div class="user-info">
                                         <span class="tb-lead"><span class="dot dot-success d-md-none ml-1"></span>{{$shop->id}}</span>
@@ -47,15 +36,11 @@
                                 <td class="nk-tb-col tb-col-md">
                                     <span class="tb-amount">{{$shop->store_url}}</span>
                                 </td>
-                                
-
-
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
                                     <button type="button" class="btn btn-dim btn-primary editStore" data-storId="{{ $shop->id }}"><i class="icon ni ni-pen"></i></button>
                                     <button type="button" class="btn btn-dim btn-primary deleteStore" data-storId="{{ $shop->id }}"><i class="icon ni ni-trash"></i></button>
                                 </td>
-
                             </tr><!-- .nk-tb-item  -->
                             @endforeach
                         </tbody>

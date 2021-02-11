@@ -55,27 +55,27 @@ $('.editUser').on('click', function() {
         url: url + '/users/' + userID + '/edit',
         success: function(data) {
             $('.requestdata').html(data);
-            $('#editModal').modal('toggle');
+            $('#editUserModal').modal('toggle');
         }
     });
 });
 
 /*** Open Deleting Category  Modal ***/
-$('.deleteUsere').on('click', function() {
-    var userID = $(this).attr('data-UserId');
-    $('#DeleteModal').modal('toggle');
-    $('#deleteModalBtn').val(userID);
+$('.deleteUser').on('click', function() {
+    var userID = $(this).attr('data-UserId')
+    $('#DeleteUserModal').modal('toggle');
+    $('#DeleteModalBtn').val(userID);
 });
 
 /*** Deleting Category  ***/
-$('#deleteModalBtn').on('click', function() {
+$('#DeleteModalBtn').on('click', function() {
     var userID = $(this).val();
     $.ajax({
         type: 'DELETE',
         url: url + '/users/' + userID,
         data: { id: userID, _token: token, _method: 'DELETE' },
         success: function(data) {
-            $("#DeleteModal").modal("hide");
+            $("#DeleteUserModal").modal("hide");
             $("#target_" + userID).hide();
             $('#success_errror_any').addClass("hide");
             $('#messageDiv').removeClass("alert-danger hide");
@@ -87,7 +87,7 @@ $('#deleteModalBtn').on('click', function() {
             $('#messageDiv').removeClass("alert-success hide");
             $('#messageDiv').addClass("alert-danger");
             $('#message').html('Category not found or Something is wrong');
-            $('#DeleteModal').modal('hide');
+            $('#DeleteUserModal').modal('hide');
         }
 
     });
