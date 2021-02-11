@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Codexshaper\WooCommerce\Facades\Order;
 use Codexshaper\WooCommerce\Facades\Product;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -19,7 +21,8 @@ class OrderController extends Controller
     {
         $orders = Order::all();
         $shops = Shop::all();
-        return view('admin.orders.index', compact('orders', 'shops'));
+        $setting = Setting::where('user_id',Auth::user()->id)->first();
+        return view('admin.orders.index', compact('orders', 'shops','setting'));
     }
 
     /**

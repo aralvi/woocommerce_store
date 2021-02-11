@@ -62,13 +62,13 @@ $('.editUser').on('click', function() {
 
 /*** Open Deleting Category  Modal ***/
 $('.deleteUser').on('click', function() {
-    var userID = $(this).attr('data-UserId')
+    var userID = $(this).attr('data-UserId');
     $('#DeleteUserModal').modal('toggle');
-    $('#DeleteModalBtn').val(userID);
+    $('#deleteModalBtn').val(userID);
 });
 
 /*** Deleting Category  ***/
-$('#DeleteModalBtn').on('click', function() {
+$('#deleteModalBtn').on('click', function() {
     var userID = $(this).val();
     $.ajax({
         type: 'DELETE',

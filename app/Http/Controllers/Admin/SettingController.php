@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Models\Shop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
@@ -16,9 +17,9 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $settings = Setting::all();
+        $setting = Setting::where('user_id',Auth::user()->id)->first();
         $shops = Shop::all();
-        return view('admin.settings.index',compact('settings','shops'));
+        return view('admin.settings.index',compact('setting','shops'));
     }
 
     /**
@@ -39,7 +40,20 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $setting = Setting::where('user_id',Auth::user()->id);
+        // if(isset($setting)){
+
+        //     $setting =
+        //     Setting::where('user_id', Auth::user()->id);
+        // }else{
+
+            $setting = new Setting();
+        // }
+        $setting->user_id = Auth::user()->id;
+        $setting->shop_id = $request->store;
+        $setting->order_status = $request->order_status;
+        $setting->save();
+        return back()->with('success',"setting has been updated");
     }
 
     /**
