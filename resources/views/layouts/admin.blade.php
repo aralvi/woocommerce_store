@@ -108,7 +108,7 @@
                                                 <a href="html/user-list-default.html" class="nk-menu-link"><span class="nk-menu-text">Users</span></a>
                                             </li>
                                             <li class="nk-menu-item">
-                                                <a href="html/user-list-default.html" class="nk-menu-link"><span class="nk-menu-text">Add Store</span></a>
+                                                <a href="{{ url('settings') }}" class="nk-menu-link"><span class="nk-menu-text">Add Store</span></a>
                                             </li>
                                         </ul>
                                         <!-- .nk-menu-sub -->

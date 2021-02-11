@@ -108,6 +108,7 @@ class OrderController extends Controller
 
     public function search(Request $request)
     {
+        dd($request->all());
         $query = $request->get('query');
         if (isset($query)) {
             $orders = Order::where('id', 'LIKE', "%{$query}%")->get();
@@ -116,5 +117,13 @@ class OrderController extends Controller
             $orders = Order::all();
             return view('admin.orders.search', compact('orders'));
         }
+    }
+    public function selectStore(Request $request)
+    {
+        env('WOOCOMMERCE_STORE_URL', $request->store_url);
+        env('WOOCOMMERCE_CONSUMER_KEY', $request->key);
+        env('WOOCOMMERCE_CONSUMER_SECRET', $request->secret);
+        $orders = Order::all();
+        return view('admin.orders.filter_status', compact('orders'));
     }
 }

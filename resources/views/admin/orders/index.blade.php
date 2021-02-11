@@ -12,10 +12,14 @@
                             <div class="form-group">
                                 <label for="" class="mb-0">Select Store</label>
                                 <div class="form-control-wrap">
-                                    <select class="form-select form-control form-control-lg" data-search="on">
+                                    <select class="form-select form-control form-control-lg" id="stores" name="store" data-search="on">
                                         <option value="default_option">Choose store</option>
-                                        <option value="option_select_name">Store 1</option>
-                                        <option value="option_select_name">Store 2</option>
+                                            <option value="https://ewdtech.com/woocommerce_store/" 
+                                            data-key="ck_cefebea7f6e1723f7fb2f8ff9ebf782de0d2a9b6"
+                                            data-secret="cs_5fca325692b721e7879eefe0424a7ab3bfcdbd82">My Store</option>
+                                            <option value="https://ewdtech.com/woocommerce_store/" 
+                                            data-key="ck_3dd1d2f2a41180986eedeebe2beac78b3eeb5230"
+                                            data-secret="cs_bb153d574fbd479e0c2528b82c4b8879c4f5378f">new store</option>
                                     </select>
                                 </div>
                             </div>
@@ -209,6 +213,28 @@
             url: "{{ route('order.search')}}",
             data: {
                 query: query,
+                _token: "{{ csrf_token() }}"
+            },
+
+            success: function (data) {
+                $('#order_table').empty();
+                $('#order_table').html(data);
+            },
+        });
+
+    });
+    $('#stores').on('change', function (e) {
+        var store_url = $(this).val();
+        var key = $(this).children("option:selected").attr('data-key');
+        var secret = $(this).children("option:selected").attr('data-secret');
+        
+        $.ajax({
+            type: "post",
+            url: "{{ route('order.store')}}",
+            data: {
+                store_url: store_url,
+                key: key,
+                secret: secret,
                 _token: "{{ csrf_token() }}"
             },
 

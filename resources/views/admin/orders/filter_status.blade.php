@@ -1,4 +1,4 @@
- @foreach ($orders as $order)
+@foreach ($orders as $order)
                                 
                             <tr class="nk-tb-item">
                                 <td class="nk-tb-col nk-tb-col-check">
@@ -24,6 +24,17 @@
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
                                     {{ count($order->line_items) }}
+                                </td>
+                                <td class="nk-tb-col tb-col-lg">
+                                    <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <select class="form-select form-control form-control-lg" data-search="on">
+                                        <option value="default_option">Choose Curier service</option>
+                                        <option value="option_select_name">TCS</option>
+                                        <option value="option_select_name">Lepord</option>
+                                    </select>
+                                </div>
+                            </div>
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
                                    <a href="{{ route('orders.show',$order->id) }}"><i
