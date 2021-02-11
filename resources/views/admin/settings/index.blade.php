@@ -6,64 +6,57 @@
                 {{-- card header section --}}
                 <div class="card-title-group mb-3">
                     <h3>
-                        Add Your Store Credentials
+                        Update Setting
                     </h3>
                 </div>
-                {{-- card header section end --}}
-                {{-- <div class="data">
-                    <div class="row mb-4">
-                    </div> --}}
-                    {{-- <div class="card card-preview"> --}}
-                        {{-- <div class="card-inner">
-                            <div class="preview-block"> --}}
-                                <div class="row gy-4">
-                                    <form action="" method="post" class="col-sm-12">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label class="form-label mb-0 mt-5" for="default-01">WOOCOMMERCE STORE URL</label>
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="default-01"
-                                                        placeholder="WOOCOMMERCE STORE URL">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label class="form-label mb-0 mt-5" for="default-05">WOOCOMMERCE CONSUMER
-                                                    KEY</label>
-                                                <div class="form-control-wrap">
-                                                    <div class="form-text-hint">
-                                                        <span class="overline-title"></span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="default-05"
-                                                        placeholder="WOOCOMMERCE CONSUMER KEY">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label class="form-label mb-0 mt-5" for="default-05">WOOCOMMERCE CONSUMER
-                                                    SECRET</label>
-                                                <div class="form-control-wrap">
-                                                    <div class="form-text-hint">
-                                                        <span class="overline-title"></span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="default-05"
-                                                        placeholder="WOOCOMMERCE CONSUMER SECRET">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 ">
-                                            <div class="form-group mt-3 float-right">
-                                                <button class="btn btn-dim btn-primary ">Update Store Key</button>
-                                            </div>
-                                        </div>
-                                    </form>
+               
+                <div class="row gy-4">
+                    <form action="" method="post" class="col-sm-12">
+                        <div class="d-flex">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="" class="mb-0">Select Store</label>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="stores" name="store" data-search="on">
+                                            <option value="default_option">Choose store</option>
+                                            @foreach ($shops as $shop)
+                                            @if (Auth::user()->id == $shop->user_id)
+                                                
+                                            <option  class="text-capitalize" value="{{ $shop->store_url }}" 
+                                            data-key="{{ $shop->consumer_key }}"
+                                            data-secret="{{ $shop->consumer_secret }}">{{ $shop->name }}</option>
+                                            @endif
+                                                
+                                            @endforeach
+                                                
+                                        </select>
+                                    </div>
                                 </div>
-                            {{-- </div>
-                        </div> --}}
-                    {{-- </div><!-- .card-preview --> --}}
-                {{-- </div> --}}
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="filter By Status" class="mb-0">Filter Status</label>
+                                    <select id="order_status" name="order_status" class="form-control form-select" data-search="on">
+                                        <option value="all" selected>All</option>
+                                        <option value="pending">Pending payment</option>
+                                        <option value="processing">Processing</option>
+                                        <option value="on-hold">On hold</option>
+                                        <option value="completed">Completed</option>
+                                        <option value="cancelled">Cancelled</option>
+                                        <option value="refunded">Refunded</option>
+                                        <option value="failed">Failed</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 ">
+                            <div class="form-group mt-3 float-right">
+                                <button class="btn btn-dim btn-primary ">Update Setting</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
             </div>
             <!-- .card-inner -->
         </div>

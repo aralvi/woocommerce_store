@@ -31,7 +31,7 @@
     </div>
     <div class="modal-footer bg-light">
         <div class="form-group">
-            <button type="submit" class="btn btn-lg btn-primary">Update Informations</button>
+            <button type="submit" class="btn btn-lg btn-dim btn-primary">Update Informations</button>
         </div>
     </div>
 </form>

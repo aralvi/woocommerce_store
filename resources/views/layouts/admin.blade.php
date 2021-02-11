@@ -131,10 +131,10 @@
 
                                         <li class="nk-menu-item">
                                             <a href="{{ route('stores.index') }}" class="nk-menu-link"><span
-                                                    class="nk-menu-text">Add Store</span></a>
+                                                    class="nk-menu-text">Stores</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ route('stores.index') }}" class="nk-menu-link"><span
+                                            <a href="{{ route('settings.index') }}" class="nk-menu-link"><span
                                                     class="nk-menu-text">Default Settings</span></a>
                                         </li>
                                     </ul>
