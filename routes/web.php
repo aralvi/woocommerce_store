@@ -28,4 +28,6 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::post('order/search', 'Admin\OrderController@search')->name('order.search');
     Route::post('order/store', 'Admin\OrderController@selectStore')->name('order.store');
     Route::view('settings','admin.settings.index');
+
+    Route::resource('users', 'Admin\addUserController');
 });
