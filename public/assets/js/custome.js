@@ -43,3 +43,52 @@ $('#deleteStoreBtn').on('click', function() {
 
     });
 });
+
+
+
+
+// open edit categoory modal
+$('.editUser').on('click', function() {
+    var userID = $(this).attr('data-UserId');
+    $.ajax({
+        type: 'get',
+        url: url + '/users/' + userID + '/edit',
+        success: function(data) {
+            $('.requestdata').html(data);
+            $('#editModal').modal('toggle');
+        }
+    });
+});
+
+/*** Open Deleting Category  Modal ***/
+$('.deleteUsere').on('click', function() {
+    var userID = $(this).attr('data-UserId');
+    $('#DeleteModal').modal('toggle');
+    $('#deleteModalBtn').val(userID);
+});
+
+/*** Deleting Category  ***/
+$('#deleteModalBtn').on('click', function() {
+    var userID = $(this).val();
+    $.ajax({
+        type: 'DELETE',
+        url: url + '/users/' + userID,
+        data: { id: userID, _token: token, _method: 'DELETE' },
+        success: function(data) {
+            $("#DeleteModal").modal("hide");
+            $("#target_" + userID).hide();
+            $('#success_errror_any').addClass("hide");
+            $('#messageDiv').removeClass("alert-danger hide");
+            $('#messageDiv').addClass("alert-success");
+            $('#message').html(data);
+        },
+        error: function() {
+            $('#success_errror_any').addClass("hide");
+            $('#messageDiv').removeClass("alert-success hide");
+            $('#messageDiv').addClass("alert-danger");
+            $('#message').html('Category not found or Something is wrong');
+            $('#DeleteModal').modal('hide');
+        }
+
+    });
+});

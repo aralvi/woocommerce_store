@@ -51,9 +51,7 @@ class addUserController extends Controller
         $request['password']=bcrypt('password');
 // dd($request->all());
         User::create($request->all());
-        return redirect()->route('users.index')
-
-                        ->with('success','User Add successfully');
+        return redirect()->route('users.index')->with('success','User Add successfully');
 
     }
 
@@ -76,8 +74,8 @@ class addUserController extends Controller
      */
     public function edit($id)
     {
-        $Users=User::all()->where('id',$id);
-        return view("Admin.users.edit",compact('Users'));
+        $user = User::findOrFail($id);
+        return view("admin.users.edit",compact('user'));
     }
 
     /**
@@ -100,9 +98,7 @@ class addUserController extends Controller
 
         User::find($id)->update($request->all());
 
-        return redirect()->route('users.index')
-
-                        ->with('success','User updated successfully');
+        return redirect()->route('users.index')->with('success','User updated successfully');
     }
 
     /**
@@ -113,6 +109,7 @@ class addUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
     }
 }

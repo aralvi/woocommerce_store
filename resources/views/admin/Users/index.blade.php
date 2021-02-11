@@ -6,19 +6,11 @@
         <div class="nk-ecwg nk-ecwg6">
             <div class="card-inner">
                 {{-- card header section --}}
-                <div class="card-title-group"></div>
+                <div class="card-title-group">
+                     <button type="button" class="btn btn-dim btn-primary" data-toggle="modal" data-target="#modalForm">Add User</button>
+                </div>
                 {{-- card header section end --}}
                 <div class="data">
-                    @if ($message = Session::get('success'))
-
-                    <div class="alert alert-success">
-
-                        <p>{{ $message }}</p>
-
-                    </div>
-
-                    @endif
-
                     <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
                         <thead class="thead-dark">
                             <tr class="nk-tb-item nk-tb-head">
@@ -40,7 +32,7 @@
 
                             @foreach($Users as $user)
 
-                            <tr class="nk-tb-item">
+                            <tr class="nk-tb-item" id="target_{{ $user->id }}">
 
                                 <td class="nk-tb-col">
                                     <div class="user-info">
@@ -60,7 +52,8 @@
 
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
-                                    <a href="{{ route('users.edit',$user->id)}}"><i class="icon ni ni-eye"></i></a>
+                                    <button type="button" class="btn btn-dim btn-primary editUser" data-userId="{{ $user->id }}"><i class="icon ni ni-pen"></i></button>
+                                    <button type="button" class="btn btn-dim btn-primary deleteUsere" data-userId="{{ $user->id }}"><i class="icon ni ni-trash"></i></button>
                                 </td>
 
                             </tr><!-- .nk-tb-item  -->
@@ -75,50 +68,87 @@
     </div>
     <!-- .card -->
 </div>
-@endsection @section('script')
-<script>
-    $("#orders_check").click(function() {
-        if ($(this).is(':checked')) {
-
-            $('.order_check').attr('checked', 'checked');
-        } else {
-
-            $('.order_check').removeAttr('checked', 'checked');
-
-        }
-    });
-    $("#order_status").on('change', function() {
-        $status = $(this).val();
 
 
-        $.ajax({
-            type: 'get',
-            url: "{{ url('order')}}" + "/" + $status,
-            success: function(data) {
-                $('#order_table').empty();
-                $('#order_table').html(data);
-            }
-        });
 
-    });
+{{-- Add modal  --}}
 
+<div class="modal fade zoom" tabindex="-1" id="modalForm">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Store</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('users.store')}}" method="POST">
+            @csrf
+                <div class="row g-4">   
+                    <div class="col-lg-12">
+                        <div class="form-group"><label class="form-label" for="full-name-1">Name</label>
+                            <div class="form-control-wrap"><input type="text" name="name" class="form-control" id="full-name-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group"><label class="form-label" for="email-address-1">Email </label>
+                            <div class="form-control-wrap"><input type="text" name="email" class="form-control" id="email-address-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group"><label class="form-label" for="phone-no-1">password</label>
+                            <div class="form-control-wrap"><input type="password" name="password" class="form-control" id="phone-no-1"></div>
+                        </div>
+                    </div>
+                    
+              
+                  
+                    <div class="col-12">
+                        <div class="form-group"><button type="submit" class="btn btn-lg btn-primary">Save Informations</button></div>
+                    </div>
+                    
+                </div>
+                    </form>
+            </div>
+        </div>
+    </div>
 
-    $('#search_order').on('input', function(e) {
-        var query = $(this).val();
-        $.ajax({
-            type: "post",
-            url: "{{ route('order.search')}}",
-            data: {
-                query: query,
-                _token: "{{ csrf_token() }}"
-            },
+ {{-- delete mdal  --}}
 
-            success: function(data) {
-                $('#order_table').empty();
-                $('#order_table').html(data);
-            },
-        });
+    <div class="modal fade zoom" tabindex="-1" id="DeleteModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete User</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delte this user?</p>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button class="btn btn-dim btn-danger" id="deleteModalBtn">Yes,sure</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    });
-</script>
+    {{-- edit modal --}}
+    <div class="modal fade zoom" tabindex="-1" id="editModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update User</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
+                <div class="modal-body requestdata">
+                
+                
+            </div>
+        </div>
+    </div>
 @endsection
