@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use Codexshaper\WooCommerce\Facades\Order;
 use Codexshaper\WooCommerce\Facades\Product;
@@ -17,7 +18,8 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::all();
-        return view('admin.orders.index', compact('orders'));
+        $shops = Shop::all();
+        return view('admin.orders.index', compact('orders', 'shops'));
     }
 
     /**

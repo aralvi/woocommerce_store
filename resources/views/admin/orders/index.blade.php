@@ -14,12 +14,13 @@
                                 <div class="form-control-wrap">
                                     <select class="form-select form-control form-control-lg" id="stores" name="store" data-search="on">
                                         <option value="default_option">Choose store</option>
-                                            <option value="https://ewdtech.com/woocommerce_store/" 
-                                            data-key="ck_cefebea7f6e1723f7fb2f8ff9ebf782de0d2a9b6"
-                                            data-secret="cs_5fca325692b721e7879eefe0424a7ab3bfcdbd82">My Store</option>
-                                            <option value="https://ewdtech.com/woocommerce_store/" 
-                                            data-key="ck_3dd1d2f2a41180986eedeebe2beac78b3eeb5230"
-                                            data-secret="cs_bb153d574fbd479e0c2528b82c4b8879c4f5378f">new store</option>
+                                        @foreach ($shops as $shop)
+                                        <option  class="text-capitalize" value="{{ $shop->store_url }}" 
+                                        data-key="{{ $shop->consumer_key }}"
+                                        data-secret="{{ $shop->consumer_secret }}">{{ $shop->name }}</option>
+                                            
+                                        @endforeach
+                                            
                                     </select>
                                 </div>
                             </div>

@@ -13,6 +13,10 @@
         <!-- StyleSheets  -->
         <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=2.3.0') }}" />
         <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=2.3.0') }}" />
+        <script>
+            var url = "{{ url('/') }}";
+            var token = "{{ csrf_token() }}";
+        </script>
     </head>
 
     <body class="nk-body bg-lighter npc-default has-sidebar">
@@ -444,6 +448,7 @@
                     </div>
                     <!-- main header  -->
                     <!-- content  -->
+
                     <div class="nk-content">
                         <div class="container-fz`luid">
                             <div class="nk-content-inner">
@@ -460,6 +465,7 @@
                                         <!-- .nk-block-between -->
                                     </div>
                                     <!-- .nk-block-head -->
+                                    @include('messages')
                                     <div class="nk-block">
                                         {{--
                                         <div class="row g-gs">
@@ -509,6 +515,7 @@
         <script src="{{ asset('assets/js/bundle.js?ver=2.3.0') }}"></script>
         <script src="{{ asset('assets/js/scripts.js?ver=2.3.0') }}"></script>
         <script src="{{ asset('assets/js/charts/chart-ecommerce.js?ver=2.3.0') }}"></script>
+        <script src="{{ asset('assets/js/custome.js') }}"></script>
         @yield('script')
     </body>
 </html>
