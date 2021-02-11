@@ -30,4 +30,5 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::view('settings','admin.settings.index');
 
     Route::resource('users', 'Admin\addUserController');
+    Route::resource('stores', 'Admin\StoreController');
 });

@@ -17,9 +17,6 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('store_url');
-            $table->string('consumer_key');
-            $table->string('consumer_secret');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

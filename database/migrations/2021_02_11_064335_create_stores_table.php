@@ -15,6 +15,7 @@ class CreateStoresTable extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('store_url');
             $table->string('consumer_key');
             $table->string('consumer_secret');
