@@ -105,13 +105,14 @@
                                         <input type="checkbox" name="" class="order_check " id="orders_check">
                                     </div>
                                 </th>
-                                <th class="nk-tb-col"><span class="sub-text">Order# </span></th>
-                                <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
-                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Date</span></th>
-                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Total</span></th>
-                                <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tracking</span></th>
-                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Itmes</span></th>
-                                <th class="nk-tb-col tb-col-md"><span class="sub-text">Action</span></th>
+                                <th class="nk-tb-col">Order# </th>
+                                <th class="nk-tb-col tb-col-mb">Status</th>
+                                <th class="nk-tb-col tb-col-md">Date</th>
+                                <th class="nk-tb-col tb-col-lg">Total</th>
+                                <th class="nk-tb-col tb-col-lg">Tracking</th>
+                                <th class="nk-tb-col tb-col-md">Itmes</th>
+                                <th class="nk-tb-col tb-col-md">Curior</th>
+                                <th class="nk-tb-col tb-col-md">Action</th>
                                 
                             </tr>
                         </thead>
@@ -143,6 +144,17 @@
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
                                     {{ count($order->line_items) }}
+                                </td>
+                                <td class="nk-tb-col tb-col-lg">
+                                    <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <select class="form-select form-control form-control-lg" data-search="on">
+                                        <option value="default_option">Choose Curier service</option>
+                                        <option value="option_select_name">TCS</option>
+                                        <option value="option_select_name">Lepord</option>
+                                    </select>
+                                </div>
+                            </div>
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
                                    <a href="{{ route('orders.show',$order->id) }}"><i
@@ -188,6 +200,8 @@
         });
 
     });
+
+    
     $('#search_order').on('input', function (e) {
         var query = $(this).val();
         $.ajax({
