@@ -102,7 +102,10 @@
                                         <div class="user-info">
                                            @foreach ($products as $item)
                                         @if ($product->product_id == $item->id)
-                                            <img src="{{ $item->images[0]->src }}" alt="" width="60" height="60">
+                                        @if (count($item->images) < 0)
+                                            
+                                        <img src="{{ $item->images[0]->src }}" alt="" width="60" height="60">
+                                        @endif
                                         @endif
                                         @endforeach
                                         </div>

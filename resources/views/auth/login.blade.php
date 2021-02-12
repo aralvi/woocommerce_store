@@ -12,8 +12,8 @@
     <!-- Page Title  -->
     <title>Login | DashLite Admin Template</title>
     <!-- StyleSheets  -->
-    <link rel="stylesheet" href="./assets/css/dashlite.css?ver=2.3.0">
-    <link id="skin-default" rel="stylesheet" href="./assets/css/theme.css?ver=2.3.0">
+    <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=2.3.0') }}">
+    <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=2.3.0') }}">
 </head>
 
 <body class="nk-body bg-white npc-default pg-auth">
@@ -27,8 +27,8 @@
                     <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
                         <div class="brand-logo pb-4 text-center">
                             <a href="html/index.html" class="logo-link">
-                                <img class="logo-light logo-img logo-img-lg" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
-                                <img class="logo-dark logo-img logo-img-lg" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+                                <img class="logo-light logo-img logo-img-lg" src="{{ asset('images/logo.png') }}" srcset="./images/logo2x.png 2x" alt="logo">
+                                <img class="logo-dark logo-img logo-img-lg" src="{{ asset('images/logo-dark.png') }}" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
                             </a>
                         </div>
                         <div class="card">
@@ -99,7 +99,7 @@
     </div>
     <!-- app-root @e -->
     <!-- JavaScript -->
-    <script src="./assets/js/bundle.js?ver=2.3.0"></script>
-    <script src="./assets/js/scripts.js?ver=2.3.0"></script>
+    <script src="{{ asset('assets/js/bundle.js?ver=2.3.0') }}"></script>
+    <script src="{{ asset('assets/js/scripts.js?ver=2.3.0') }}"></script>
 
 </html>

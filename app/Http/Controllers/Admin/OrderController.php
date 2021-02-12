@@ -74,6 +74,18 @@ class OrderController extends Controller
      */
     public function show($id)
     {
+        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        if ($settingExist) {
+            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+            if ($shopExist) {
+                $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                $shops = Shop::all();
+                Config::set('woocommerce.store_url', $shopDefault->store_url);
+                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+            }
+        }
         $orders = Order::find($id);
         $products = Product::all();
         // dd($products);
