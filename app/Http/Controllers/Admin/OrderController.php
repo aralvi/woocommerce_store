@@ -19,12 +19,28 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $setting = Setting::where('user_id',Auth::user()->id)->first();
-        
-        $shops = Shop::all();
+        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        if ($settingExist) {
+            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $shopExist = Shop::where('id',$setting->shop_id)->exists();
+            if($shopExist){
+                $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                $shops = Shop::all();
 
-        $orders = Order::all();
-        return view('admin.orders.index', compact('orders', 'shops','setting'));
+                env('WOOCOMMERCE_STORE_URL', $shopDefault->store_url);
+                env('WOOCOMMERCE_CONSUMER_KEY', $shopDefault->key);
+                env('WOOCOMMERCE_CONSUMER_SECRET', $shopDefault->secret);
+
+                $orders = Order::all();
+                return view('admin.orders.index', compact('orders', 'shops', 'setting'));
+            }
+            else{
+
+                return back()->with('error', 'please configure your store settings!');
+            }
+        } else {
+            return back()->with('error', 'please configure your default settings for store and order status!');
+        }
     }
 
     /**
@@ -59,7 +75,7 @@ class OrderController extends Controller
         $orders = Order::find($id);
         $products = Product::all();
         // dd($products);
-        return view('admin.orders.show',compact('orders','products'));
+        return view('admin.orders.show', compact('orders', 'products'));
     }
 
     /**
@@ -102,14 +118,14 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function filter($status)
-    {       
-        if($status == 'all'){
+    {
+        if ($status == 'all') {
             $orders = Order::all();
-        }else{
+        } else {
 
-            $orders = Order::where('status',$status)->get();
+            $orders = Order::where('status', $status)->get();
         }
-        
+
         return view('admin.orders.filter_status', compact('orders'));
     }
 

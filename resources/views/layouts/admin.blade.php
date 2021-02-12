@@ -488,7 +488,7 @@
                         <!-- .nk-block-between -->
                     </div>
                     <!-- .nk-block-head -->
-                    @include('messages')
+                    @include('common.messages')
                     <div class="nk-block">
                         {{--
                                         <div class="row g-gs">

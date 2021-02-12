@@ -6,3 +6,18 @@ fields  (user_id,store name,store_url,cosumer key,consumer secret)
 settings migration 
 migration name: 2021_02_11_123033_create_settings_table
 fields (user_id,order_status,shop_id)
+
+
+
+env file 
+
+updated
+WOOCOMMERCE_STORE_URL=https://ewdtech.com/woocommerce_store
+WOOCOMMERCE_CONSUMER_KEY=ck_cefebea7f6e1723f7fb2f8ff9ebf782de0d2a9b6
+WOOCOMMERCE_CONSUMER_SECRET=cs_5fca325692b721e7879eefe0424a7ab3bfcdbd82
+
+
+seeding
+
+SettingTableSeeder
+ShopTableSeeder
