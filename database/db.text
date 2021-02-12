@@ -60,8 +60,17 @@ $(document).ready(function () {
                 $("body").trigger("mousemove");
             });
 
+<========== middleware ============>
+CheckRole in Middleware folder
+query:  if ($request->user() && ($request->user()->role == 'Admin' || $request->user()->role == 'SuperAdmin') ) {
 
+            return $next($request);
+        } else {
 
+            return back()->with('error','you are not authorized to access!');
+        }
+
+defined in kernal file as  :  'checkRole' => \App\Http\Middleware\CheckRole::class,
 
 
 11-02-2021==============================
