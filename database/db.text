@@ -28,7 +28,7 @@ Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
 
 <====== databse migration =======>
 name : 2021_02_12_063649_add_role_to_users
-
+name : 2021_02_12_091727_add_parent_id_to_users
 
 <======= user Modal =======>
 roles defined for user

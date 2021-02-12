@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 class addUserController extends Controller
@@ -44,13 +45,13 @@ class addUserController extends Controller
         $this->validate($request, [
 
             'name' => 'required',
-
             'email' => 'required',
             'password' => 'required',
 
         ]);
         $user = new User();
         $user->name = $request->name;
+        $user->parent_id = Auth::user()->id;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->role = '0';

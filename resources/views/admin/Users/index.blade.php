@@ -21,34 +21,35 @@
                         </thead>
                         <tbody>
                             @foreach($Users as $user)
+                                @if (($user->parent_id == Auth::user()->id && $user->role != 'SuperAdmin')|| (Auth::user()->role == 'SuperAdmin') && Auth::user()->id != $user->id)
+                                    <tr class="nk-tb-item" id="target_{{ $user->id }}">
+                                        <td class="nk-tb-col">
+                                            <div class="user-info">
+                                                <span class="tb-lead"><span class="dot dot-success d-md-none ml-1"></span>{{$user->id}}</span>
+                                            </div>
+                                        </td>
+                                        <td class="nk-tb-col tb-col-mb">
+                                            <span class="tb-amount"> {{$user->name}}</span>
+                                        </td>
+                                        <td class="nk-tb-col tb-col-mb">
+                                            <span class="tb-amount"> {{$user->role}}</span>
+                                        </td>
+                                        <td class="nk-tb-col tb-col-md">
+                                            <span class="tb-amount">{{$user->email}}</span>
+                                        </td>
+                                        <!-- <td class="nk-tb-col tb-col-md">
+                                            <span class="tb-amount">{{$user->password}}</span>
+                                        </td> -->
 
-                            <tr class="nk-tb-item" id="target_{{ $user->id }}">
-                                <td class="nk-tb-col">
-                                    <div class="user-info">
-                                        <span class="tb-lead"><span class="dot dot-success d-md-none ml-1"></span>{{$user->id}}</span>
-                                    </div>
-                                </td>
-                                <td class="nk-tb-col tb-col-mb">
-                                    <span class="tb-amount"> {{$user->name}}</span>
-                                </td>
-                                <td class="nk-tb-col tb-col-mb">
-                                    <span class="tb-amount"> {{$user->role}}</span>
-                                </td>
-                                <td class="nk-tb-col tb-col-md">
-                                    <span class="tb-amount">{{$user->email}}</span>
-                                </td>
-                                <!-- <td class="nk-tb-col tb-col-md">
-                                    <span class="tb-amount">{{$user->password}}</span>
-                                </td> -->
-
-                                <td class="nk-tb-col tb-col-md">
-                                    <button type="button" class="btn btn-dim btn-primary editUser" data-userId="{{ $user->id }}"><i class="icon ni ni-pen"></i></button>
-                                    @if ($user->role != 'SuperAdmin' && $user->id !=Auth::user()->id)
-                                        
-                                    <button type="button" class="btn btn-dim btn-primary deleteUser" data-userId="{{ $user->id }}"><i class="icon ni ni-trash"></i></button>
-                                    @endif
-                                </td>
-                            </tr>
+                                        <td class="nk-tb-col tb-col-md">
+                                            <button type="button" class="btn btn-dim btn-primary editUser" data-userId="{{ $user->id }}"><i class="icon ni ni-pen"></i></button>
+                                            @if ($user->role != 'SuperAdmin' && $user->id !=Auth::user()->id)
+                                                
+                                            <button type="button" class="btn btn-dim btn-primary deleteUser" data-userId="{{ $user->id }}"><i class="icon ni ni-trash"></i></button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endif
                             <!-- .nk-tb-item  -->
                             @endforeach
                         </tbody>
