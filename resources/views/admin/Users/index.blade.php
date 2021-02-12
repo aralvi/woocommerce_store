@@ -43,7 +43,7 @@
 
                                 <td class="nk-tb-col tb-col-md">
                                     <button type="button" class="btn btn-dim btn-primary editUser" data-userId="{{ $user->id }}"><i class="icon ni ni-pen"></i></button>
-                                    @if ($user->role != 'SuperAdmin')
+                                    @if ($user->role != 'SuperAdmin' && $user->id !=Auth::user()->id)
                                         
                                     <button type="button" class="btn btn-dim btn-primary deleteUser" data-userId="{{ $user->id }}"><i class="icon ni ni-trash"></i></button>
                                     @endif
