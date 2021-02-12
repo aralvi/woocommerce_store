@@ -38,7 +38,12 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-
+        $this->validate($request, [
+            'name' => 'required',
+            'key' => 'required',
+            'secret' => 'required',
+            'url' => 'required',
+        ]);
         $shop = new Shop();
         $shop->name = $request->name;
         $shop->consumer_key = $request->key;
@@ -83,6 +88,12 @@ class ShopController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'key' => 'required',
+            'secret' => 'required',
+            'url' => 'required',
+        ]);
         $shop = Shop::findOrFail($id);
         $shop->name = $request->name;
         $shop->consumer_key = $request->key;

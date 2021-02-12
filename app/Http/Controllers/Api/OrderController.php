@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use Codexshaper\WooCommerce\Facades\Order;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class OrderController extends Controller
 {
@@ -15,6 +19,19 @@ class OrderController extends Controller
      */
     public function index()
     {
+        
+      
+            $setting = Setting::first();
+            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+            if ($shopExist) {
+                $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                
+                Config::set('woocommerce.store_url', $shopDefault->store_url);
+                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+
+            } 
+       
         $orders = Order::all();
         return response()->json($orders);
     }

@@ -17,9 +17,7 @@ class addUserController extends Controller
      */
     public function index()
     {
-        $Users=User::all();
-    
-    
+        $Users = User::all();
         return view("Admin.Users.index",compact("Users"));
     }
 
@@ -43,11 +41,9 @@ class addUserController extends Controller
     {
         // dd($request->all());
         $this->validate($request, [
-
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
-
         ]);
         $user = new User();
         $user->name = $request->name;
@@ -56,9 +52,7 @@ class addUserController extends Controller
         $user->password = Hash::make($request->password);
         $user->role = '0';
         $user->save();
-        
         return back()->with('success','User Add successfully');
-
     }
 
     /**
@@ -94,16 +88,11 @@ class addUserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-
             'name' => 'required',
-
             'email' => 'required',
             'password' => 'required',
-
         ]);
-
         User::find($id)->update($request->all());
-
         return redirect()->route('users.index')->with('success','User updated successfully');
     }
 

@@ -31,13 +31,10 @@ class OrderController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                
-
                 $orders = Order::all();
                 return view('admin.orders.index', compact('orders', 'shops', 'setting'));
             }
             else{
-
                 return view('admin.orders.index')->with('error', 'please configure your store settings!');
             }
         } else {
@@ -88,7 +85,6 @@ class OrderController extends Controller
         }
         $orders = Order::find($id);
         $products = Product::all();
-        // dd($products);
         return view('admin.orders.show', compact('orders', 'products'));
     }
 
@@ -148,16 +144,13 @@ class OrderController extends Controller
         if ($status == 'all') {
             $orders = Order::all();
         } else {
-
             $orders = Order::where('status', $status)->get();
         }
-
         return view('admin.orders.filter_status', compact('orders'));
     }
 
     public function search(Request $request)
     {
-        dd($request->all());
         $query = $request->get('query');
         if (isset($query)) {
             $orders = Order::where('id', 'LIKE', "%{$query}%")->get();

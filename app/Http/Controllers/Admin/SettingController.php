@@ -41,12 +41,14 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'store' => 'required',
+            'order_status' => 'required',
+        ]);
         $settingExists = Setting::where('user_id',Auth::user()->id)->exists();
         if($settingExists){
-
             $setting = Setting::where('user_id', Auth::user()->id)->first();
         }else{
-
             $setting = new Setting();
         }
         $setting->user_id = Auth::user()->id;
