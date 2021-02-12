@@ -27,7 +27,7 @@
                 <div class="nk-sidebar nk-sidebar-fixed is-light" data-content="sidebarMenu">
                     <div class="nk-sidebar-element nk-sidebar-head">
                         <div class="nk-sidebar-brand">
-                            <a href="html/index.html" class="logo-link nk-sidebar-logo">
+                            <a href="javascript:void(0)" class="logo-link nk-sidebar-logo">
                                 <img class="logo-light logo-img" src="{{ asset('assets/images/icons/logo.png') }}" srcset="{{ asset('assets/images/icons/logo2x.png 2x') }}" alt="logo" />
                                 <img class="logo-dark logo-img" src="{{ asset('assets/images/icons/logo-dark.png') }}" srcset="{{ asset('assets/images/icons/logo-dark2x.png 2x') }}" alt="logo-dark" />
                                 <img class="logo-small logo-img logo-img-small" src="{{ asset('assets/images/icons/logo-small.png') }}" srcset="{{ asset('assets/images/icons/logo-small2x.png 2x') }}" alt="logo-small" />
@@ -112,7 +112,7 @@
                                         </a>
                                         <ul class="nk-menu-sub">
                                             <li class="nk-menu-item">
-                                                <a href="html/user-list-default.html" class="nk-menu-link"><span class="nk-menu-text">Curior Companies</span></a>
+                                                <a href="javascript:void(0)" class="nk-menu-link"><span class="nk-menu-text">Curior Companies</span></a>
                                             </li>
                                         </ul>
                                         <!-- .nk-menu-sub -->

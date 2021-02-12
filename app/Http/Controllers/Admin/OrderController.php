@@ -8,6 +8,8 @@ use App\Models\Shop;
 use Illuminate\Http\Request;
 use Codexshaper\WooCommerce\Facades\Order;
 use Codexshaper\WooCommerce\Facades\Product;
+use Codexshaper\WooCommerce\Facades\WooCommerce;
+use Codexshaper\WooCommerce\WooCommerceApi;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -24,17 +26,17 @@ class OrderController extends Controller
         $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
         if ($settingExist) {
             $setting = Setting::where('user_id', Auth::user()->id)->first();
-            $shopExist = Shop::where('id',$setting->shop_id)->exists();
-            if($shopExist){
+            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+            if ($shopExist) {
                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
                 $shops = Shop::all();
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $orders = Order::all();
+
                 return view('admin.orders.index', compact('orders', 'shops', 'setting'));
-            }
-            else{
+            } else {
                 return view('admin.orders.index')->with('error', 'please configure your store settings!');
             }
         } else {
@@ -108,7 +110,30 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        if ($settingExist) {
+            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+            if ($shopExist) {
+                $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                $shops = Shop::all();
+                Config::set('woocommerce.store_url', $shopDefault->store_url);
+                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+            }
+        }
+
+
+
+        $order_id = $id;
+        $data     = [
+            'status' => $request->order_status ,
+        ];
+
+        $order = Order::update($order_id, $data);
+       
+
+        return back()->with('success', 'Order status has been updated');
     }
 
     /**
@@ -139,8 +164,8 @@ class OrderController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-            } 
-        } 
+            }
+        }
         if ($status == 'all') {
             $orders = Order::all();
         } else {
