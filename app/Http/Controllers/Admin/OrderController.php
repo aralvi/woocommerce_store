@@ -19,9 +19,11 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
-        $shops = Shop::all();
         $setting = Setting::where('user_id',Auth::user()->id)->first();
+        
+        $shops = Shop::all();
+
+        $orders = Order::all();
         return view('admin.orders.index', compact('orders', 'shops','setting'));
     }
 
