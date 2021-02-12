@@ -145,9 +145,9 @@ class OrderController extends Controller
     }
     public function selectStore(Request $request)
     {
-        env('WOOCOMMERCE_STORE_URL', $request->store_url);
-        env('WOOCOMMERCE_CONSUMER_KEY', $request->key);
-        env('WOOCOMMERCE_CONSUMER_SECRET', $request->secret);
+        Config::set('woocommerce.store_url', $request->store_url);
+        Config::set('woocommerce.consumer_key', $request->key);
+        Config::set('woocommerce.consumer_secret', $request->secret);
         $orders = Order::all();
         return view('admin.orders.filter_status', compact('orders'));
     }

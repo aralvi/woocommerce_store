@@ -22,6 +22,11 @@ Config::set('woocommerce.store_url', $shopDefault->store_url);
 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
 
+
+databse migration
+name : 2021_02_12_063649_add_role_to_users
+
+
 11-02-2021==============================
 
 
