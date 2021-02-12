@@ -14,6 +14,7 @@
                             <tr class="nk-tb-item nk-tb-head">
                                 <th class="nk-tb-col">Id</th>
                                 <th class="nk-tb-col tb-col-mb">User Name</th>
+                                <th class="nk-tb-col tb-col-mb">Role</th>
                                 <th class="nk-tb-col tb-col-md">Email</th>
                                 <th class="nk-tb-col tb-col-lg">Actions</th>
                             </tr>
@@ -30,6 +31,9 @@
                                 <td class="nk-tb-col tb-col-mb">
                                     <span class="tb-amount"> {{$user->name}}</span>
                                 </td>
+                                <td class="nk-tb-col tb-col-mb">
+                                    <span class="tb-amount"> {{$user->role}}</span>
+                                </td>
                                 <td class="nk-tb-col tb-col-md">
                                     <span class="tb-amount">{{$user->email}}</span>
                                 </td>
@@ -39,7 +43,10 @@
 
                                 <td class="nk-tb-col tb-col-md">
                                     <button type="button" class="btn btn-dim btn-primary editUser" data-userId="{{ $user->id }}"><i class="icon ni ni-pen"></i></button>
+                                    @if ($user->role != 'SuperAdmin')
+                                        
                                     <button type="button" class="btn btn-dim btn-primary deleteUser" data-userId="{{ $user->id }}"><i class="icon ni ni-trash"></i></button>
+                                    @endif
                                 </td>
                             </tr>
                             <!-- .nk-tb-item  -->

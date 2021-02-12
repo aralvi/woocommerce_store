@@ -42,4 +42,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Shop::class);
     }
+    public function getRoleAttribute($attribute)
+    {
+        return [
+            '0' => 'Staff',
+            '1' => 'Admin',
+            '2' => 'SuperAdmin',
+        ][$attribute];
+    }
 }

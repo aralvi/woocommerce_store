@@ -40,6 +40,7 @@ class addUserController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $this->validate($request, [
 
             'name' => 'required',
@@ -48,10 +49,14 @@ class addUserController extends Controller
             'password' => 'required',
 
         ]);
-        $request['password']=bcrypt('password');
-// dd($request->all());
-        User::create($request->all());
-        return redirect()->route('users.index')->with('success','User Add successfully');
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role = '0';
+        $user->save();
+        
+        return back()->with('success','User Add successfully');
 
     }
 

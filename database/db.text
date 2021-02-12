@@ -7,14 +7,17 @@ WOOCOMMERCE_CONSUMER_SECRET=
 
 
 
-seeding
+<========  seeding ==========>
 
 SettingTableSeeder
 ShopTableSeeder
 
+add role in userTableSeeder file
+$user->role = '2';
+2 = superadmin
 
 
-OrderController set dynamic woocommerce stores
+<====== OrderController set dynamic woocommerce stores =======>
 Config::set('filename.variable', 'value');
 
 
@@ -23,9 +26,21 @@ Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
 
 
-databse migration
+<====== databse migration =======>
 name : 2021_02_12_063649_add_role_to_users
 
+
+<======= user Modal =======>
+roles defined for user
+
+public function getRoleAttribute($attribute)
+    {
+        return [
+            '0' => 'Staff',
+            '1' => 'Admin',
+            '2' => 'SuperAdmin',
+        ][$attribute];
+    }
 
 11-02-2021==============================
 
