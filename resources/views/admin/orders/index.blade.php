@@ -3,7 +3,6 @@
 @section('page-title','Order Lists') 
 @section('content')
 @if (isset($setting))
-    
 <div class="col-xxl-12 col-sm-12">
     <div class="card">
         <div class="nk-ecwg nk-ecwg6">
@@ -189,8 +188,6 @@
     </div>
     <!-- .card -->
 </div>
-@else
-      
 @endif
 @endsection @section('script')
 <script>
