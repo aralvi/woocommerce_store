@@ -6,6 +6,22 @@ WOOCOMMERCE_CONSUMER_KEY=
 WOOCOMMERCE_CONSUMER_SECRET=
 
 
+
+seeding
+
+SettingTableSeeder
+ShopTableSeeder
+
+
+
+OrderController set dynamic woocommerce stores
+Config::set('filename.variable', 'value');
+
+
+Config::set('woocommerce.store_url', $shopDefault->store_url);
+Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+
 11-02-2021==============================
 
 
@@ -27,17 +43,3 @@ WOOCOMMERCE_CONSUMER_KEY=ck_cefebea7f6e1723f7fb2f8ff9ebf782de0d2a9b6
 WOOCOMMERCE_CONSUMER_SECRET=cs_5fca325692b721e7879eefe0424a7ab3bfcdbd82
 
 
-seeding
-
-SettingTableSeeder
-ShopTableSeeder
-
-
-
-OrderController set dynamic woocommerce stores
-Config::set('filename.variable', 'value');
-
-
-Config::set('woocommerce.store_url', $shopDefault->store_url);
-Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
-Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
