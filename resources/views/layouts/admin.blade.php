@@ -65,7 +65,7 @@
                                         <!-- .nk-menu-sub -->
                                     </li>
                                     <!-- .nk-menu-item -->
-                                    <li class="nk-menu-item has-sub">
+                                    {{-- <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span>
                                             <span class="nk-menu-text">Products</span>
@@ -76,7 +76,7 @@
                                             </li>
                                         </ul>
                                         <!-- .nk-menu-sub -->
-                                    </li>
+                                    </li> --}}
                                     <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-building"></em></span>
@@ -107,7 +107,7 @@
                                     </li>
                                     <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-bus-front-12"></em></span>
+                                            <span class="nk-menu-icon"><em class="icon ni ni-delivery-fast"></em></span>
                                             <span class="nk-menu-text">Curior Companies</span>
                                         </a>
                                         <ul class="nk-menu-sub">
