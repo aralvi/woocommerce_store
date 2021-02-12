@@ -31,3 +31,13 @@ seeding
 
 SettingTableSeeder
 ShopTableSeeder
+
+
+
+OrderController set dynamic woocommerce stores
+Config::set('filename.variable', 'value');
+
+
+Config::set('woocommerce.store_url', $shopDefault->store_url);
+Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);

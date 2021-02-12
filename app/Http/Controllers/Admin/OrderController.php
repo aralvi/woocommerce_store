@@ -8,7 +8,9 @@ use App\Models\Shop;
 use Illuminate\Http\Request;
 use Codexshaper\WooCommerce\Facades\Order;
 use Codexshaper\WooCommerce\Facades\Product;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class OrderController extends Controller
 {
@@ -26,20 +28,20 @@ class OrderController extends Controller
             if($shopExist){
                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
                 $shops = Shop::all();
-
-                env('WOOCOMMERCE_STORE_URL', $shopDefault->store_url);
-                env('WOOCOMMERCE_CONSUMER_KEY', $shopDefault->key);
-                env('WOOCOMMERCE_CONSUMER_SECRET', $shopDefault->secret);
+                Config::set('woocommerce.store_url', $shopDefault->store_url);
+                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                
 
                 $orders = Order::all();
                 return view('admin.orders.index', compact('orders', 'shops', 'setting'));
             }
             else{
 
-                return back()->with('error', 'please configure your store settings!');
+                return view('admin.orders.index')->with('error', 'please configure your store settings!');
             }
         } else {
-            return back()->with('error', 'please configure your default settings for store and order status!');
+            return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
         }
     }
 
