@@ -9,3 +9,12 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+composer.lock
+.idea/misc.xml
+.idea/modules.xml
+.idea/php.xml
+.idea/vcs.xml
+.idea/woocommerce_store.iml
+.idea/workspace.xml
+composer.lock
+composer.lock
