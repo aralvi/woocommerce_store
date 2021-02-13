@@ -29,10 +29,15 @@ class ProductController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                $products = Product::all();
+                return view('admin.products.index', compact('products'));
+            } else {
+                return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
+        } else {
+            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
         }
-        $products = Product::all();
-        return view('admin.products.index',compact('products'));
+        
     }
 
     /**
@@ -74,10 +79,15 @@ class ProductController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                $product = Product::find($id);
+                return view('admin.products.show', compact('product'));
+            } else {
+                return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
+        } else {
+            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
         }
-        $product = Product::find($id);
-        return view('admin.products.show', compact('product'));
+        
     }
 
     /**
@@ -98,10 +108,15 @@ class ProductController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                $product = Product::find($id);
+                return view('admin.products.edit', compact('product'));
+            } else {
+                return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
+        } else {
+            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
         }
-        $product = Product::find($id);
-        return view('admin.products.edit', compact('product'));
+        
     }
 
     /**
@@ -123,16 +138,21 @@ class ProductController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-            }
-        }
-        $data       = [
-            'name' => $request->name,
-            'regular_price' => $request->regular_price,
-            'sale_price'    => $request->sale_price, // 50% off
-        ];
+                $data       = [
+                    'name' => $request->name,
+                    'regular_price' => $request->regular_price,
+                    'sale_price'    => $request->sale_price, // 50% off
+                ];
 
-        $product = Product::update($id, $data);
-        return back()->with('success','Product has been updated');
+                $product = Product::update($id, $data);
+                return back()->with('success', 'Product has been updated');
+            } else {
+                return view('admin.products.index')->with('error', 'please configure your store settings!');
+            }
+        } else {
+            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
+        }
+        
                     
     }
 
@@ -154,10 +174,15 @@ class ProductController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-            }
-        }
-        $options = ['force' => true]; // Set force option true for delete permanently. Default value false
+                $options = ['force' => true]; // Set force option true for delete permanently. Default value false
 
-        $product = Product::delete($id, $options);
+                $product = Product::delete($id, $options);
+            } else {
+                return view('admin.products.index')->with('error', 'please configure your store settings!');
+            }
+        } else {
+            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
+        }
+        
     }
 }

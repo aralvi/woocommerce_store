@@ -23,7 +23,8 @@
                             </tr>
                         </thead>
                         <tbody id="order_table">
-
+                            @if (isset($products))
+                                
                             @foreach ($products as $product)
                                 
                             <tr class="nk-tb-item">
@@ -71,6 +72,7 @@
                                 
                             </tr><!-- .nk-tb-item  -->
                             @endforeach
+                            @endif
 
                         </tbody>
                     </table>

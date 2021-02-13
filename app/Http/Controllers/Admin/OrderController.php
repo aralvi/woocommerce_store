@@ -10,6 +10,7 @@ use Codexshaper\WooCommerce\Facades\Order;
 use Codexshaper\WooCommerce\Facades\Product;
 use Codexshaper\WooCommerce\Facades\WooCommerce;
 use Codexshaper\WooCommerce\WooCommerceApi;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -21,7 +22,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
         if ($settingExist) {
@@ -37,10 +38,11 @@ class OrderController extends Controller
 
                 return view('admin.orders.index', compact('orders', 'shops', 'setting'));
             } else {
-                return view('admin.orders.index')->with('error', 'please configure your store settings!');
+                
+                return view('admin.orders.index');
             }
         } else {
-            return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
+            return view('admin.orders.index');
         }
     }
 
@@ -83,11 +85,16 @@ class OrderController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                $orders = Order::find($id);
+                $products = Product::all();
+                return view('admin.orders.show', compact('orders', 'products'));
+            } else {
+                return view('admin.orders.index')->with('error', 'please configure your store settings!');
             }
+        } else {
+            return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
         }
-        $orders = Order::find($id);
-        $products = Product::all();
-        return view('admin.orders.show', compact('orders', 'products'));
+        
     }
 
     /**
@@ -120,20 +127,22 @@ class OrderController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                $order_id = $id;
+                $data     = [
+                        'status' => $request->order_status,
+                    ];
+                $order = Order::update($order_id, $data);
+                return back()->with('success', 'Order status has been updated');
+            } else {
+                return view('admin.orders.index')->with('error', 'please configure your store settings!');
             }
+        } else {
+            return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
         }
 
 
 
-        $order_id = $id;
-        $data     = [
-            'status' => $request->order_status ,
-        ];
-
-        $order = Order::update($order_id, $data);
-       
-
-        return back()->with('success', 'Order status has been updated');
+        
     }
 
     /**
@@ -164,14 +173,19 @@ class OrderController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                if ($status == 'all') {
+                    $orders = Order::all();
+                } else {
+                    $orders = Order::where('status', $status)->get();
+                }
+                return view('admin.orders.filter_status', compact('orders'));
+            } else {
+                return view('admin.orders.index')->with('error', 'please configure your store settings!');
             }
-        }
-        if ($status == 'all') {
-            $orders = Order::all();
         } else {
-            $orders = Order::where('status', $status)->get();
+            return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
         }
-        return view('admin.orders.filter_status', compact('orders'));
+        
     }
 
     public function search(Request $request)

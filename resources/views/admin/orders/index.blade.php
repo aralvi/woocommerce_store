@@ -2,7 +2,6 @@
 @section('title','Orders')
 @section('page-title','Order Lists')
 @section('content')
-@if (isset($setting))
 <div class="col-xxl-12 col-sm-12">
     <div class="card">
         <div class="nk-ecwg nk-ecwg6">
@@ -19,6 +18,8 @@
                                     <select class="form-select form-control form-control-lg" id="stores" name="store"
                                         data-search="on">
                                         <option value="default_option">Choose store</option>
+                                        @if (isset($shops))
+                                            
                                         @foreach ($shops as $shop)
                                         @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin' || Auth::user()->parent_id == $shop->user_id)
 
@@ -30,6 +31,7 @@
                                         @endif
 
                                         @endforeach
+                                        @endif
 
                                     </select>
                                 </div>
@@ -63,6 +65,8 @@
                                 <label for="filter By Status" class="mb-0">Filter Status</label>
                                 <select id="order_status" name="order_status" class="form-control form-select"
                                     data-search="on">
+                                    @if (isset($setting))
+                                        
                                     <option value="all" {{ 'all' == $setting->order_status ? "selected":'' }}>All
                                     </option>
                                     <option value="pending" {{ 'pending' == $setting->order_status ? "selected":'' }}>
@@ -79,6 +83,7 @@
                                         Refunded</option>
                                     <option value="failed" {{ 'failed' == $setting->order_status ? "selected":'' }}>
                                         Failed</option>
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -140,7 +145,8 @@
                         </tr>
                     </thead>
                     <tbody id="order_table">
-
+                        @if (isset($orders))
+                            
                         @foreach ($orders as $order)
                         @if ($order->status == $setting->order_status)
 
@@ -195,6 +201,7 @@
                         </tr><!-- .nk-tb-item  -->
                         @endif
                         @endforeach
+                        @endif
 
                     </tbody>
                 </table>
@@ -206,7 +213,6 @@
 </div>
 <!-- .card -->
 </div>
-@endif
 <div class="modal fade zoom" tabindex="-1" id="modalForm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

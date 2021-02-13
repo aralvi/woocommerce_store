@@ -31,13 +31,18 @@ class OrderNoteController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                $id = $_GET['order_id'];
+
+                $ordreNotes = Note::all($id);
+
+                return view('admin.ordernotes.index', compact('ordreNotes'));
+            } else {
+                return view('admin.orders.index')->with('error', 'please configure your store settings!');
             }
+        } else {
+            return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
         }
-        $id = $_GET['order_id'];
        
-        $ordreNotes = Note::all($id);
-       
-        return view('admin.ordernotes.index',compact('ordreNotes'));
     }
 
     /**
@@ -68,15 +73,20 @@ class OrderNoteController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-            }
-        }
-        $current_time = Carbon::now()->toDateTimeString();
-        $data = [
-            'note' => $request->order_note ."- Added By:". Auth::user()->name.'- Time:'. $current_time,
-        ];
+                $current_time = Carbon::now()->toDateTimeString();
+                $data = [
+                    'note' => $request->order_note . "- Added By:" . Auth::user()->name . '- Time:' . $current_time,
+                ];
 
-        $note = Note::create($request->order_id, $data);
-        return back()->with('success','Order Note has been created!');
+                $note = Note::create($request->order_id, $data);
+                return back()->with('success', 'Order Note has been created!');
+            } else {
+                return view('admin.orders.index')->with('error', 'please configure your store settings!');
+            }
+        } else {
+            return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
+        }
+       
 
     }
 
