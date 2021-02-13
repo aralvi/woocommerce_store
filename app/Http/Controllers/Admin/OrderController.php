@@ -22,7 +22,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
         if ($settingExist) {
@@ -38,11 +38,12 @@ class OrderController extends Controller
 
                 return view('admin.orders.index', compact('orders', 'shops', 'setting'));
             } else {
-                
-                return view('admin.orders.index');
+                session()->now('error', 'please configure your store settings!');
+                return view('admin.orders.index')->with('error', 'please configure your store settings!');
             }
         } else {
-            return view('admin.orders.index');
+            session()->now('error', 'please configure your default settings for store and order status!');
+            return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
         }
     }
 

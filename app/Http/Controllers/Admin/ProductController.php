@@ -35,6 +35,7 @@ class ProductController extends Controller
                 return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
         } else {
+            session()->now('error', 'please configure your default settings for store and order status!');
             return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
         }
         
