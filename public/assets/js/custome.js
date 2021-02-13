@@ -115,12 +115,20 @@ $('.orderNote').on('click', function() {
 // open edit Product modal
 $('.editProduct').on('click', function() {
     var productID = $(this).attr('data-productId');
-    $('#regular_price').val($(this).attr('data-productPrice'))
-    $('#sale_price').val($(this).attr('data-salePrice'))
-    url = $('#productEditForm').attr('action')
-    url = url + "/" + productID;
-    $('#productEditForm').attr('action', url);
-    $('#modalForm').modal('toggle');
+    $.ajax({
+        type: 'get',
+        url: url + '/products/' + productID + '/edit',
+        success: function(data) {
+            $('.requestdata').html(data);
+            $('#modalForm').modal('toggle');
+        }
+    });
+    // $('#regular_price').val($(this).attr('data-productPrice'))
+    // $('#sale_price').val($(this).attr('data-salePrice'))
+    // url = $('#productEditForm').attr('action')
+    // url = url + "/" + productID;
+    // $('#productEditForm').attr('action', url);
+    // $('#modalForm').modal('toggle');
 });
 
 

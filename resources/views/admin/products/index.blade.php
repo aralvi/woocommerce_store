@@ -63,7 +63,7 @@
                                 <td class="nk-tb-col tb-col-md">
                                    <a class="btn btn-dim btn-sm btn-primary" href="{{ route('products.show',$product->id) }}"><i
                                             class="icon ni ni-eye"></i></a>
-                                            <button type="button" class="btn btn-sm btn-dim btn-primary editProduct" onclick="getProduct(this,$product)"
+                                            <button type="button" class="btn btn-sm btn-dim btn-primary editProduct"    
                                         data-productId="{{ $product->id }}" data-productPrice="{{ $product->regular_price }}" data-salePrice="{{ $product->sale_price }}"><i class="icon ni ni-pen"></i></button>
                                             <button type="button" class="btn btn-sm btn-dim btn-primary deleteProduct"
                                         data-productId="{{ $product->id }}" d><i class="icon ni ni-trash"></i></button>
@@ -91,28 +91,10 @@
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
-            <form action="{{ route('products.index') }}" id="productEditForm" class="form-validate is-alter" method="POST">
-                @method('put')
-            <div class="modal-body">
-                    @csrf
-                    <div class="row">
+            <div class="requestdata">
 
-                        <div class="form-group col-md-12">
-                            <label for="regular_price" class="mb-0">Regular Price</label>
-                            <input type="number" name="regular_price" id="regular_price" class="form-control" required>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label for="sale_price" class="mb-0">Sale Price</label>
-                            <input type="number" name="sale_price" id="sale_price" class="form-control">
-                        </div>
-                    </div>
             </div>
-            <div class="modal-footer bg-light">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
-                </div>
-            </div>
-            </form>
+            
         </div>
     </div>
 </div>
@@ -163,9 +145,6 @@
 
     });
 
-   function getProduct(e,obj){
-    console.log(obj);
-   }
-
+  
 </script>
 @endsection
