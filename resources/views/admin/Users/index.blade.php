@@ -21,7 +21,7 @@
                         </thead>
                         <tbody>
                             @foreach($Users as $user)
-                                @if (($user->parent_id == Auth::user()->id && $user->role != 'SuperAdmin')|| (Auth::user()->role == 'SuperAdmin') && Auth::user()->id != $user->id)
+                                @if (($user->parent_id == Auth::user()->id && $user->role != 'SuperAdmin'  || Auth::user()->parent_id == $user->parent_id && Auth::user()->id != $user->id )|| (Auth::user()->role == 'SuperAdmin') )
                                     <tr class="nk-tb-item" id="target_{{ $user->id }}">
                                         <td class="nk-tb-col">
                                             <div class="user-info">
@@ -43,7 +43,7 @@
 
                                         <td class="nk-tb-col tb-col-md">
                                             <button type="button" class="btn btn-dim btn-primary editUser" data-userId="{{ $user->id }}"><i class="icon ni ni-pen"></i></button>
-                                            @if ($user->role != 'SuperAdmin' && $user->id !=Auth::user()->id)
+                                            @if ($user->role != 'SuperAdmin' && $user->id !=Auth::user()->id && $user->parent_id == Auth::user()->id)
                                                 
                                             <button type="button" class="btn btn-dim btn-primary deleteUser" data-userId="{{ $user->id }}"><i class="icon ni ni-trash"></i></button>
                                             @endif

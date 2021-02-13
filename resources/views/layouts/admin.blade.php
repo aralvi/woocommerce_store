@@ -34,8 +34,8 @@
                             </a>
                         </div>
                         <div class="nk-menu-trigger mr-n2">
-                            <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
-                            <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                            <a href="javascript:void(0)" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
+                            <a href="javascript:void(0)" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                         </div>
                     </div>
                     <!-- .nk-sidebar-element -->
@@ -53,7 +53,7 @@
                                     </li>
                                     <!-- .nk-menu-heading -->
                                     <li class="nk-menu-item has-sub {{ Request::is('orders*')?'active':'' }}">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill"></em></span>
                                             <span class="nk-menu-text">Orders</span>
                                         </a>
@@ -66,7 +66,7 @@
                                     </li>
                                     <!-- .nk-menu-item -->
                                     <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span>
                                             <span class="nk-menu-text">Products</span>
                                         </a>
@@ -78,7 +78,7 @@
                                         <!-- .nk-menu-sub -->
                                     </li>
                                     <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-building"></em></span>
                                             <span class="nk-menu-text">Stores</span>
                                         </a>
@@ -90,7 +90,7 @@
                                         <!-- .nk-menu-sub -->
                                     </li>
                                     <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
                                             <span class="nk-menu-text">Users</span>
                                         </a>
@@ -106,7 +106,7 @@
                                         <!-- .nk-menu-sub -->
                                     </li>
                                     <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-delivery-fast"></em></span>
                                             <span class="nk-menu-text">Curior Companies</span>
                                         </a>
@@ -120,7 +120,7 @@
                                     @if (Auth::user()->role != 'Staff')
                                         
                                     <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span>
                                             <span class="nk-menu-text">Settings</span>
                                         </a>
@@ -150,7 +150,7 @@
                         <div class="container-fluid">
                             <div class="nk-header-wrap">
                                 <div class="nk-menu-trigger d-xl-none ml-n1">
-                                    <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                                    <a href="javascript:void(0)" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                                 </div>
                                 <div class="nk-header-brand d-xl-none">
                                     <a href="html/index.html" class="logo-link">
@@ -168,13 +168,13 @@
                                     <ul class="nk-quick-nav">
                                         {{--
                                         <li class="dropdown chats-dropdown hide-mb-xs">
-                                            <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
+                                            <a href="javascript:void(0)" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
                                                 <div class="icon-status icon-status-na"><em class="icon ni ni-comments"></em></div>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
                                                 <div class="dropdown-head">
                                                     <span class="sub-title nk-dropdown-title">Recent Chats</span>
-                                                    <a href="#">Setting</a>
+                                                    <a href="javascript:void(0)">Setting</a>
                                                 </div>
                                                 <div class="dropdown-body">
                                                     <ul class="chat-list">
@@ -310,13 +310,13 @@
                                             </div>
                                         </li>
                                         <li class="dropdown notification-dropdown">
-                                            <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
+                                            <a href="javascript:void(0)" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
                                                 <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
                                                 <div class="dropdown-head">
                                                     <span class="sub-title nk-dropdown-title">Notifications</span>
-                                                    <a href="#">Mark All as Read</a>
+                                                    <a href="javascript:void(0)">Mark All as Read</a>
                                                 </div>
                                                 <div class="dropdown-body">
                                                     <div class="nk-notification">
@@ -379,13 +379,13 @@
                                                 </div>
                                                 <!-- .nk-dropdown-body -->
                                                 <div class="dropdown-foot center">
-                                                    <a href="#">View All</a>
+                                                    <a href="javascript:void(0)">View All</a>
                                                 </div>
                                             </div>
                                         </li>
                                         --}}
                                         <li class="dropdown user-dropdown">
-                                            <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown">
+                                            <a href="javascript:void(0)" class="dropdown-toggle mr-n1" data-toggle="dropdown">
                                                 <div class="user-toggle">
                                                     <div class="user-avatar sm">
                                                         <em class="icon ni ni-user-alt"></em>
@@ -421,7 +421,7 @@
                                                         </li>
                                                         --}}
                                                         <li>
-                                                            <a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a>
+                                                            <a class="dark-switch" href="javascript:void(0)"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -502,9 +502,9 @@
                                 <div class="nk-footer-copyright">&copy; 2020 DashLite. Template by <a href="https://softnio.com" target="_blank">Softnio</a></div>
                                 <div class="nk-footer-links">
                                     <ul class="nav nav-sm">
-                                        <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Terms</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Privacy</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Help</a></li>
                                     </ul>
                                 </div>
                             </div>

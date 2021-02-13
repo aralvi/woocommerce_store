@@ -29,7 +29,7 @@
 								<div class="form-group">
 									<label for="filter By Status" class="mb-0">Filter Status</label>
 									<select id="order_status" name="order_status" class="form-control form-select" data-search="on">
-										@if (isset($seeting))
+										@if (isset($setting))
 										<option value="all" @if ($setting !=null) @if ( 'all'==$setting->order_status) selected @endif @endif >All</option>
 										<option value="pending" @if ($setting !=null) @if ( 'pending'==$setting->order_status) selected @endif @endif >Pending payment</option>
 										<option value="processing" @if ($setting !=null) @if ( 'processing'==$setting->order_status) selected @endif @endif >Processing</option>

@@ -63,6 +63,8 @@
                                             <div class="d-flex align-items-center ">
 
                                                 <h4 class="m-0">Price: </h4>
+                                                @if ($product['sale_price'] != '')
+                                                    
                                                 <del class="pl-3">
                                                     <span class="woocommerce-Price-amount amount">
                                                         <bdi><span class="woocommerce-Price-currencySymbol">$</span>{{ $product['regular_price'] }}</bdi>
@@ -73,9 +75,16 @@
                                                         <bdi><span class="woocommerce-Price-currencySymbol">$</span>{{ $product['sale_price'] }}</bdi>
                                                     </span>
                                                 </ins>
+                                                @else
+                                                <ins class="pl-3">
+                                                    <span class="woocommerce-Price-amount amount">
+                                                        <bdi><span class="woocommerce-Price-currencySymbol">$</span>{{ $product['regular_price'] }}</bdi>
+                                                    </span>
+                                                </ins>
+                                                @endif
                                             </div>
                                         <div class="woocommerce-product-details__short-description">
-                                            <p>{{ $product['short_description'] }}</p>
+                                            <p>{!! $product['short_description'] !!}</p>
                                         </div>
                                         {{-- <form class="cart" action="{{ route('orders.store') }}" method="post" enctype="multipart/form-data">
                                             @csrf
@@ -100,7 +109,7 @@
                                             <h2>Description</h2>
 
                                             <p>
-                                                {{$product['description']}}
+                                                {!!$product['description']!!}
                                             </p>
                                         </div>
                                        
