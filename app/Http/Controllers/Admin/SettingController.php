@@ -19,8 +19,15 @@ class SettingController extends Controller
     public function index()
     {
         $setting = Setting::where('user_id',Auth::user()->id)->first();
-        $shops = Shop::all();
-        return view('admin.settings.index',compact('setting','shops'));
+        $shopExists = Shop::where('user_id',Auth::user()->id)->exists();
+        if($shopExists){
+            $shops = Shop::where('user_id', Auth::user()->id)->get();
+            return view('admin.settings.index',compact('setting','shops'));
+        }else{
+            session()->now('error', 'please configure your store settings first!');
+            return view('admin.settings.index');
+        }
+    
     }
 
     /**

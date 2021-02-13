@@ -15,8 +15,13 @@
 									<label for="" class="mb-0">Select Store</label>
 									<div class="form-control-wrap">
 										<select class="form-select form-control form-control-lg" id="stores" name="store" data-search="on">
-											<option value="default_option">Choose store</option> @foreach ($shops as $shop) @if (Auth::user()->id == $shop->user_id)
-											<option class="text-capitalize" value="{{ $shop->id }}" @if ($setting !=null) {{ ($shop->id == $setting->shop_id) ? "selected":'' }} @endif> {{ $shop->name }}</option> @endif @endforeach </select>
+											<option value="default_option">Choose store</option>
+											@if (isset($shops))
+												
+											@foreach ($shops as $shop) @if (Auth::user()->id == $shop->user_id)
+										   <option class="text-capitalize" value="{{ $shop->id }}" @if ($setting !=null) {{ ($shop->id == $setting->shop_id) ? "selected":'' }} @endif> {{ $shop->name }}</option> @endif @endforeach 
+											@endif
+										</select>
 									</div>
 								</div>
 							</div>
@@ -24,6 +29,7 @@
 								<div class="form-group">
 									<label for="filter By Status" class="mb-0">Filter Status</label>
 									<select id="order_status" name="order_status" class="form-control form-select" data-search="on">
+										@if (isset($seeting))
 										<option value="all" @if ($setting !=null) @if ( 'all'==$setting->order_status) selected @endif @endif >All</option>
 										<option value="pending" @if ($setting !=null) @if ( 'pending'==$setting->order_status) selected @endif @endif >Pending payment</option>
 										<option value="processing" @if ($setting !=null) @if ( 'processing'==$setting->order_status) selected @endif @endif >Processing</option>
@@ -32,6 +38,7 @@
 										<option value="cancelled" @if ($setting !=null) @if ( 'cancelled'==$setting->order_status) selected @endif @endif >Cancelled</option>
 										<option value="refunded" @if ($setting !=null) @if ( 'refunded'==$setting->order_status) selected @endif @endif >Refunded</option>
 										<option value="failed" @if ($setting !=null) @if ( 'failed'==$setting->order_status) selected @endif @endif >Failed</option>
+										@endif
 									</select>
 								</div>
 							</div>

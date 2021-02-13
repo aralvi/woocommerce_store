@@ -24,9 +24,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shopExist = Shop::where('id', $setting->shop_id)->exists();
             if ($shopExist) {
                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
@@ -76,9 +76,9 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shopExist = Shop::where('id', $setting->shop_id)->exists();
             if ($shopExist) {
                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
@@ -118,9 +118,9 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shopExist = Shop::where('id', $setting->shop_id)->exists();
             if ($shopExist) {
                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
@@ -164,9 +164,9 @@ class OrderController extends Controller
      */
     public function filter($status)
     {
-        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shopExist = Shop::where('id', $setting->shop_id)->exists();
             if ($shopExist) {
                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
