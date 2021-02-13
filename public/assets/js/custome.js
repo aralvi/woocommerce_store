@@ -47,7 +47,7 @@ $('#deleteStoreBtn').on('click', function() {
 
 
 
-// open edit categoory modal
+// open edit user modal
 $('.editUser').on('click', function() {
     var userID = $(this).attr('data-UserId');
     $.ajax({
@@ -110,3 +110,49 @@ $('.orderNote').on('click', function() {
     $('#order_id').val(orderID);
     $('#OrderNoteModalForm').modal('toggle');
 })
+
+
+// open edit Product modal
+$('.editProduct').on('click', function() {
+    var productID = $(this).attr('data-productId');
+    $('#regular_price').val($(this).attr('data-productPrice'))
+    $('#sale_price').val($(this).attr('data-salePrice'))
+    url = $('#productEditForm').attr('action')
+    url = url + "/" + productID;
+    $('#productEditForm').attr('action', url);
+    $('#modalForm').modal('toggle');
+});
+
+
+/*** Open Deleting product  Modal ***/
+$('.deleteProduct').on('click', function() {
+    var productID = $(this).attr('data-productId');
+    $('#DeleteModal').modal('toggle');
+    $('#deleteProductModalBtn').val(productID);
+});
+
+/*** Deleting Category  ***/
+$('#deleteProductModalBtn').on('click', function() {
+    var productID = $(this).val();
+    $.ajax({
+        type: 'DELETE',
+        url: url + '/products/' + productID,
+        data: { id: productID, _token: token, _method: 'DELETE' },
+        success: function(data) {
+            $("#DeleteModal").modal("hide");
+            $("#target_" + productID).hide();
+            $('#success_errror_any').addClass("hide");
+            $('#messageDiv').removeClass("alert-danger hide");
+            $('#messageDiv').addClass("alert-success");
+            $('#message').html(data);
+        },
+        error: function() {
+            $('#success_errror_any').addClass("hide");
+            $('#messageDiv').removeClass("alert-success hide");
+            $('#messageDiv').addClass("alert-danger");
+            $('#message').html('Category not found or Something is wrong');
+            $('#DeleteModal').modal('hide');
+        }
+
+    });
+});

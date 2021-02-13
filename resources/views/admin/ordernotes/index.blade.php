@@ -32,9 +32,9 @@
                                 </td>
 
                                 {{-- <td class="nk-tb-col tb-col-md">
-                                    <button type="button" class="btn btn-dim btn-primary editStore"
+                                    <button type="button" class="btn btn-dim btn-primary "
                                         data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button>
-                                <button type="button" class="btn btn-dim btn-primary deleteStore"
+                                <button type="button" class="btn btn-dim btn-primary "
                                     data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-trash"></i></button>
                                 </td> --}}
                             </tr><!-- .nk-tb-item  -->

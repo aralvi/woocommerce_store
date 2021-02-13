@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
+use App\Models\Shop;
 use Codexshaper\WooCommerce\Facades\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class ProductController extends Controller
 {
@@ -15,6 +19,18 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        if ($settingExist) {
+            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+            if ($shopExist) {
+                $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                $shops = Shop::all();
+                Config::set('woocommerce.store_url', $shopDefault->store_url);
+                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+            }
+        }
         $products = Product::all();
         return view('admin.products.index',compact('products'));
     }
@@ -48,7 +64,20 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        if ($settingExist) {
+            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+            if ($shopExist) {
+                $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                $shops = Shop::all();
+                Config::set('woocommerce.store_url', $shopDefault->store_url);
+                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+            }
+        }
+        $product = Product::find($id);
+        return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -71,7 +100,27 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        if ($settingExist) {
+            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+            if ($shopExist) {
+                $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                $shops = Shop::all();
+                Config::set('woocommerce.store_url', $shopDefault->store_url);
+                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+            }
+        }
+        $data       = [
+
+            'regular_price' => $request->regular_price,
+            'sale_price'    => $request->sale_price, // 50% off
+        ];
+
+        $product = Product::update($id, $data);
+        return back()->with('success','Product has been updated');
+                    
     }
 
     /**
@@ -82,6 +131,20 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
+        if ($settingExist) {
+            $setting = Setting::where('user_id', Auth::user()->id)->first();
+            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+            if ($shopExist) {
+                $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                $shops = Shop::all();
+                Config::set('woocommerce.store_url', $shopDefault->store_url);
+                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+            }
+        }
+        $options = ['force' => true]; // Set force option true for delete permanently. Default value false
+
+        $product = Product::delete($id, $options);
     }
 }
