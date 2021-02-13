@@ -1,3 +1,20 @@
+13-02-2021===========================
+
+
+<========= Order Note =========>
+<----created order notes----> : 
+ $current_time = Carbon::now()->toDateTimeString();
+$data = [
+            'note' => $request->order_note ."- Added By:". Auth::user()->name.'- Time:'. $current_time,
+        ];
+ $note = Note::create($request->order_id, $data);
+
+<-------- Retrive all order notes of an order ------->
+$id = $_GET['order_id'];
+$ordreNotes = Note::all($id);
+
+
+
 12-02-2021==============================
 
 remove these params from env files

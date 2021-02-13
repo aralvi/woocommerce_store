@@ -182,9 +182,14 @@
                                 </div>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                <a href="{{ route('orders.show',$order->id) }}"><i class="icon ni ni-eye"></i></a>
+                                <a href="{{ route('orders.show',$order->id) }}" class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a>
                                 <button class="btn btn-sm btn-dim btn-primary order_status"
                                     data-orderId="{{ $order->id }}"><i class="icon ni ni-pen"></i></button>
+                                    <button type="button" class="btn btn-sm btn-dim btn-primary orderNote" data-orderId="{{ $order->id }}"><i class="icon ni ni-plus"></i>Note</button>
+                                    <form action="{{ route('ordernotes.index') }}" method="get">
+                                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                    <button type="subbmit" class="btn btn-sm btn-dim btn-primary" ><i class="icon ni ni-eye"></i> Note</button>
+                                    </form>
                             </td>
 
                         </tr><!-- .nk-tb-item  -->
@@ -239,6 +244,36 @@
     </div>
 </div>
 
+
+<div class="modal fade zoom" tabindex="-1" id="OrderNoteModalForm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Order Note</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <form action="{{ route('ordernotes.store') }}" class="form-validate is-alter" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label" for="ordernote">Order Note</label>
+                        <div class="form-control-wrap">
+                            <input type="hidden" name="order_id" value="" id="order_id">
+                            <input type="text" class="form-control" name="order_note" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection @section('script')
 <script>
     $("#orders_check").click(function () {

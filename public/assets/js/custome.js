@@ -101,3 +101,12 @@ $('.order_status').on('click', function() {
     $('#orderStatus').attr('action', url);
     $('#modalForm').modal('toggle');
 });
+
+
+
+// Order Note add modal
+$('.orderNote').on('click', function() {
+    var orderID = $(this).attr('data-orderId');
+    $('#order_id').val(orderID);
+    $('#OrderNoteModalForm').modal('toggle');
+})

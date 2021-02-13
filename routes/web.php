@@ -30,4 +30,5 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::resource('settings','Admin\SettingController')->middleware('checkRole');
     Route::resource('users', 'Admin\addUserController');
     Route::resource('stores', 'Admin\ShopController');
+    Route::resource('ordernotes', 'Admin\OrderNoteController');
 });
