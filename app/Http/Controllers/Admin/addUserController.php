@@ -42,7 +42,7 @@ class addUserController extends Controller
         // dd($request->all());
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users',
             'password' => 'required',
         ]);
         $user = new User();

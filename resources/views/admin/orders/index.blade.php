@@ -20,7 +20,7 @@
                                         data-search="on">
                                         <option value="default_option">Choose store</option>
                                         @foreach ($shops as $shop)
-                                        @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin')
+                                        @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin' || Auth::user()->parent_id == $shop->user_id)
 
                                         <option class="text-capitalize" value="{{ $shop->store_url }}"
                                             data-key="{{ $shop->consumer_key }}"
