@@ -25,6 +25,8 @@
                         </thead>
                         <tbody>
                             @foreach($shops as $shop)
+                            @if ($shop->user_id == Auth::user()->id || $shop->user_id == Auth::user()->parent_id || Auth::user()->role == 'SuperAdmin')
+                                
                             <tr class="nk-tb-item" id="target_{{ $shop->id }}">
                                 <td class="nk-tb-col">
                                     <div class="user-info">
@@ -42,10 +44,14 @@
                                 <td class="nk-tb-col tb-col-md">
                                     <button type="button" class="btn btn-dim btn-primary editStore"
                                         data-storId="{{ $shop->id }}"><i class="icon ni ni-pen"></i></button>
-                                    <button type="button" class="btn btn-dim btn-primary deleteStore"
-                                        data-storId="{{ $shop->id }}"><i class="icon ni ni-trash"></i></button>
+                                        @if ($shop->user_id == Auth::user()->id || Auth::user()->role == 'SuperAdmin')
+                                            
+                                        <button type="button" class="btn btn-dim btn-primary deleteStore"
+                                            data-storId="{{ $shop->id }}"><i class="icon ni ni-trash"></i></button>
+                                        @endif
                                 </td>
                             </tr><!-- .nk-tb-item  -->
+                            @endif
                             @endforeach
                         </tbody>
                     </table>
