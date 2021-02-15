@@ -30,7 +30,7 @@ class ProductController extends Controller
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $products = Product::all();
-                return view('admin.products.index', compact('products'));
+                return view('admin.products.index', compact('products', 'shops', 'setting'));
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
@@ -81,7 +81,7 @@ class ProductController extends Controller
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $product = Product::find($id);
-                return view('admin.products.show', compact('product'));
+                return view('admin.products.show', compact('product', 'shops', 'setting'));
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
@@ -185,5 +185,14 @@ class ProductController extends Controller
             return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
         }
         
+    }
+
+    public function selectStore(Request $request)
+    {
+        Config::set('woocommerce.store_url', $request->store_url);
+        Config::set('woocommerce.consumer_key', $request->key);
+        Config::set('woocommerce.consumer_secret', $request->secret);
+        $products = Product::all();
+        return view('admin.products.filter_store', compact('products'));
     }
 }

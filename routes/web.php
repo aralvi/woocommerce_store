@@ -28,6 +28,7 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::post('order/search', 'Admin\OrderController@search')->name('order.search');
     Route::post('order/store', 'Admin\OrderController@selectStore')->name('order.store');
     Route::resource('products','Admin\ProductController');
+    Route::post('product/store', 'Admin\ProductController@selectStore')->name('product.store');
     Route::resource('settings','Admin\SettingController')->middleware('checkRole');
     Route::resource('users', 'Admin\addUserController');
     Route::resource('stores', 'Admin\ShopController');

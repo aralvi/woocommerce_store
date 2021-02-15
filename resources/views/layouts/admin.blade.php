@@ -17,6 +17,7 @@
             var url = "{{ url('/') }}";
             var token = "{{ csrf_token() }}";
         </script>
+        @yield('style')
     </head>
 
     <body class="nk-body bg-lighter npc-default has-sidebar">
@@ -477,7 +478,7 @@
                                         <div class="row g-gs">
                                             <div class="col-xxl-12 col-sm-12">
                                                 --}}
-                                                <div class="card">
+                                                {{-- <div class="card"> --}}
                                                     @yield('content')
                                                     <!-- .nk-ecwg -->
                                                     {{--

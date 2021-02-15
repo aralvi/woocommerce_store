@@ -1,4 +1,12 @@
-@extends('layouts.admin') @section('title','Order detail') @section('page-title','Order Detail') @section('content')
+@extends('layouts.admin')
+@section('style')
+<style>
+    .datatable-filter #DataTables_Table_0_length {
+        display: none !important;
+    }
+
+</style>
+@endsection @section('title','Order detail') @section('page-title','Order Detail  #'. $orders['id']) @section('content')
 <div class="col-xxl-12 col-sm-12">
     <div class="card">
         <div class="nk-ecwg nk-ecwg6">
@@ -77,12 +85,11 @@
                         <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode">
                     </div>
                     <div class="btn-group" aria-label="Basic example">
-                        <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 order_status"  data-orderId="{{ $orders['id'] }}">Change Order status</button>
-                        <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote" data-orderId="{{ $orders['id'] }}">Add Note</button>
-                        <form action="{{ route('ordernotes.index') }}" method="get" class="ml-1">
-                                    <input type="hidden" name="order_id" value="{{ $orders['id'] }}">
-                                    <button type="subbmit" class="btn btn-dim btn-primary" >view Note</button>
-                                    </form>
+                        <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 order_status"
+                            data-orderId="{{ $orders['id'] }}">Change Order status</button>
+                        <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote"
+                            data-orderId="{{ $orders['id'] }}">Add Note</button>
+                       
                     </div>
                 </div>
                 <table class=" datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
@@ -95,7 +102,8 @@
                             </th>
                             <th class="nk-tb-col ">Image</th>
                             <th class="nk-tb-col tb-col-mb ">Qty to ship</th>
-                            <th class="nk-tb-col tb-col-md "><button class="border-0 btn btn-sm btn-primary btn-dim">-</button> Qty <button
+                            <th class="nk-tb-col tb-col-md "><button
+                                    class="border-0 btn btn-sm btn-primary btn-dim">-</button> Qty <button
                                     class="border-0 btn btn-sm btn-primary btn-dim">+</button></th>
                             <th class="nk-tb-col tb-col-lg ">Sku</th>
                             <th class="nk-tb-col tb-col-lg ">supplier</th>
@@ -128,14 +136,20 @@
                             </td>
                             <td class="nk-tb-col tb-col-mb">
                                 <span class="tb-amount ship_quantity">{{ $product->quantity }}</span>
+                                <input type="hidden" name="" id="" class="shipquantity"
+                                    value="{{ $product->quantity }}">
                             </td>
-                            <td class="td_quantity">
+                            <td class="td_quantity nk-tb-col tb-col-mb">
                                 <div class="d-flex justify-content-between align-items-center btn-group">
-                                    <button type="button" id="sub" class="sub border btn btn-sm btn-primary btn-dim">--</button>
-                                    <button type="button" id="sub" class="sub border btn btn-sm btn-primary btn-dim">-</button>
+                                    <button type="button" id="sub"
+                                        class="sub border btn btn-sm btn-primary btn-dim">--</button>
+                                    <button type="button" id="sub"
+                                        class="sub border btn btn-sm btn-primary btn-dim">-</button>
                                     <input type="number" id="1" value="0" min="0" class="quantity" />
-                                    <button type="button" id="add" class="add border btn btn-sm btn-primary btn-dim">+</button>
-                                    <button type="button" id="add" class="add border btn btn-sm btn-primary btn-dim">++</button>
+                                    <button type="button" id="add"
+                                        class="add border btn btn-sm btn-primary btn-dim">+</button>
+                                    <button type="button" id="add"
+                                        class="add border btn btn-sm btn-primary btn-dim">++</button>
                                 </div>
                             </td>
                             <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
@@ -150,12 +164,7 @@
                                 {{ $product->name }}
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                @foreach ($products as $item)
-                                @if ($product->product_id == $item->id)
-                                <p class="{{ $item->stock_status == 'instock'? "text-success":'text-danger' }} ">
-                                    {{ $item->stock_status }}</p>
-                                @endif
-                                @endforeach
+                                <label class="pack_status p-2">Un-Packed</label>
                             </td>
 
                         </tr><!-- .nk-tb-item  -->
@@ -166,7 +175,8 @@
                         <th colspan="3" class="text-right pt-3">Total Weight</th>
                         <td><input type="number" name="" id="" class="form-control" /></td>
                         <th colspan="3" class="text-right pt-3">Product count</th>
-                        <td colspan="2"><input type="number" name="count" value="" id="" class="form-control count" readonly/></td>
+                        <td colspan="2"><input type="number" name="count" value="" id="" class="form-control count"
+                                readonly /></td>
                     </tfoot>
                 </table>
             </div>
@@ -176,6 +186,168 @@
     <!-- .nk-ecwg -->
 </div>
 <!-- .card -->
+</div>
+
+<div class="col-md-12 d-flex justify-content-between my-5">
+    <div class="col-md-6  h-25">
+        <div class="card">
+            <div class="nk-ecwg nk-ecwg6">
+                <div class="card-inner">
+                    {{-- card header section --}}
+                    <div class="card-title-group">
+                        <h3>Billing Address</h3>
+                    </div>
+                    {{-- card header section end --}}
+                    <div class="data">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th>First Name</th>
+                                    <td>{{ $orders['billing']->first_name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Last Name</th>
+                                    <td>{{ $orders['billing']->last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address Line 1</th>
+                                    <td>{{ $orders['billing']->address_1 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address Line 2</th>
+                                    <td>{{ $orders['billing']->address_2 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>City</th>
+                                    <td>{{ $orders['billing']->city }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Postcode</th>
+                                    <td>{{ $orders['billing']->postcode }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Country</th>
+                                    <td>{{ $orders['billing']->country }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{ $orders['billing']->email }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td>{{ $orders['billing']->phone }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- .card-inner -->
+            </div>
+            <!-- .nk-ecwg -->
+        </div>
+    </div>
+    <div class="col-md-6 h-25">
+        <div class="card">
+            <div class="nk-ecwg nk-ecwg6">
+                <div class="card-inner">
+                    {{-- card header section --}}
+                    <div class="card-title-group">
+                        <h3>Shipping Address</h3>
+                    </div>
+                    {{-- card header section end --}}
+                    <div class="data">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th>First Name</th>
+                                    <td>{{ $orders['shipping']->first_name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Last Name</th>
+                                    <td>{{ $orders['shipping']->last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address Line 1</th>
+                                    <td>{{ $orders['shipping']->address_1 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address Line 2</th>
+                                    <td>{{ $orders['shipping']->address_2 }}</td>
+                                </tr>
+                                <tr>
+                                    <th>City</th>
+                                    <td>{{ $orders['shipping']->city }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Postcode</th>
+                                    <td>{{ $orders['shipping']->postcode }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Country</th>
+                                    <td>{{ $orders['shipping']->country }}</td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- .card-inner -->
+            </div>
+            <!-- .nk-ecwg -->
+        </div>
+    </div>
+</div>
+
+{{-- order notes --}}
+
+<div class="col-xxl-12 col-sm-12">
+    <div class="card">
+        <div class="nk-ecwg nk-ecwg6">
+            <div class="card-inner">
+                {{-- card header section --}}
+                <div class="card-title-group">
+                   <h3>Order Notes</h3> 
+                </div>
+                {{-- card header section end --}}
+                <div class="data">
+                    <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
+                        <thead class="thead-dark">
+                            <tr class="nk-tb-item nk-tb-head">
+                                <th class="nk-tb-col">Id </th>
+                                <th class="nk-tb-col tb-col-mb">Note</th>
+                                {{-- <th class="nk-tb-col tb-col-lg">Actions</th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($ordreNotes as $ordreNote)
+                            <tr class="nk-tb-item" id="target_{{ $ordreNote->id }}">
+                                <td class="nk-tb-col">
+                                    <div class="user-info">
+                                        <span class="tb-lead"><span
+                                                class="dot dot-success d-md-none ml-1"></span>{{$ordreNote->id}}</span>
+                                    </div>
+                                </td>
+                                <td class="nk-tb-col tb-col-mb">
+                                    <span class="tb-amount"> {{$ordreNote->note}}</span>
+                                </td>
+
+                                {{-- <td class="nk-tb-col tb-col-md">
+                                    <button type="button" class="btn btn-dim btn-primary "
+                                        data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button>
+                                <button type="button" class="btn btn-dim btn-primary "
+                                    data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-trash"></i></button>
+                                </td> --}}
+                            </tr><!-- .nk-tb-item  -->
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- .card-inner -->
+        </div>
+        <!-- .nk-ecwg -->
+    </div>
+    <!-- .card -->
 </div>
 
 
@@ -190,7 +362,7 @@
             </div>
             <form action="{{ route('orders.index') }}" id="orderStatus" class="form-validate is-alter" method="POST">
                 @method('put')
-            <div class="modal-body">
+                <div class="modal-body">
                     @csrf
                     <div class="form-group">
                         <label for="filter By Status" class="mb-0">Order Stataus</label>
@@ -205,12 +377,12 @@
                             <option value="failed">Failed</option>
                         </select>
                     </div>
-            </div>
-            <div class="modal-footer bg-light">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
                 </div>
-            </div>
+                <div class="modal-footer bg-light">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -245,41 +417,70 @@
     </div>
 </div>
 
-@endsection @section('script')
+@endsection
+
+@section('script')
 <script>
     $(document).ready(function () {
 
-
+        calculateTotal();
         $(".add").click(function () {
             $quantity = $(this).prev().val(+$(this).prev().val() + 1);
-            
-            if($('.ship_quantity').text() > $quantity.val())
-            {
+
+            if ($('.ship_quantity').text() > $quantity.val()) {
                 $('.quantity').css("border", "1px solid yellow");
             }
-             if($('.ship_quantity').text() ==  $quantity.val()){
-                 $('.quantity').css("border", "1px solid green");
-             }
-             if($('.ship_quantity').text() <  $quantity.val()){
-                 $('.quantity').css("border", "1px solid red");
-             }
-            
+            if ($('.ship_quantity').text() == $quantity.val()) {
+                $('.quantity').css("border", "1px solid green");
+                $('.pack_status').html('Packed').css({
+                    "background-color": "green",
+                    "color": 'white'
+                });
 
-           
+            }
+            if ($('.ship_quantity').text() < $quantity.val()) {
+                $('.quantity').css("border", "1px solid red");
+            }
+
+
+
 
         });
         $(".sub").click(function () {
             if ($(this).next().val() > 1) {
-                $(this)
+                $quantity= $(this)
                     .next()
                     .val(+$(this).next().val() - 1);
-               
+
+                     if ($('.ship_quantity').text() > $quantity.val()) {
+                $('.quantity').css("border", "1px solid yellow");
+            }
+            if ($('.ship_quantity').text() == $quantity.val()) {
+                $('.quantity').css("border", "1px solid green");
+                $('.pack_status').html('Packed').css({
+                    "background-color": "green",
+                    "color": 'white'
+                });
+
+            }
+            if ($('.ship_quantity').text() < $quantity.val()) {
+                $('.quantity').css("border", "1px solid red");
+            }
+
             }
         });
 
+        function calculateTotal() {
+            let inputs = document.querySelectorAll("td  input.shipquantity");
+            let sum = 0;
+            for (let input of inputs) {
+                sum += +input.value;
+            }
+            let grandTotal = document.querySelector(".count");
+            // console.log(sum);
+            grandTotal.value = sum;
+        }
     });
-
-    
 
 </script>
 @endsection

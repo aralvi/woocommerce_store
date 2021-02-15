@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Models\Shop;
+use Codexshaper\WooCommerce\Facades\Note;
 use Illuminate\Http\Request;
 use Codexshaper\WooCommerce\Facades\Order;
 use Codexshaper\WooCommerce\Facades\Product;
@@ -87,8 +88,8 @@ class OrderController extends Controller
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $orders = Order::find($id);
                 $products = Product::all();
-                
-                return view('admin.orders.show', compact('orders', 'products'));
+                $ordreNotes = Note::all($id);
+                return view('admin.orders.show', compact('orders', 'products', 'ordreNotes'));
             } else {
                 return view('admin.orders.index')->with('error', 'please configure your store settings!');
             }
