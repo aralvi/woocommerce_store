@@ -5,7 +5,7 @@
             <div class="card-inner">
                 {{-- card header section --}}
                 <div class="card-title-group">
-                    
+
                 </div>
                 {{-- card header section end --}}
                 <div class="data">
@@ -72,6 +72,16 @@
                     </tfoot>
                     </table>
                 </div> --}}
+                <div class="col-md-12 d-flex justify-content-end mb-2">
+                    <div class="btn-group" aria-label="Basic example">
+                        <button type="button" class="btn btn-dim btn-primary ml-1 order_status"  data-orderId="{{ $orders['id'] }}">Change Order status</button>
+                        <button type="button" class="btn btn-dim btn-primary ml-1 orderNote" data-orderId="{{ $orders['id'] }}">Add Note</button>
+                        <form action="{{ route('ordernotes.index') }}" method="get" class="ml-1">
+                                    <input type="hidden" name="order_id" value="{{ $orders['id'] }}">
+                                    <button type="subbmit" class="btn btn-dim btn-primary" >view Note</button>
+                                    </form>
+                    </div>
+                </div>
                 <table class=" datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
@@ -166,8 +176,71 @@
 </div>
 
 
-
-
+<div class="modal fade zoom" tabindex="-1" id="modalForm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Order Status</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <form action="{{ route('orders.index') }}" id="orderStatus" class="form-validate is-alter" method="POST">
+                @method('put')
+            <div class="modal-body">
+                    @csrf
+                    <div class="form-group">
+                        <label for="filter By Status" class="mb-0">Order Stataus</label>
+                        <select id="order_status" name="order_status" class="form-control form-select" data-search="on">
+                            <option disabled selected>Choose Status</option>
+                            <option value="pending">Pending payment</option>
+                            <option value="processing">Processing</option>
+                            <option value="on-hold">On hold</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="refunded">Refunded</option>
+                            <option value="failed">Failed</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade zoom" tabindex="-1" id="OrderNoteModalForm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Order Note</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <form action="{{ route('ordernotes.store') }}" class="form-validate is-alter" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label" for="ordernote">Order Note</label>
+                        <div class="form-control-wrap">
+                            <input type="hidden" name="order_id" value="" id="order_id">
+                            <input type="text" class="form-control" name="order_note" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @endsection @section('script')
 <script>

@@ -35,7 +35,6 @@ class OrderController extends Controller
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $orders = Order::all();
-
                 return view('admin.orders.index', compact('orders', 'shops', 'setting'));
             } else {
                 session()->now('error', 'please configure your store settings!');

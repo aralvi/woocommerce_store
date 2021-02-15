@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="form-label-group">
-                                            <label class="form-label" for="password">Passcode</label>
+                                            <label class="form-label" for="password">Password</label>
                                             <a class="link link-primary link-sm" href="{{ route('password.request') }}">Forgot Code?</a>
                                         </div>
                                         <div class="form-control-wrap">
