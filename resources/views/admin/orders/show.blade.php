@@ -72,10 +72,13 @@
                     </tfoot>
                     </table>
                 </div> --}}
-                <div class="col-md-12 d-flex justify-content-end mb-2">
+                <div class="col-md-12 d-flex justify-content-between mb-2 p-0">
+                    <div class="">
+                        <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode">
+                    </div>
                     <div class="btn-group" aria-label="Basic example">
-                        <button type="button" class="btn btn-dim btn-primary ml-1 order_status"  data-orderId="{{ $orders['id'] }}">Change Order status</button>
-                        <button type="button" class="btn btn-dim btn-primary ml-1 orderNote" data-orderId="{{ $orders['id'] }}">Add Note</button>
+                        <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 order_status"  data-orderId="{{ $orders['id'] }}">Change Order status</button>
+                        <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote" data-orderId="{{ $orders['id'] }}">Add Note</button>
                         <form action="{{ route('ordernotes.index') }}" method="get" class="ml-1">
                                     <input type="hidden" name="order_id" value="{{ $orders['id'] }}">
                                     <button type="subbmit" class="btn btn-dim btn-primary" >view Note</button>
@@ -92,11 +95,11 @@
                             </th>
                             <th class="nk-tb-col ">Image</th>
                             <th class="nk-tb-col tb-col-mb ">Qty to ship</th>
-                            <th class="nk-tb-col tb-col-md "><button class="border-0">-</button> Qty <button
-                                    class="border-0">+</button></th>
+                            <th class="nk-tb-col tb-col-md "><button class="border-0 btn btn-sm btn-primary btn-dim">-</button> Qty <button
+                                    class="border-0 btn btn-sm btn-primary btn-dim">+</button></th>
                             <th class="nk-tb-col tb-col-lg ">Sku</th>
                             <th class="nk-tb-col tb-col-lg ">supplier</th>
-                            <th class="nk-tb-col tb-col-md ">Barcode</th>
+                            {{-- <th class="nk-tb-col tb-col-md ">Barcode</th> --}}
                             <th class="nk-tb-col tb-col-md ">Product Name</th>
                             <th class="nk-tb-col tb-col-md ">Scan status</th>
 
@@ -124,15 +127,15 @@
                                 </div>
                             </td>
                             <td class="nk-tb-col tb-col-mb">
-                                <span class="tb-amount">{{ $product->quantity }}</span>
+                                <span class="tb-amount ship_quantity">{{ $product->quantity }}</span>
                             </td>
-                            <td>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <button type="button" id="sub" class="sub border">--</button>
-                                    <button type="button" id="sub" class="sub border">-</button>
+                            <td class="td_quantity">
+                                <div class="d-flex justify-content-between align-items-center btn-group">
+                                    <button type="button" id="sub" class="sub border btn btn-sm btn-primary btn-dim">--</button>
+                                    <button type="button" id="sub" class="sub border btn btn-sm btn-primary btn-dim">-</button>
                                     <input type="number" id="1" value="0" min="0" class="quantity" />
-                                    <button type="button" id="add" class="add border">+</button>
-                                    <button type="button" id="add" class="add border">++</button>
+                                    <button type="button" id="add" class="add border btn btn-sm btn-primary btn-dim">+</button>
+                                    <button type="button" id="add" class="add border btn btn-sm btn-primary btn-dim">++</button>
                                 </div>
                             </td>
                             <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
@@ -140,9 +143,9 @@
                             </td>
                             <td class="nk-tb-col tb-col-lg">
                             </td>
-                            <td class="nk-tb-col tb-col-lg">
+                            {{-- <td class="nk-tb-col tb-col-lg">
                                 <input type="text" name="barcode" class="form-control">
-                            </td>
+                            </td> --}}
                             <td class="nk-tb-col tb-col-lg">
                                 {{ $product->name }}
                             </td>
@@ -163,7 +166,7 @@
                         <th colspan="3" class="text-right pt-3">Total Weight</th>
                         <td><input type="number" name="" id="" class="form-control" /></td>
                         <th colspan="3" class="text-right pt-3">Product count</th>
-                        <td colspan="2"><input type="number" name="" id="" class="form-control count" /></td>
+                        <td colspan="2"><input type="number" name="count" value="" id="" class="form-control count" readonly/></td>
                     </tfoot>
                 </table>
             </div>
@@ -246,24 +249,23 @@
 <script>
     $(document).ready(function () {
 
-        calculateTotal();
 
         $(".add").click(function () {
-            $(this)
-                .prev()
-                .val(+$(this).prev().val() + 1);
-
-            let inputs = document.querySelectorAll("td  input.quantity");
-
-            let sum = 0;
-            for (let input of inputs) {
-                sum += +input.value;
+            $quantity = $(this).prev().val(+$(this).prev().val() + 1);
+            
+            if($('.ship_quantity').text() > $quantity.val())
+            {
+                $('.quantity').css("border", "1px solid yellow");
             }
+             if($('.ship_quantity').text() ==  $quantity.val()){
+                 $('.quantity').css("border", "1px solid green");
+             }
+             if($('.ship_quantity').text() <  $quantity.val()){
+                 $('.quantity').css("border", "1px solid red");
+             }
+            
 
-            let grandTotal = document.querySelector(".count");
-
-            // console.log(sum);
-            grandTotal.value = sum;
+           
 
         });
         $(".sub").click(function () {
@@ -271,36 +273,13 @@
                 $(this)
                     .next()
                     .val(+$(this).next().val() - 1);
-                let inputs = document.querySelectorAll("td  input.quantity");
-
-                let sum = 0;
-                for (let input of inputs) {
-                    sum += +input.value;
-                }
-
-                let grandTotal = document.querySelector(".count");
-
-                // console.log(sum);
-                grandTotal.value = sum;
-
+               
             }
         });
 
     });
 
-    function calculateTotal() {
-        let inputs = document.querySelectorAll("td  input.quantity");
-
-        let sum = 0;
-        for (let input of inputs) {
-            sum += +input.value;
-        }
-
-        let grandTotal = document.querySelector(".count");
-
-        // console.log(sum);
-        grandTotal.value = sum;
-    }
+    
 
 </script>
 @endsection

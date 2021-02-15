@@ -87,6 +87,7 @@ class OrderController extends Controller
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $orders = Order::find($id);
                 $products = Product::all();
+                
                 return view('admin.orders.show', compact('orders', 'products'));
             } else {
                 return view('admin.orders.index')->with('error', 'please configure your store settings!');
