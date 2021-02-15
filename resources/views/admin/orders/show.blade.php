@@ -119,14 +119,13 @@
 
                         <tr class="nk-tb-item">
                             <td class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
                                     {{ $product->product_id }}
-                                </div>
                             </td>
                             <td class="nk-tb-col">
                                 <div class="user-info">
                                     @foreach ($products as $item)
                                     @if ($product->product_id == $item->id)
+                                    
                                     @if (count($item->images) < 0) <img src="{{ $item->images[0]->src }}" alt=""
                                         width="60" height="60">
                                         @endif

@@ -30,6 +30,7 @@ class ProductController extends Controller
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $products = Product::all();
+                
                 return view('admin.products.index', compact('products', 'shops', 'setting'));
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');

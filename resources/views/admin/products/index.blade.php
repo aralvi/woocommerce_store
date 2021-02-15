@@ -1,4 +1,95 @@
-@extends('layouts.admin') @section('title','Products') @section('page-title','Product Lists') @section('content')
+@extends('layouts.admin')
+@section('style')
+    <style>
+  
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {  
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)} 
+  to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+  from {transform:scale(0)} 
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 70px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+    </style>
+@endsection
+@section('title','Products') @section('page-title','Product Lists') @section('content')
 <div class="col-xxl-12 col-sm-12">
     <div class="card">
         <div class="nk-ecwg nk-ecwg6">
@@ -70,7 +161,7 @@
                                 <th class="nk-tb-col">Name </th>
                                 <th class="nk-tb-col tb-col-mb">Sku</th>
                                 <th class="nk-tb-col tb-col-md">Barcode</th>
-                                <th class="nk-tb-col tb-col-lg">QTY</th>
+                                <th class="nk-tb-col tb-col-lg">Stock Status</th>
                                 <th class="nk-tb-col tb-col-md">Action</th>
                                 
                             </tr>
@@ -88,16 +179,22 @@
                                         </div>
                                 </td>
                                 <td class="nk-tb-col tb-col-mb">
-                                    <div class="user-info">
-                                    
-                                    @if (count($product->images) <> 0) <img src="{{ $product->images[0]->src }}" alt=""
+                                    @if (count($product->images) <> 0) <img id="myImg"  alt="Snow" style="width:100%;max-width:300px" src="{{ $product->images[0]->src }}" alt=""
                                         width="60" height="60">
                                         @endif
+
+                                    <!-- The Modal -->
+                                    <div id="myModal" class="modal">
+                                    <span class="close">&times;</span>
+                                    <img class="modal-content" id="img01">
+                                    <div id="caption"></div>
+                                    </div>
+                                    
+                                    
                                        
-                                </div>
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
-                                    <span>{{ $product->name }}</span>
+                                    <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a>
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
                                     {{ $product->sku }}
@@ -106,21 +203,26 @@
                                     <input type="text" name="barcode" class="form-control">
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
-                                     <div class="d-flex justify-content-center align-items-center">
-                                    <button type="button" id="sub" class="sub border">--</button>
-                                    <button type="button" id="sub" class="sub border">-</button>
-                                    <input type="number" id="1" value="0" min="0" class="quantity" />
-                                    <button type="button" id="add" class="add border">+</button>
-                                    <button type="button" id="add" class="add border">++</button>
-                                </div>
+                                    @if ($product->stock_status == 'instock')
+                                        <p class="text-success">
+
+                                            {{ $product->stock_status }}
+                                        </p>
+                                        @else
+                                        <p class="text-danger">
+
+                                            {{ $product->stock_status }}
+                                        </p>
+                                        
+                                    @endif
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
                                    <a class="btn btn-dim btn-sm btn-primary" href="{{ route('products.show',$product->id) }}"><i
                                             class="icon ni ni-eye"></i></a>
-                                            <button type="button" class="btn btn-sm btn-dim btn-primary editProduct"    
+                                            {{-- <button type="button" class="btn btn-sm btn-dim btn-primary editProduct"    
                                         data-productId="{{ $product->id }}" data-productPrice="{{ $product->regular_price }}" data-salePrice="{{ $product->sale_price }}"><i class="icon ni ni-pen"></i></button>
                                             <button type="button" class="btn btn-sm btn-dim btn-primary deleteProduct"
-                                        data-productId="{{ $product->id }}" d><i class="icon ni ni-trash"></i></button>
+                                        data-productId="{{ $product->id }}" d><i class="icon ni ni-trash"></i></button> --}}
                                 </td>
                                 
                             </tr><!-- .nk-tb-item  -->
@@ -180,31 +282,10 @@
 <script>
     $(document).ready(function () {
 
-
-        $(".add").click(function () {
-            $(this)
-                .prev()
-                .val(+$(this).prev().val() + 1);
-
-            
-
-        });
-        $(".sub").click(function () {
-            if ($(this).next().val() > 1) {
-                $(this)
-                    .next()
-                    .val(+$(this).next().val() - 1);
-                let inputs = document.querySelectorAll("td  input.quantity");
-            }
-        });
-
-    });
-
      $('#stores').on('change', function (e) {
         var store_url = $(this).val();
         var key = $(this).children("option:selected").attr('data-key');
         var secret = $(this).children("option:selected").attr('data-secret');
-
         $.ajax({
             type: "post",
             url: "{{ route('product.store')}}",
@@ -220,7 +301,29 @@
                 $('#product_table').html(data);
             },
         });
+    });
 
+
+    // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById("myImg");
+var modalImg = document.getElementById("img01");
+// var captionText = document.getElementById("caption");
+img.onclick = function(){
+  modal.style.display = "block";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+  modal.style.display = "none";
+}
     });
   
 </script>
