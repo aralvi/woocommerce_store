@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use Codexshaper\WooCommerce\Facades\Product;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class ProductController extends Controller
 {
@@ -15,8 +19,26 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return response($products);
+        $settingExist = Setting::where('user_id', '1')->orWhere('user_id', '1')->exists();
+        if ($settingExist) {
+            $setting = Setting::where('user_id', '1')->orWhere('user_id', '1')->first();
+            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+            if ($shopExist) {
+                $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                $shops = Shop::all();
+                Config::set('woocommerce.store_url', $shopDefault->store_url);
+                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                $products = Product::all();
+                return response($products);
+            } else {
+                return view('admin.products.index')->with('error', 'please configure your store settings!');
+            }
+        } else {
+            session()->now('error', 'please configure your default settings for store and order status!');
+            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
+        }
+        
     }
 
     /**
