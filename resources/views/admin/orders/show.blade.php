@@ -85,6 +85,7 @@
                         <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode">
                     </div>
                     <div class="btn-group" aria-label="Basic example">
+                        <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit" }}" class="btn btn-dim btn-primary"><i class="icon ni ni-eye"> Woocommerce</i></a>
                         <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 order_status"
                             data-orderId="{{ $orders['id'] }}">Change Order status</button>
                         <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote"
@@ -107,7 +108,7 @@
                                     class="border-0 btn btn-sm btn-primary btn-dim">+</button></th>
                             <th class="nk-tb-col tb-col-lg ">Sku</th>
                             <th class="nk-tb-col tb-col-lg ">supplier</th>
-                            {{-- <th class="nk-tb-col tb-col-md ">Barcode</th> --}}
+                            <th class="nk-tb-col tb-col-md ">Barcode</th>
                             <th class="nk-tb-col tb-col-md ">Product Name</th>
                             <th class="nk-tb-col tb-col-md ">Scan status</th>
 
@@ -139,7 +140,7 @@
                                     value="{{ $product->quantity }}">
                             </td>
                             <td class="td_quantity nk-tb-col tb-col-mb">
-                                <div class="d-flex justify-content-between align-items-center btn-group">
+                                <div class="d-flex justify-content-between align-items-center btn-group div_quantity">
                                     <button type="button" id="sub"
                                         class="sub border btn btn-sm btn-primary btn-dim">--</button>
                                     <button type="button" id="sub"
@@ -156,9 +157,9 @@
                             </td>
                             <td class="nk-tb-col tb-col-lg">
                             </td>
-                            {{-- <td class="nk-tb-col tb-col-lg">
-                                <input type="text" name="barcode" class="form-control">
-                            </td> --}}
+                            <td class="nk-tb-col tb-col-lg">
+                                <input type="text" name="barcode" value="12313{{ $key }}" class="form-control product_barcode" readonly>
+                            </td>
                             <td class="nk-tb-col tb-col-lg">
                                 {{ $product->name }}
                             </td>
@@ -423,51 +424,44 @@
     $(document).ready(function () {
 
         calculateTotal();
-        $(".add").click(function () {
-            $quantity = $(this).prev().val(+$(this).prev().val() + 1);
-
-            if ($('.ship_quantity').text() > $quantity.val()) {
-                $('.quantity').css("border", "1px solid yellow");
+        $(document.body).on("click", "button.add", function () {
+             $quantity = $(this).prev().val(+$(this).prev().val() + 1);
+             
+            $ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
+            $status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
+            if ($ship_quantity > $quantity.val()) {
+                $quantity.css("border", "1px solid yellow");
             }
-            if ($('.ship_quantity').text() == $quantity.val()) {
-                $('.quantity').css("border", "1px solid green");
-                $('.pack_status').html('Packed').css({
-                    "background-color": "green",
-                    "color": 'white'
-                });
+            if ($ship_quantity == $quantity.val()) {
+                $quantity.css("border", "1px solid green");
+                $status.html('Packed').css({"background-color": "green","color": 'white','border-radius':'10px'});
 
             }
-            if ($('.ship_quantity').text() < $quantity.val()) {
-                $('.quantity').css("border", "1px solid red");
+            if ($ship_quantity < $quantity.val()) {
+                $quantity.css("border", "1px solid red");
             }
-
-
-
-
         });
-        $(".sub").click(function () {
-            if ($(this).next().val() > 1) {
-                $quantity= $(this)
-                    .next()
-                    .val(+$(this).next().val() - 1);
+        $(document.body).on("click", "button.sub", function () {
+             if ($(this).next().val() > 1) {
+                $quantity = $(this).next().val(+$(this).next().val() - 1);
+                $ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
+                $status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
+                 if ($ship_quantity > $quantity.val()) {
+                    $quantity.css("border", "1px solid yellow");
+                }
+                if ($ship_quantity == $quantity.val()) {
+                    $quantity.css("border", "1px solid green");
+                    $status.html('Packed').css({"background-color": "green","color": 'white','border-radius':'10px' });
 
-                     if ($('.ship_quantity').text() > $quantity.val()) {
-                $('.quantity').css("border", "1px solid yellow");
-            }
-            if ($('.ship_quantity').text() == $quantity.val()) {
-                $('.quantity').css("border", "1px solid green");
-                $('.pack_status').html('Packed').css({
-                    "background-color": "green",
-                    "color": 'white'
-                });
-
-            }
-            if ($('.ship_quantity').text() < $quantity.val()) {
-                $('.quantity').css("border", "1px solid red");
-            }
+                }
+                if ($ship_quantity < $quantity.val()) {
+                    $quantity.css("border", "1px solid red");
+                }
 
             }
         });
+        
+        
 
         function calculateTotal() {
             let inputs = document.querySelectorAll("td  input.shipquantity");
@@ -479,6 +473,30 @@
             // console.log(sum);
             grandTotal.value = sum;
         }
+
+
+        $("#barcode").change(function(){
+            $barcode = $(this).val();
+            $('.product_barcode[value="'+$barcode+'"]').each(function () {
+                $product_barcode =  $('.product_barcode[value="'+$barcode+'"]');
+                $quantity = $product_barcode.parent('td').siblings('td.td_quantity').children('div.div_quantity').children('input.quantity').val(1);
+                $ship_quantity = $product_barcode.parent('td').siblings('td').children('.ship_quantity').text();
+                $status = $product_barcode.parent('td').siblings('td').children('.pack_status');
+                 if ($ship_quantity > $quantity.val()) {
+                    $quantity.css("border", "1px solid yellow");
+                }
+                if ($ship_quantity == $quantity.val()) {
+                    $quantity.css("border", "1px solid green");
+                    $status.html('Packed').css({"background-color": "green","color": 'white','border-radius':'10px' });
+
+                }
+                if ($ship_quantity < $quantity.val()) {
+                    $quantity.css("border", "1px solid red");
+                }
+
+            });
+            
+  });
     });
 
 </script>
