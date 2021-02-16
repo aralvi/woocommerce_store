@@ -35,6 +35,7 @@
 
                                     </select>
                                 </div>
+                                
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -56,8 +57,10 @@
                                     type="text" placeholder="search order status" />
                             </div> --}}
                         </div>
-                        <div class="col-md-4">
-
+                        <div class="col-md-4 d-flex justify-content-end align-items-end">
+                            <div class="btn-group">
+                                <button class="btn btn-md btn-dim btn-primary order_status" onclick="getOrderList();" data-toggle="modal" data-target="#modalForm">Change Status for All</button>
+                            </div>
 
                         </div>
                         <div class="col-md-2">
@@ -88,50 +91,12 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="data-group table-responsive ">
-                        <table class="table table-hover table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">
-                                        <input type="checkbox" name="" class="order_check" id="orders_check">
-                                    </th>
-                                    <th scope="col">Order# </th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Tracking</th>
-                                    <th scope="col">Itmes</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="order_table">
-                                @foreach ($orders as $order)
-
-                                <tr>
-                                    <td><input type="checkbox" name="" class="order_check"></td>
-                                    <td>{{ $order->id }}</td>
-                    <td>{{ $order->status }}</td>
-                    <td class="w-296">
-                        {{$order->date_created}}
-                    </td>
-                    <td>{{ $order->total }}</td>
-                    <td></td>
-                    <td>{{ count($order->line_items) }}</td>
-                    <td><a href="{{ route('orders.show',$order->id) }}"><i class="icon ni ni-eye"></i></a> </td>
-                    </tr>
-                    @endforeach
-
-                    </tbody>
-
-                    </table>
-                </div> --}}
+                    
                 <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
                     <thead class="thead-dark">
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" name="" class="order_check " id="orders_check">
-                                </div>
+                                    <input type="checkbox" name=""    class=" " id="orders_check">
                             </th>
                             <th class="nk-tb-col">Order# </th>
                             <th class="nk-tb-col">Customer </th>
@@ -152,9 +117,7 @@
                         @if ( $setting->order_status == 'all')
                             <tr class="nk-tb-item">
                             <td class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" name="" class="order_check ">
-                                </div>
+                                    <input type="checkbox" name=""  class="order_check " value="{{ $order->id }}">
                             </td>
                             <td class="nk-tb-col">
                                 <div class="user-info">
@@ -194,12 +157,7 @@
                                 </div>
                             </td> --}}
                             <td class="nk-tb-col tb-col-md">
-                                {{-- <form action="{{ route('orders.show',$order->id) }}" method="post">
-                                <input type="hidden" name="store_url" class="store_url">
-                                <input type="hidden" name="consumer_key" class="consumer_key">
-                                <input type="hidden" name="consumer_secret" class="consumer_secret">
-                                <button type="submit" class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></button>
-                                </form> --}}
+                                
                                 <a href="{{ route('orders.show',$order->id) }}" class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a>
                                 {{-- <button class="btn btn-sm btn-dim btn-primary order_status"
                                     data-orderId="{{ $order->id }}"><i class="icon ni ni-pen"></i></button>
@@ -300,13 +258,12 @@
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
-            <form action="{{ route('orders.index') }}" id="orderStatus" class="form-validate is-alter" method="POST">
-                @method('put')
+            <form action="{{ route('order.changestatus') }}" id="orderStatus" class="form-validate is-alter" method="POST">
             <div class="modal-body">
                     @csrf
                     <div class="form-group">
                         <label for="filter By Status" class="mb-0">Order Stataus</label>
-                        <select id="order_status" name="order_status" class="form-control form-select" data-search="on">
+                        <select id="change_order_status" name="order_status" class="form-control form-select" data-search="on">
                             <option disabled selected>Choose Status</option>
                             <option value="pending">Pending payment</option>
                             <option value="processing">Processing</option>
@@ -316,11 +273,12 @@
                             <option value="refunded">Refunded</option>
                             <option value="failed">Failed</option>
                         </select>
+                        <label id='lblStatus' style="display: none;"></label>
                     </div>
             </div>
             <div class="modal-footer bg-light">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
+                    <button type="submit" class="btn btn-lg btn-primary" id="update_Status">Save Informations</button>
                 </div>
             </div>
             </form>
@@ -360,15 +318,51 @@
 </div>
 @endsection @section('script')
 <script>
+    function getOrderList()
+    {
+        $('#orderStatus').find('#order_list').remove();
+        var cars = [];
+        $.each($('.order_check'),function(){
+        if($(this).is(':checked'))
+        {
+            cars.push($(this).val());
+
+        }
+    });
+        let ht = '<input type="hidden" id="order_list" name="order_list" value="'+cars+'"/>';
+        $('#orderStatus').append(ht);
+    }
+    $('#update_Status').on('click',function(){
+        if($('#order_list').val() == ''){
+            $('#lblStatus').html('Please check Atleast one order ').css({'display':'block','color':'red'});
+            return false
+        }else{
+            $('#lblStatus').css({'display':'none'});
+        }
+        if($('#change_order_status').val() == null){
+            $('#lblStatus').html('Please select  atleast one option ').css({'display':'block','color':'red'});
+            return false
+        }else{
+            $('#lblStatus').css({'display':'none'});
+        }
+    })
     $("#orders_check").click(function () {
+        var cars = [];
         if ($(this).is(':checked')) {
-
             $('.order_check').attr('checked', 'checked');
-        } else {
+            $.each($('.order_check'),function(){
+            if($(this).is(':checked'))
+            {
+                cars.push($(this).val());
 
+            }
+            
+        });
+        } else {
             $('.order_check').removeAttr('checked', 'checked');
 
         }
+        console.log(cars);
     });
     $("#order_status").on('change', function () {
         $status = $(this).val();

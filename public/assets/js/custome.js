@@ -94,13 +94,13 @@ $('#deleteModalBtn').on('click', function() {
 });
 
 // open order status change modal
-$('.order_status').on('click', function() {
-    var orderID = $(this).attr('data-orderId');
-    url = $('#orderStatus').attr('action')
-    url = url + "/" + orderID;
-    $('#orderStatus').attr('action', url);
-    $('#modalForm').modal('toggle');
-});
+// $('.order_status').on('click', function() {
+//     var orderID = $(this).attr('data-orderId');
+//     url = $('#orderStatus').attr('action')
+//     url = url + "/" + orderID;
+//     $('#orderStatus').attr('action', url);
+//     $('#modalForm').modal('toggle');
+// });
 
 
 
