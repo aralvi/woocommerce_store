@@ -187,7 +187,7 @@
 <!-- .card -->
 </div>
 
-<div class="col-md-12 d-flex justify-content-between my-5">
+<div class="col-md-12 d-flex justify-content-between my-5 px-0">
     <div class="col-md-6  h-25">
         <div class="card">
             <div class="nk-ecwg nk-ecwg6">
