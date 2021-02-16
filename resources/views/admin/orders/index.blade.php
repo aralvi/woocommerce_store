@@ -19,20 +19,17 @@
                                         data-search="on">
                                         <option value="default_option">Choose store</option>
                                         @if (isset($shops))
-                                            
-                                        @foreach ($shops as $shop)
-                                        @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin' || Auth::user()->parent_id == $shop->user_id)
+                                            @foreach ($shops as $shop)
+                                                @if (Auth::user()->id == $shop->user_id || Auth::user()->role == 'SuperAdmin' || Auth::user()->parent_id == $shop->user_id)
 
-                                        <option class="text-capitalize" value="{{ $shop->store_url }}"
-                                            data-key="{{ $shop->consumer_key }}"
-                                            data-secret="{{ $shop->consumer_secret }}"
-                                            {{ ($shop->id == $setting->shop_id) ? "selected":'' }}>{{ $shop->name }}
-                                        </option>
+                                                    <option class="text-capitalize" value="{{ $shop->store_url }}"
+                                                        data-key="{{ $shop->consumer_key }}"
+                                                        data-secret="{{ $shop->consumer_secret }}"
+                                                        {{ ($shop->id == $setting->shop_id) ? "selected":'' }}>{{ $shop->name }}
+                                                    </option>
+                                                @endif
+                                            @endforeach
                                         @endif
-
-                                        @endforeach
-                                        @endif
-
                                     </select>
                                 </div>
                             </div>
@@ -139,7 +136,8 @@
                             <th class="nk-tb-col tb-col-md">Date</th>
                             <th class="nk-tb-col tb-col-lg">Total</th>
                             <th class="nk-tb-col tb-col-lg">Tracking</th>
-                            <th class="nk-tb-col tb-col-md">Itmes</th>
+                            <th class="nk-tb-col tb-col-md">Items</th>
+                            <th class="nk-tb-col tb-col-md">Create Shipment</th>
                             {{-- <th class="nk-tb-col tb-col-md">Curior</th> --}}
                             <th class="nk-tb-col tb-col-md">Action</th>
 
@@ -194,6 +192,9 @@
                                     </div>
                                 </div>
                             </td> --}}
+                            <td class="nk-tb-col tb-col-md">
+                                <a href="{{ route('admin.createshipping',$order->id) }}"  class="btn btn-sm btn-dim btn-primary">Create</a>
+                            </td>
                             <td class="nk-tb-col tb-col-md">
                                 <a href="{{ route('orders.show',$order->id) }}" class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a>
                                 {{-- <button class="btn btn-sm btn-dim btn-primary order_status"

@@ -36,7 +36,6 @@ class OrderController extends Controller
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $orders = Order::all();
-                // dd($orders);
                 return view('admin.orders.index', compact('orders', 'shops', 'setting'));
             } else {
                 session()->now('error', 'please configure your store settings!');
@@ -176,7 +175,6 @@ class OrderController extends Controller
                 return ['shops'=>$shops,'setting'=>$setting];
             }
         }
-
         return [];
     }
 
@@ -259,11 +257,16 @@ class OrderController extends Controller
                 {
                     if($data->data->status==404)
                     {
-                        return back()->with('error', $data->message);
+                        echo $data->message;
+                        exit;
                     }
                 }
 
-                return back()->with('success', 'Shippment has been created');
+                echo "Shipping detail</br>";
+                echo "Tracking Id : ".$data->tracking_id."</br>";
+                echo "Tracking Provider : ".$data->tracking_provider."</br>";
+                echo "Tracking Number : ".$data->tracking_number."</br>";
+                echo "Shipped Date: ".$data->date_shipped."</br>";
                 
             }
         }        

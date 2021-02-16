@@ -33,4 +33,7 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::resource('users', 'Admin\addUserController');
     Route::resource('stores', 'Admin\ShopController');
     Route::resource('ordernotes', 'Admin\OrderNoteController');
+    Route::get('createshipping/{id}','Admin\OrderController@createShipping')->name('admin.createshipping');
+    Route::get('getshipping/{id}','Admin\OrderController@getShipping')->name('admin.getshipping');
+    Route::get('deleteshipping/{id}/{token}','Admin\OrderController@deleteShipping')->name('admin.deleteshipping');
 });
