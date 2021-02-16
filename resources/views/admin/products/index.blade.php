@@ -64,7 +64,7 @@
 }
 
 /* The Close Button */
-.close {
+#close {
   position: absolute;
   top: 70px;
   right: 35px;
@@ -74,8 +74,8 @@
   transition: 0.3s;
 }
 
-.close:hover,
-.close:focus {
+#close:hover,
+#close:focus {
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
@@ -183,12 +183,7 @@
                                         width="60" height="60">
                                         @endif
 
-                                    <!-- The Modal -->
-                                    <div id="myModal" class="modal">
-                                    <span class="close">&times;</span>
-                                    <img class="modal-content" id="img01">
-                                    <div id="caption"></div>
-                                    </div>
+                                   
                                     
                                     
                                        
@@ -276,6 +271,12 @@
         </div>
     </div>
 </div>
+ <!-- The Modal -->
+                                    <div id="myModal" class="modal">
+                                    <span id="close">&times;</span>
+                                    <img class="modal-content" id="img01">
+                                    <div id="caption"></div>
+                                    </div>
 @endsection
 
 @section('script')
@@ -306,27 +307,17 @@
 $(document.body).on("click", "img.product_image", function () {
              // Get the modal
         var modal = document.getElementById("myModal");
-
-        // Get the image and insert it inside the modal - use its "alt" text as a caption
-        // var img = document.getElementById("myImg");
-        var img = $(this);
-        
         var modalImg = document.getElementById("img01");
-        // var captionText = document.getElementById("caption");
-        // img.onclick = function(){
         modal.style.display = "block";
         modalImg.src = $(this).attr('src');
-        // }
 
         // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
+        var span = document.getElementById("close");
 
         // When the user clicks on <span> (x), close the modal
         span.onclick = function() { 
         modal.style.display = "none";
         }
-
-
         });
 
     });
