@@ -195,6 +195,12 @@
                                 </div>
                             </td> --}}
                             <td class="nk-tb-col tb-col-md">
+                                {{-- <form action="{{ route('orders.show',$order->id) }}" method="post">
+                                <input type="hidden" name="store_url" class="store_url">
+                                <input type="hidden" name="consumer_key" class="consumer_key">
+                                <input type="hidden" name="consumer_secret" class="consumer_secret">
+                                <button type="submit" class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></button>
+                                </form> --}}
                                 <a href="{{ route('orders.show',$order->id) }}" class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a>
                                 {{-- <button class="btn btn-sm btn-dim btn-primary order_status"
                                     data-orderId="{{ $order->id }}"><i class="icon ni ni-pen"></i></button>
@@ -336,7 +342,6 @@
         var store_url = $(this).val();
         var key = $(this).children("option:selected").attr('data-key');
         var secret = $(this).children("option:selected").attr('data-secret');
-
         $.ajax({
             type: "post",
             url: "{{ route('order.store')}}",

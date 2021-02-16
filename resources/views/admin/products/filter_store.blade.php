@@ -43,8 +43,14 @@
                                     @endif
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
-                                   <a class="btn btn-dim btn-sm btn-primary" href="{{ route('products.show',$product->id) }}"><i
-                                            class="icon ni ni-eye"></i></a>
+                                    <form action="{{ route('products.show',$product->id) }}" >
+                                <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
+                                <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
+                                <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
+                                <button type="submit" class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></button>
+                                </form>
+                                   {{-- <a class="btn btn-dim btn-sm btn-primary" href="{{ route('products.show',$product->id) }}"><i --}}
+                                            {{-- class="icon ni ni-eye"></i></a> --}}
                                             {{-- <button type="button" class="btn btn-sm btn-dim btn-primary editProduct"    
                                         data-productId="{{ $product->id }}" data-productPrice="{{ $product->regular_price }}" data-salePrice="{{ $product->sale_price }}"><i class="icon ni ni-pen"></i></button>
                                             <button type="button" class="btn btn-sm btn-dim btn-primary deleteProduct"
