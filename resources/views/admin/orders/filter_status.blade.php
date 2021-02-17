@@ -4,9 +4,7 @@
 
                         <tr class="nk-tb-item">
                             <td class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
                                     <input type="checkbox" name="" class="order_check ">
-                                </div>
                             </td>
                             <td class="nk-tb-col">
                                 <div class="user-info">
