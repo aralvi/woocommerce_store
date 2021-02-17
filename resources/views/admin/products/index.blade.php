@@ -124,7 +124,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="" class="mb-0">Select Store</label>
-                                <div class="form-control-wrap">
+                                <div class="form-control-wrap select_store">
                                     <select class="form-select form-control form-control-lg" id="stores" name="store"
                                         data-search="on">
                                         <option value="default_option">Choose store</option>
@@ -175,81 +175,83 @@
 
                         </div>
                     </div>
+                    <div id="products_table">
 
-                    <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
-                        <thead class="thead-dark">
-                            <tr class="nk-tb-item nk-tb-head">
-                                <th class="nk-tb-col"># </th>
-                                <th class="nk-tb-col nk-tb-col-check">Image</th>
-                                <th class="nk-tb-col">Name </th>
-                                <th class="nk-tb-col tb-col-mb">Sku</th>
-                                <th class="nk-tb-col tb-col-md">Barcode</th>
-                                <th class="nk-tb-col tb-col-lg">Stock Status</th>
-                                <th class="nk-tb-col tb-col-md">Action</th>
-
-                            </tr>
-                        </thead>
-                        <tbody id="product_table">
-                            @if (isset($products))
-
-                            @foreach ($products['data'] as $product)
-
-                            <tr class="nk-tb-item">
-
-                                <td class="nk-tb-col">
-                                    <div class="user-info">
-                                        <span class="tb-lead">{{ $product->id }}<span
-                                                class="dot dot-success d-md-none ml-1"></span></span>
-                                    </div>
-                                </td>
-                                <td class="nk-tb-col tb-col-mb">
-                                    @if (count($product->images) <> 0) <img id="myImg" class="product_image" alt="Snow"
-                                            style="width:100%;max-width:300px" src="{{ $product->images[0]->src }}"
-                                            alt="" width="60" height="60">
+                        <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
+                            <thead class="thead-dark">
+                                <tr class="nk-tb-item nk-tb-head">
+                                    <th class="nk-tb-col"># </th>
+                                    <th class="nk-tb-col nk-tb-col-check">Image</th>
+                                    <th class="nk-tb-col">Name </th>
+                                    <th class="nk-tb-col tb-col-mb">Sku</th>
+                                    <th class="nk-tb-col tb-col-md">Barcode</th>
+                                    <th class="nk-tb-col tb-col-lg">Stock Status</th>
+                                    <th class="nk-tb-col tb-col-md">Action</th>
+    
+                                </tr>
+                            </thead>
+                            <tbody id="product_table">
+                                @if (isset($products))
+    
+                                @foreach ($products as $product)
+    
+                                <tr class="nk-tb-item">
+    
+                                    <td class="nk-tb-col">
+                                        <div class="user-info">
+                                            <span class="tb-lead">{{ $product->id }}<span
+                                                    class="dot dot-success d-md-none ml-1"></span></span>
+                                        </div>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-mb">
+                                        @if (count($product->images) <> 0) <img id="myImg" class="product_image" alt="Snow"
+                                                style="width:100%;max-width:300px" src="{{ $product->images[0]->src }}"
+                                                alt="" width="60" height="60">
+                                            @endif
+                                    </td>
+                                    <td class="nk-tb-col tb-col-md">
+                                        <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        {{ $product->sku }}
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <input type="text" name="barcode" class="form-control">
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        @if ($product->stock_status == 'instock')
+                                        <p class="text-success">
+    
+                                            {{ $product->stock_status }}
+                                        </p>
+                                        @else
+                                        <p class="text-danger">
+    
+                                            {{ $product->stock_status }}
+                                        </p>
+    
                                         @endif
-                                </td>
-                                <td class="nk-tb-col tb-col-md">
-                                    <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a>
-                                </td>
-                                <td class="nk-tb-col tb-col-lg">
-                                    {{ $product->sku }}
-                                </td>
-                                <td class="nk-tb-col tb-col-lg">
-                                    <input type="text" name="barcode" class="form-control">
-                                </td>
-                                <td class="nk-tb-col tb-col-lg">
-                                    @if ($product->stock_status == 'instock')
-                                    <p class="text-success">
-
-                                        {{ $product->stock_status }}
-                                    </p>
-                                    @else
-                                    <p class="text-danger">
-
-                                        {{ $product->stock_status }}
-                                    </p>
-
-                                    @endif
-                                </td>
-                                <td class="nk-tb-col tb-col-md">
-                                    <a class="btn btn-dim btn-sm btn-primary"
-                                        href="{{ route('products.show',$product->id) }}"><i
-                                            class="icon ni ni-eye"></i></a>
-                                    {{-- <button type="button" class="btn btn-sm btn-dim btn-primary editProduct"    
-                                        data-productId="{{ $product->id }}"
-                                    data-productPrice="{{ $product->regular_price }}"
-                                    data-salePrice="{{ $product->sale_price }}"><i class="icon ni ni-pen"></i></button>
-                                    <button type="button" class="btn btn-sm btn-dim btn-primary deleteProduct"
-                                        data-productId="{{ $product->id }}" d><i class="icon ni ni-trash"></i></button>
-                                    --}}
-                                </td>
-
-                            </tr><!-- .nk-tb-item  -->
-                            @endforeach
-                            @endif
-
-                        </tbody>
-                    </table>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-md">
+                                        <a class="btn btn-dim btn-sm btn-primary"
+                                            href="{{ route('products.show',$product->id) }}"><i
+                                                class="icon ni ni-eye"></i></a>
+                                        {{-- <button type="button" class="btn btn-sm btn-dim btn-primary editProduct"    
+                                            data-productId="{{ $product->id }}"
+                                        data-productPrice="{{ $product->regular_price }}"
+                                        data-salePrice="{{ $product->sale_price }}"><i class="icon ni ni-pen"></i></button>
+                                        <button type="button" class="btn btn-sm btn-dim btn-primary deleteProduct"
+                                            data-productId="{{ $product->id }}" d><i class="icon ni ni-trash"></i></button>
+                                        --}}
+                                    </td>
+    
+                                </tr><!-- .nk-tb-item  -->
+                                @endforeach
+                                @endif
+    
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <!-- .card-inner -->
@@ -322,8 +324,8 @@
                 },
 
                 success: function (data) {
-                    $('#product_table').empty();
-                    $('#product_table').html(data);
+                    $('#products_table').empty();
+                    $('#products_table').html(data);
                 },
             });
         });

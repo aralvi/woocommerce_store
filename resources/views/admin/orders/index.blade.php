@@ -385,8 +385,8 @@
                 _token: "{{ csrf_token() }}"
             },
             success: function (data) {
-                $('#order_table').empty();
-                $('#order_table').html(data);
+                $('#orders_table').empty();
+                $('#orders_table').html(data);
             }
         });
 

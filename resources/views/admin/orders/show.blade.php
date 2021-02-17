@@ -86,7 +86,7 @@
                     </div>
                     <div class="btn-group" aria-label="Basic example">
                         <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit" }}" class="btn btn-dim btn-primary"><i class="icon ni ni-eye"> Woocommerce</i></a>
-                        <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 order_status"
+                        <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status"
                             data-orderId="{{ $orders['id'] }}">Change Order status</button>
                         <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote"
                             data-orderId="{{ $orders['id'] }}">Add Note</button>
@@ -350,7 +350,7 @@
 </div>
 
 
-<div class="modal fade zoom" tabindex="-1" id="modalForm">
+<div class="modal fade zoom" tabindex="-1" id="OrderStatusmodalForm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -359,7 +359,7 @@
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
-            <form action="{{ route('orders.index') }}" id="orderStatus" class="form-validate is-alter" method="POST">
+            <form action="{{ route('orders.index') }}" id="singleorderStatus" class="form-validate is-alter" method="POST">
                 @method('put')
                 <div class="modal-body">
                     @csrf

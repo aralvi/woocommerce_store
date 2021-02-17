@@ -29,7 +29,14 @@ class ProductController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                $products = Product::paginate(10);
+                $options = [
+                    'per_page' => 100 // Or your desire number
+                ];
+                $products = Product::all($options);
+                // $per_page = 10; // Or your desire number
+                // $current_page = 1;
+                // $products = Product::paginate($per_page, $current_page);
+                // dd($products);
                 return view('admin.products.index', compact('products', 'shops', 'setting'));
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');
@@ -204,7 +211,10 @@ class ProductController extends Controller
         Config::set('woocommerce.store_url', $request->store_url);
         Config::set('woocommerce.consumer_key', $request->key);
         Config::set('woocommerce.consumer_secret', $request->secret);
-        $products = Product::all();
+        $options = [
+            'per_page' => 100 // Or your desire number
+        ];
+        $products = Product::all($options);
         return view('admin.products.filter_store', compact('products', 'store_url', 'key', 'secret'));
     }
 }
