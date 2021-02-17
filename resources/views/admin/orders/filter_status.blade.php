@@ -1,10 +1,32 @@
-  @if (isset($orders))
+  
+
+
+                        <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
+                    <thead class="thead-dark">
+                        <tr class="nk-tb-item nk-tb-head">
+                            <th class="nk-tb-col nk-tb-col-check">
+                                    <input type="checkbox" name=""    class=" " id="orders_check">
+                            </th>
+                            <th class="nk-tb-col">Order# </th>
+                            <th class="nk-tb-col">Customer </th>
+                            <th class="nk-tb-col tb-col-mb">Status</th>
+                            <th class="nk-tb-col tb-col-md">Date</th>
+                            <th class="nk-tb-col tb-col-lg">Total</th>
+                            <th class="nk-tb-col tb-col-lg">Tracking</th>
+                            <th class="nk-tb-col tb-col-md">Itmes</th>
+                            {{-- <th class="nk-tb-col tb-col-md">Curior</th> --}}
+                            <th class="nk-tb-col tb-col-md">Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="order_table">
+                        @if (isset($orders))
                             
                         @foreach ($orders as $order)
 
                         <tr class="nk-tb-item">
                             <td class="nk-tb-col nk-tb-col-check">
-                                    <input type="checkbox" name="" class="order_check ">
+                                    <input type="checkbox" name=""  class="order_check " value="{{ $order->id }}">
                             </td>
                             <td class="nk-tb-col">
                                 <div class="user-info">
@@ -61,3 +83,58 @@
                             </td>
                         </tr>
                         @endif
+
+                    </tbody>
+                </table>
+
+
+                <script>
+                    function getOrderList()
+    {
+        $('#orderStatus').find('#appended_section').remove();
+        var cars = [];
+        $.each($('.order_check'),function(){
+        if($(this).is(':checked'))
+        {
+            cars.push($(this).val());
+
+        }
+    });
+        var key = $('.consumer_key').val();
+        var store_url = $('.store_url').val();
+        var secret = $('.consumer_secret').val();
+        let ht = '<div id="appended_section"></div><input type="hidden" id="order_list" name="order_list" value="'+cars+'"/><input type="hidden" id="key" name="key" value="'+key+'"/><input type="hidden" id="store_url" name="store_url" value="'+store_url+'"/><input type="hidden" id="secret" name="secret" value="'+secret+'"/></div>';
+        $('#orderStatus').append(ht);
+    }
+    $('#update_Status').on('click',function(){
+        if($('#order_list').val() == ''){
+            $('#lblStatus').html('Please check Atleast one order ').css({'display':'block','color':'red'});
+            return false
+        }else{
+            $('#lblStatus').css({'display':'none'});
+        }
+        if($('#change_order_status').val() == null){
+            $('#lblStatus').html('Please select  atleast one option ').css({'display':'block','color':'red'});
+            return false
+        }else{
+            $('#lblStatus').css({'display':'none'});
+        }
+    })
+    $("#orders_check").click(function () {
+        var cars = [];
+        if ($(this).is(':checked')) {
+            $('.order_check').attr('checked', 'checked');
+            $.each($('.order_check'),function(){
+            if($(this).is(':checked'))
+            {
+                cars.push($(this).val());
+
+            }
+            
+        });
+        } else {
+            $('.order_check').removeAttr('checked', 'checked');
+
+        }
+    });
+                </script>

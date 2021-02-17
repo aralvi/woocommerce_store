@@ -250,9 +250,9 @@ class OrderController extends Controller
 
     public function changeStatus(Request $request)
     {
-        // dd($request->all());
-        
         $ids = explode(',',$request->order_list);
+        if ($request->key == 'undefined' && $request->secret == 'undefined' && $request->store_url == 'undefined') {
+
         $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         if ($settingExist) {
             $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
@@ -277,6 +277,22 @@ class OrderController extends Controller
             }
         } else {
             return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
+        }
+        }
+        else{
+            
+            Config::set('woocommerce.store_url', $request->store_url);
+            Config::set('woocommerce.consumer_key', $request->key);
+            Config::set('woocommerce.consumer_secret',$request->secret);
+            foreach ($ids as $id) {
+
+                $order_id = $id;
+                $data     = [
+                    'status' => $request->order_status,
+                ];
+                $order = Order::update($order_id, $data);
+            }
+            return back()->with('success', 'Order status has been updated');
         }
     }
 }
