@@ -16,8 +16,14 @@
                             </td>
                             <td class="nk-tb-col">
                                 <div class="user-info">
-                                    <a href="{{ route('orders.show',$order->id) }}" >{{ $order->billing->first_name. " ".  $order->billing->last_name }}
-                                        </a>
+                                    <form action="{{ route('orders.show',$order->id) }}" >
+                                <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
+                                <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
+                                <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
+                                <button type="submit" class="btn btn-dim text-primary text-left">{{ $order->billing->first_name. " ".  $order->billing->last_name }}</button>
+                                </form>
+                                    {{-- <a href="{{ route('orders.show',$order->id) }}" >{{ $order->billing->first_name. " ".  $order->billing->last_name }} --}}
+                                        {{-- </a> --}}
                                 </div>
                             </td>
                             <td class="nk-tb-col tb-col-mb">
@@ -47,4 +53,13 @@
 
                         </tr><!-- .nk-tb-item  -->
                         @endforeach
+                        
+                        <tr>
+                            <td>
+
+                                <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
+                                        <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
+                                        <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
+                            </td>
+                        </tr>
                         @endif

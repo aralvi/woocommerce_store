@@ -15,9 +15,9 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-
 class OrderController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +36,6 @@ class OrderController extends Controller
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $orders = Order::all();
-                // dd($orders);
                 return view('admin.orders.index', compact('orders', 'shops', 'setting'));
             } else {
                 session()->now('error', 'please configure your store settings!');
@@ -92,9 +91,8 @@ class OrderController extends Controller
                     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                     $orders = Order::find($id);
-                    $products = Product::all();
                     $ordreNotes = Note::all($id);
-                    return view('admin.orders.show', compact('orders', 'products', 'ordreNotes', 'store_url'));
+                    return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url'));
                 } else {
                     return view('admin.orders.index')->with('error', 'please configure your store settings!');
                 }
@@ -109,13 +107,11 @@ class OrderController extends Controller
             Config::set('woocommerce.consumer_key', $request->consumer_key);
             Config::set('woocommerce.consumer_secret', $request->consumer_secret);
             $orders = Order::find($id);
-            $products = Product::all();
             $ordreNotes = Note::all($id);
-            return view('admin.orders.show', compact('orders', 'products', 'ordreNotes', 'store_url'));
+            return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url'));
         }
         
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -175,57 +171,56 @@ class OrderController extends Controller
     {
         //
     }
-
-    // user store setting
-    private function userSetting($id)
-    {
-        $settingExist = Setting::where('user_id', $id)->exists();
-        if ($settingExist) {
-            $setting = Setting::where('user_id', $id)->first();
-            $shopExist = Shop::where('id', $setting->shop_id)->exists();
-            if ($shopExist) {
-                $shopDefault = Shop::where('id', $setting->shop_id)->first();
-                $shops = Shop::all();
-                Config::set('woocommerce.store_url', $shopDefault->store_url);
-                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
-                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                return ['shops'=>$shops,'setting'=>$setting];
-            }
-        }
-
-        return [];
-    }
-
-
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function filter($status)
+    public function filter(Request $request)
     {
-        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-        if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-            $shopExist = Shop::where('id', $setting->shop_id)->exists();
-            if ($shopExist) {
-                $shopDefault = Shop::where('id', $setting->shop_id)->first();
-                $shops = Shop::all();
-                Config::set('woocommerce.store_url', $shopDefault->store_url);
-                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
-                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                if ($status == 'all') {
-                    $orders = Order::all();
+        $status = $request->status;
+        if($request->key == '' && $request->secret == '' && $request->store_url == ''){
+            $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+            if ($settingExist) {
+                $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+                $shopExist = Shop::where('id', $setting->shop_id)->exists();
+                if ($shopExist) {
+                    $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                    $shops = Shop::all();
+                    Config::set('woocommerce.store_url', $shopDefault->store_url);
+                    Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                    Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                    $store_url = $shopDefault->store_url;
+                    $key = $shopDefault->consumer_key;
+                    $secret = $shopDefault->consumer_secret;
+                    if ($status == 'all') {
+                        $orders = Order::all();
+                    } else {
+                        $orders = Order::where('status', $status)->get();
+                    }
+                    return view('admin.orders.filter_status', compact('orders', 'store_url', 'key', 'secret'));
                 } else {
-                    $orders = Order::where('status', $status)->get();
+                    return view('admin.orders.index')->with('error', 'please configure your store settings!');
                 }
-                return view('admin.orders.filter_status', compact('orders'));
             } else {
-                return view('admin.orders.index')->with('error', 'please configure your store settings!');
+                return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
             }
-        } else {
-            return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
+
+        }
+        else{
+            $store_url = $request->store_url;
+            $key = $request->key;
+            $secret = $request->secret;
+            Config::set('woocommerce.store_url', $store_url);
+            Config::set('woocommerce.consumer_key', $key);
+            Config::set('woocommerce.consumer_secret', $secret);
+            if ($status == 'all') {
+                $orders = Order::all();
+            } else {
+                $orders = Order::where('status', $status)->get();
+            }
+            return view('admin.orders.filter_status', compact('orders', 'store_url', 'key', 'secret'));
         }
         
     }
@@ -283,121 +278,5 @@ class OrderController extends Controller
         } else {
             return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
         }
-    }
-
-    public function createShipping($id)
-    {
-        if(count($this->userSetting(Auth::user()->id)) > 0)
-        {
-            $curl=curl_init(); 
-            curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-            curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$id.'/shipment-trackings');
-            curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
-            curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
-            curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode(array("tracking_provider"=>"Fedex","tracking_number"=>"12345678","date_shipped"=>"2019-03-08"))); 
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-            curl_close($curl);
-            if ($err) 
-            {
-                echo "Create Shipping Error #:" . $err;
-            } 
-            else 
-            {
-                $data = json_decode($response);
-                if(property_exists($data,'data'))
-                {
-                    if($data->data->status==404)
-                    {
-                        return back()->with('error', $data->message);
-                    }
-                }
-
-                return back()->with('success', 'Shippment has been created');
-                
-            }
-        }        
-    }
-
-    public function getShipping($id)
-    {
-        if(count($this->userSetting(Auth::user()->id)) > 0)
-        {
-            $curl=curl_init(); 
-            curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-            curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$id.'/shipment-trackings');
-            curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
-            curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-            curl_close($curl);
-            if ($err) 
-            {
-                echo "cURL Error #:" . $err;
-            } 
-            else 
-            {
-                $data = json_decode($response);
-                if(count($data) >0)
-                {
-                    echo "Get the shipping detail </br>";
-                    foreach ($data as $value)
-                    {
-                        echo "Tracking Id : ".$value->tracking_id."</br>";
-                        echo "Tracking Provider : ".$value->tracking_provider."</br>";
-                        echo "Tracking Number : ".$value->tracking_number."</br>";
-                        echo "Shipped Date: ".$value->date_shipped."</br></br>";
-                    }
-                }
-                else
-                {
-                    echo "No Shipment record Found";
-                }
-                
-                // print_r($data);
-                // // print_r($data[0]->tracking_id);
-                // die;
-                
-            }
-        }        
-    }
-
-    public function deleteShipping($id,$token)
-    {
-        if(count($this->userSetting(Auth::user()->id)) > 0)
-        {
-            $curl=curl_init(); 
-            curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-            curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$id.'/shipment-trackings/'.$token);
-            curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
-            curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'Delete');
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-            curl_close($curl);
-            if ($err) 
-            {
-                echo "cURL Error #:" . $err;
-            } 
-            else 
-            {
-
-                $data = json_decode($response);
-                if(property_exists($data,'data'))
-                {
-                    if($data->data->status==404)
-                    {
-                        echo $data->message;
-                        exit;
-                    }
-                }
-                echo "Get the delete shipping detail </br>";
-                echo "Tracking Id : ".$data->tracking_id."</br>";
-                echo "Tracking Provider : ".$data->tracking_provider."</br>";
-                echo "Tracking Number : ".$data->tracking_number."</br>";
-                echo "Shipped Date: ".$data->date_shipped."</br>";
-            }
-        }        
     }
 }

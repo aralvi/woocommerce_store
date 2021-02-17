@@ -19,17 +19,20 @@
                                         data-search="on">
                                         <option value="default_option">Choose store</option>
                                         @if (isset($shops))
-                                            @foreach ($shops as $shop)
-                                                @if (Auth::user()->id == $shop->user_id || Auth::user()->role == 'SuperAdmin' || Auth::user()->parent_id == $shop->user_id)
+                                            
+                                        @foreach ($shops as $shop)
+                                        @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin' || Auth::user()->parent_id == $shop->user_id)
 
-                                                    <option class="text-capitalize" value="{{ $shop->store_url }}"
-                                                        data-key="{{ $shop->consumer_key }}"
-                                                        data-secret="{{ $shop->consumer_secret }}"
-                                                        {{ ($shop->id == $setting->shop_id) ? "selected":'' }}>{{ $shop->name }}
-                                                    </option>
-                                                @endif
-                                            @endforeach
+                                        <option class="text-capitalize" value="{{ $shop->store_url }}"
+                                            data-key="{{ $shop->consumer_key }}"
+                                            data-secret="{{ $shop->consumer_secret }}"
+                                            {{ ($shop->id == $setting->shop_id) ? "selected":'' }}>{{ $shop->name }}
+                                        </option>
                                         @endif
+
+                                        @endforeach
+                                        @endif
+
                                     </select>
                                 </div>
                                 
@@ -101,8 +104,7 @@
                             <th class="nk-tb-col tb-col-md">Date</th>
                             <th class="nk-tb-col tb-col-lg">Total</th>
                             <th class="nk-tb-col tb-col-lg">Tracking</th>
-                            <th class="nk-tb-col tb-col-md">Items</th>
-                            <th class="nk-tb-col tb-col-md">Create Shipment</th>
+                            <th class="nk-tb-col tb-col-md">Itmes</th>
                             {{-- <th class="nk-tb-col tb-col-md">Curior</th> --}}
                             <th class="nk-tb-col tb-col-md">Action</th>
 
@@ -215,11 +217,6 @@
                                 </div>
                             </td> --}}
                             <td class="nk-tb-col tb-col-md">
-
-                                <a href="{{ route('admin.createshipping',$order->id) }}"  class="btn btn-sm btn-dim btn-primary">Create</a>
-                            </td>
-                            <td class="nk-tb-col tb-col-md">
-
                                 {{-- <form action="{{ route('orders.show',$order->id) }}" method="post">
                                 <input type="hidden" name="store_url" class="store_url">
                                 <input type="hidden" name="consumer_key" class="consumer_key">
@@ -365,15 +362,23 @@
             $('.order_check').removeAttr('checked', 'checked');
 
         }
-        console.log(cars);
     });
     $("#order_status").on('change', function () {
-        $status = $(this).val();
-
-
+        var status = $(this).val();
+        var key = $('.consumer_key').val();
+        var store_url = $('.store_url').val();
+        var secret = $('.consumer_secret').val();
+        console.log(key,status,secret,store_url)
         $.ajax({
-            type: 'get',
-            url: "{{ url('order')}}" + "/" + $status,
+            type: 'post',
+            url: "{{ route('order.status')}}",
+             data: {
+                key: key,
+                store_url: store_url,
+                secret: secret,
+                status : status,
+                _token: "{{ csrf_token() }}"
+            },
             success: function (data) {
                 $('#order_table').empty();
                 $('#order_table').html(data);

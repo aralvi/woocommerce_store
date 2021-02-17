@@ -124,14 +124,13 @@
                             </td>
                             <td class="nk-tb-col">
                                 <div class="user-info">
-                                    @foreach ($products as $item)
-                                    @if ($product->product_id == $item->id)
-                                    
-                                    @if (count($item->images) < 0) <img src="{{ $item->images[0]->src }}" alt=""
-                                        width="60" height="60">
-                                        @endif
-                                        @endif
-                                        @endforeach
+                                    @php
+                                       $single_product = Product::find($product->product_id);
+                                    @endphp
+                                    @foreach ($single_product['images'] as $image)
+                                        <img src="{{ $image->src }}" alt="" width="60" height="60">
+                                        @break
+                                    @endforeach
                                 </div>
                             </td>
                             <td class="nk-tb-col tb-col-mb">
@@ -430,16 +429,16 @@
             $ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
             $status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
             if ($ship_quantity > $quantity.val()) {
-                $quantity.css("border", "1px solid yellow");
-            }
-            if ($ship_quantity == $quantity.val()) {
-                $quantity.css("border", "1px solid green");
-                $status.html('Packed').css({"background-color": "green","color": 'white','border-radius':'10px'});
+                     $quantity.css({"background-color": "yellow"})
+                }
+                if ($ship_quantity == $quantity.val()) {
+                    $quantity.css({"background-color": "green"});
+                    $status.html('Packed').css({"background-color": "green","color": 'white','border-radius':'10px' });
 
-            }
-            if ($ship_quantity < $quantity.val()) {
-                $quantity.css("border", "1px solid red");
-            }
+                }
+                if ($ship_quantity < $quantity.val()) {
+                    $quantity.css({"background-color": "red"});
+                }
         });
         $(document.body).on("click", "button.sub", function () {
              if ($(this).next().val() > 1) {
@@ -447,15 +446,15 @@
                 $ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
                 $status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
                  if ($ship_quantity > $quantity.val()) {
-                    $quantity.css("border", "1px solid yellow");
+                     $quantity.css({"background-color": "yellow"})
                 }
                 if ($ship_quantity == $quantity.val()) {
-                    $quantity.css("border", "1px solid green");
+                    $quantity.css({"background-color": "green"});
                     $status.html('Packed').css({"background-color": "green","color": 'white','border-radius':'10px' });
 
                 }
                 if ($ship_quantity < $quantity.val()) {
-                    $quantity.css("border", "1px solid red");
+                    $quantity.css({"background-color": "red"});
                 }
 
             }
@@ -483,15 +482,15 @@
                 $ship_quantity = $product_barcode.parent('td').siblings('td').children('.ship_quantity').text();
                 $status = $product_barcode.parent('td').siblings('td').children('.pack_status');
                  if ($ship_quantity > $quantity.val()) {
-                    $quantity.css("border", "1px solid yellow");
+                    $quantity.css({"background-color": "yellow"})
                 }
                 if ($ship_quantity == $quantity.val()) {
-                    $quantity.css("border", "1px solid green");
+                    $quantity.css({"background-color": "green"});
                     $status.html('Packed').css({"background-color": "green","color": 'white','border-radius':'10px' });
 
                 }
                 if ($ship_quantity < $quantity.val()) {
-                    $quantity.css("border", "1px solid red");
+                    $quantity.css({"background-color": "red"});
                 }
 
             });

@@ -1,93 +1,115 @@
 @extends('layouts.admin')
 @section('style')
-    <style>
-  
-#myImg {
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
+<style>
+    #myImg {
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
 
-#myImg:hover {opacity: 0.7;}
+    #myImg:hover {
+        opacity: 0.7;
+    }
 
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-}
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        padding-top: 100px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.9);
+        /* Black w/ opacity */
+    }
 
-/* Modal Content (image) */
-.modal-content {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
-}
+    /* Modal Content (image) */
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
 
-/* Caption of Modal Image */
-#caption {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
-  text-align: center;
-  color: #ccc;
-  padding: 10px 0;
-  height: 150px;
-}
+    /* Caption of Modal Image */
+    #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+    }
 
-/* Add Animation */
-.modal-content, #caption {  
-  -webkit-animation-name: zoom;
-  -webkit-animation-duration: 0.6s;
-  animation-name: zoom;
-  animation-duration: 0.6s;
-}
+    /* Add Animation */
+    .modal-content,
+    #caption {
+        -webkit-animation-name: zoom;
+        -webkit-animation-duration: 0.6s;
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
 
-@-webkit-keyframes zoom {
-  from {-webkit-transform:scale(0)} 
-  to {-webkit-transform:scale(1)}
-}
+    @-webkit-keyframes zoom {
+        from {
+            -webkit-transform: scale(0)
+        }
 
-@keyframes zoom {
-  from {transform:scale(0)} 
-  to {transform:scale(1)}
-}
+        to {
+            -webkit-transform: scale(1)
+        }
+    }
 
-/* The Close Button */
-#close {
-  position: absolute;
-  top: 70px;
-  right: 35px;
-  color: #f1f1f1;
-  font-size: 40px;
-  font-weight: bold;
-  transition: 0.3s;
-}
+    @keyframes zoom {
+        from {
+            transform: scale(0)
+        }
 
-#close:hover,
-#close:focus {
-  color: #bbb;
-  text-decoration: none;
-  cursor: pointer;
-}
+        to {
+            transform: scale(1)
+        }
+    }
 
-/* 100% Image Width on Smaller Screens */
-@media only screen and (max-width: 700px){
-  .modal-content {
-    width: 100%;
-  }
-}
-    </style>
+    /* The Close Button */
+    #close {
+        position: absolute;
+        top: 70px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    #close:hover,
+    #close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* 100% Image Width on Smaller Screens */
+    @media only screen and (max-width: 700px) {
+        .modal-content {
+            width: 100%;
+        }
+    }
+
+</style>
 @endsection
 @section('title','Products') @section('page-title','Product Lists') @section('content')
 <div class="col-xxl-12 col-sm-12">
@@ -98,7 +120,7 @@
                 <div class="card-title-group"></div>
                 {{-- card header section end --}}
                 <div class="data">
-                     <div class="row mb-4">
+                    <div class="row mb-4">
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="" class="mb-0">Select Store</label>
@@ -107,9 +129,10 @@
                                         data-search="on">
                                         <option value="default_option">Choose store</option>
                                         @if (isset($shops))
-                                            
+
                                         @foreach ($shops as $shop)
-                                        @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin' || Auth::user()->parent_id == $shop->user_id)
+                                        @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin'
+                                        || Auth::user()->parent_id == $shop->user_id)
 
                                         <option class="text-capitalize" value="{{ $shop->store_url }}"
                                             data-key="{{ $shop->consumer_key }}"
@@ -149,10 +172,10 @@
 
                         </div>
                         <div class="col-md-2">
-                            
+
                         </div>
                     </div>
-                    
+
                     <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
                         <thead class="thead-dark">
                             <tr class="nk-tb-item nk-tb-head">
@@ -163,30 +186,27 @@
                                 <th class="nk-tb-col tb-col-md">Barcode</th>
                                 <th class="nk-tb-col tb-col-lg">Stock Status</th>
                                 <th class="nk-tb-col tb-col-md">Action</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody id="product_table">
                             @if (isset($products))
-                                
-                            @foreach ($products as $product)
-                                
+
+                            @foreach ($products['data'] as $product)
+
                             <tr class="nk-tb-item">
-                                
+
                                 <td class="nk-tb-col">
-                                        <div class="user-info">
-                                            <span class="tb-lead">{{ $product->id }}<span  class="dot dot-success d-md-none ml-1"></span></span>
-                                        </div>
+                                    <div class="user-info">
+                                        <span class="tb-lead">{{ $product->id }}<span
+                                                class="dot dot-success d-md-none ml-1"></span></span>
+                                    </div>
                                 </td>
                                 <td class="nk-tb-col tb-col-mb">
-                                    @if (count($product->images) <> 0) <img id="myImg" class="product_image" alt="Snow" style="width:100%;max-width:300px" src="{{ $product->images[0]->src }}" alt=""
-                                        width="60" height="60">
+                                    @if (count($product->images) <> 0) <img id="myImg" class="product_image" alt="Snow"
+                                            style="width:100%;max-width:300px" src="{{ $product->images[0]->src }}"
+                                            alt="" width="60" height="60">
                                         @endif
-
-                                   
-                                    
-                                    
-                                       
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
                                     <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a>
@@ -199,27 +219,31 @@
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
                                     @if ($product->stock_status == 'instock')
-                                        <p class="text-success">
+                                    <p class="text-success">
 
-                                            {{ $product->stock_status }}
-                                        </p>
-                                        @else
-                                        <p class="text-danger">
+                                        {{ $product->stock_status }}
+                                    </p>
+                                    @else
+                                    <p class="text-danger">
 
-                                            {{ $product->stock_status }}
-                                        </p>
-                                        
+                                        {{ $product->stock_status }}
+                                    </p>
+
                                     @endif
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
-                                   <a class="btn btn-dim btn-sm btn-primary" href="{{ route('products.show',$product->id) }}"><i
+                                    <a class="btn btn-dim btn-sm btn-primary"
+                                        href="{{ route('products.show',$product->id) }}"><i
                                             class="icon ni ni-eye"></i></a>
-                                            {{-- <button type="button" class="btn btn-sm btn-dim btn-primary editProduct"    
-                                        data-productId="{{ $product->id }}" data-productPrice="{{ $product->regular_price }}" data-salePrice="{{ $product->sale_price }}"><i class="icon ni ni-pen"></i></button>
-                                            <button type="button" class="btn btn-sm btn-dim btn-primary deleteProduct"
-                                        data-productId="{{ $product->id }}" d><i class="icon ni ni-trash"></i></button> --}}
+                                    {{-- <button type="button" class="btn btn-sm btn-dim btn-primary editProduct"    
+                                        data-productId="{{ $product->id }}"
+                                    data-productPrice="{{ $product->regular_price }}"
+                                    data-salePrice="{{ $product->sale_price }}"><i class="icon ni ni-pen"></i></button>
+                                    <button type="button" class="btn btn-sm btn-dim btn-primary deleteProduct"
+                                        data-productId="{{ $product->id }}" d><i class="icon ni ni-trash"></i></button>
+                                    --}}
                                 </td>
-                                
+
                             </tr><!-- .nk-tb-item  -->
                             @endforeach
                             @endif
@@ -246,7 +270,7 @@
             <div class="requestdata">
 
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -271,56 +295,56 @@
         </div>
     </div>
 </div>
- <!-- The Modal -->
-                                    <div id="myModal" class="modal">
-                                    <span id="close">&times;</span>
-                                    <img class="modal-content" id="img01">
-                                    <div id="caption"></div>
-                                    </div>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <span id="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+</div>
 @endsection
 
 @section('script')
 <script>
     $(document).ready(function () {
 
-     $('#stores').on('change', function (e) {
-        var store_url = $(this).val();
-        var key = $(this).children("option:selected").attr('data-key');
-        var secret = $(this).children("option:selected").attr('data-secret');
-        $.ajax({
-            type: "post",
-            url: "{{ route('product.store')}}",
-            data: {
-                store_url: store_url,
-                key: key,
-                secret: secret,
-                _token: "{{ csrf_token() }}"
-            },
+        $('#stores').on('change', function (e) {
+            var store_url = $(this).val();
+            var key = $(this).children("option:selected").attr('data-key');
+            var secret = $(this).children("option:selected").attr('data-secret');
+            $.ajax({
+                type: "post",
+                url: "{{ route('product.store')}}",
+                data: {
+                    store_url: store_url,
+                    key: key,
+                    secret: secret,
+                    _token: "{{ csrf_token() }}"
+                },
 
-            success: function (data) {
-                $('#product_table').empty();
-                $('#product_table').html(data);
-            },
-        });
-    });
-
-$(document.body).on("click", "img.product_image", function () {
-             // Get the modal
-        var modal = document.getElementById("myModal");
-        var modalImg = document.getElementById("img01");
-        modal.style.display = "block";
-        modalImg.src = $(this).attr('src');
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementById("close");
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() { 
-        modal.style.display = "none";
-        }
+                success: function (data) {
+                    $('#product_table').empty();
+                    $('#product_table').html(data);
+                },
+            });
         });
 
+        $(document.body).on("click", "img.product_image", function () {
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            var modalImg = document.getElementById("img01");
+            modal.style.display = "block";
+            modalImg.src = $(this).attr('src');
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementById("close");
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+        });
+
     });
-  
+
 </script>
 @endsection

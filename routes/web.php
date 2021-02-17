@@ -24,7 +24,8 @@ Route::group([ 'middleware' => ['auth']], function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('orders', 'Admin\OrderController');
-    Route::get('order/{status}', 'Admin\OrderController@filter')->name('order.status');
+    // Route::get('order/{status}', 'Admin\OrderController@filter')->name('order.status');
+    Route::post('order/status', 'Admin\OrderController@filter')->name('order.status');
     Route::post('order/search', 'Admin\OrderController@search')->name('order.search');
     Route::post('order/store', 'Admin\OrderController@selectStore')->name('order.store');
     Route::post('order/changestaus', 'Admin\OrderController@changeStatus')->name('order.changestatus');
@@ -34,7 +35,4 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::resource('users', 'Admin\addUserController');
     Route::resource('stores', 'Admin\ShopController');
     Route::resource('ordernotes', 'Admin\OrderNoteController');
-    Route::get('createshipping/{id}','Admin\OrderController@createShipping')->name('admin.createshipping');
-    Route::get('getshipping/{id}','Admin\OrderController@getShipping')->name('admin.getshipping');
-    Route::get('deleteshipping/{id}/{token}','Admin\OrderController@deleteShipping')->name('admin.deleteshipping');
 });

@@ -20,7 +20,13 @@
                                        
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
-                                    <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a>
+                                    <form action="{{ route('products.show',$product->id) }}" >
+                                <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
+                                <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
+                                <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
+                                <button type="submit" class="text-primary btn btn-dim text-left">{{ $product->name }}</button>
+                                </form>
+                                    {{-- <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a> --}}
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
                                     {{ $product->sku }}
