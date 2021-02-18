@@ -7,7 +7,11 @@
       <thead class="thead-dark">
           <tr class="nk-tb-item nk-tb-head">
               <th class="nk-tb-col nk-tb-col-check">
-                  <input type="checkbox" name="" class=" " id="orders_check">
+                  <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input type="checkbox" class="custom-control-input" id="uid1">
+                                                    <label class="custom-control-label" for="uid1"></label>
+                                                </div>
+                  {{-- <input type="checkbox" name="" class=" " id="orders_check"> --}}
               </th>
               <th class="nk-tb-col">Order# </th>
               <th class="nk-tb-col">Customer </th>
@@ -24,11 +28,15 @@
       <tbody id="order_table">
           @if (isset($orders))
 
-          @foreach ($orders as $order)
+          @foreach ($orders as $key => $order)
 
           <tr class="nk-tb-item">
               <td class="nk-tb-col nk-tb-col-check">
-                  <input type="checkbox" name="" class="order_check " value="{{ $order->id }}">
+                  <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input type="checkbox" class="custom-control-input order_check" id="uid{{ $key+2 }}" value="{{ $order->id }}">
+                                                    <label class="custom-control-label order_check" for="uid{{ $key+2}}"></label>
+                                                </div>
+                  {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
               </td>
               <td class="nk-tb-col">
                   <div class="user-info">
@@ -174,7 +182,7 @@
               });
           }
       })
-      $("#orders_check").click(function () {
+      $("#uid1").click(function () {
           var cars = [];
           if ($(this).is(':checked')) {
               $('.order_check').attr('checked', 'checked');

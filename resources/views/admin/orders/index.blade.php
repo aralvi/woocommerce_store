@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 @section('title','Orders')
-@section('page-title','Order Lists')
+
 @section('content')
+
 <div class="col-xxl-12 col-sm-12">
     <div class="">
         <div class="nk-ecwg nk-ecwg6">
@@ -10,7 +11,83 @@
                 <div class="card-title-group"></div>
                 {{-- card header section end --}}
                 <div class="data">
-                    <div class="row mb-4">
+                    <div class="nk-block-between">
+        <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Orders</h3>
+        </div>
+        <div class="nk-block-head-content">
+            <div class="toggle-wrap nk-block-tools-toggle"><a href="#"
+                    class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em
+                        class="icon ni ni-more-v"></em></a>
+                <div class="toggle-expand-content" data-content="pageMenu">
+                    <ul class="nk-block-tools g-3">
+                        <li>
+                            <div class="form-group">
+                                <label for="" class="mb-0">Select Store</label>
+                                <div class="form-control-wrap">
+                                    <select class="form-select form-control form-control-lg" id="stores" name="store"
+                                        data-search="on">
+                                        <option value="default_option">Choose store</option>
+                                        @if (isset($shops))
+
+                                        @foreach ($shops as $shop)
+                                        @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin'
+                                        || Auth::user()->parent_id == $shop->user_id)
+
+                                        <option class="text-capitalize" value="{{ $shop->store_url }}"
+                                            data-key="{{ $shop->consumer_key }}"
+                                            data-secret="{{ $shop->consumer_secret }}"
+                                            {{ ($shop->id == $setting->shop_id) ? "selected":'' }}>{{ $shop->name }}
+                                        </option>
+                                        @endif
+
+                                        @endforeach
+                                        @endif
+
+                                    </select>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                           <div class="form-group">
+                                <label for="filter By Status" class="mb-0">Filter Status</label>
+                                <select id="order_status" name="order_status" class="form-control form-select"
+                                    data-search="on">
+                                    @if (isset($setting))
+
+                                    <option value="all" {{ 'all' == $setting->order_status ? "selected":'' }}>All
+                                    </option>
+                                    <option value="pending" {{ 'pending' == $setting->order_status ? "selected":'' }}>
+                                        Pending payment</option>
+                                    <option value="processing"
+                                        {{ 'processing' == $setting->order_status ? "selected":'' }}>Processing</option>
+                                    <option value="on-hold" {{ 'on-hold' == $setting->order_status ? "selected":'' }}>On
+                                        hold</option>
+                                    <option value="completed"
+                                        {{ 'completed' == $setting->order_status ? "selected":'' }}>Completed</option>
+                                    <option value="cancelled"
+                                        {{ 'cancelled' == $setting->order_status ? "selected":'' }}>Cancelled</option>
+                                    <option value="refunded" {{ 'refunded' == $setting->order_status ? "selected":'' }}>
+                                        Refunded</option>
+                                    <option value="failed" {{ 'failed' == $setting->order_status ? "selected":'' }}>
+                                        Failed</option>
+                                    @endif
+                                </select>
+                            </div>
+                        </li>
+                        <li class="nk-block-tools-opt pb-0">
+                            {{-- <div class="btn-group"> --}}
+                                <button class="btn btn-md btn-dim btn-primary order_status" onclick="getOrderList();"
+                                    data-toggle="modal" data-target="#modalForm">Change Order Status </button>
+                            {{-- </div> --}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+                    {{-- <div class="row mb-4">
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="" class="mb-0">Select Store</label>
@@ -40,23 +117,10 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            {{-- <div class="form-group">
-                                <label for="" class="mb-0">Select curior Service</label>
-                                <div class="form-control-wrap">
-                                    <select class="form-select form-control form-control-lg" data-search="on">
-                                        <option value="default_option">Choose Curier service</option>
-                                        <option value="option_select_name">TCS</option>
-                                        <option value="option_select_name">Lepord</option>
-                                    </select>
-                                </div>
-                            </div> --}}
+                            
                         </div>
                         <div class="col-md-2">
-                            {{-- <div class="form-group">
-                                <label for="filter By Status" class="mb-0">Search</label>
-                                <input class="mu-input-box form-control" name="order_search" id="search_order"
-                                    type="text" placeholder="search order status" />
-                            </div> --}}
+                            
                         </div>
                         <div class="col-md-4 d-flex justify-content-end align-items-end">
                             <div class="btn-group">
@@ -92,7 +156,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div id="orders_table">
                         <div class="spinner-border text-secondary d-none" id="loading" role="status">
@@ -105,7 +169,11 @@
                             <thead class="thead-dark">
                                 <tr class="nk-tb-item nk-tb-head">
                                     <th class="nk-tb-col nk-tb-col-check">
-                                        <input type="checkbox" name="" class=" " id="orders_check">
+                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input type="checkbox" class="custom-control-input" id="uid1">
+                                                    <label class="custom-control-label" for="uid1"></label>
+                                                </div>
+                                        {{-- <input type="checkbox" name="" class=" " id="orders_check"> --}}
                                     </th>
                                     <th class="nk-tb-col">Order# </th>
                                     <th class="nk-tb-col">Customer </th>
@@ -122,98 +190,15 @@
                             <tbody id="order_table">
                                 @if (isset($orders))
 
-                                @foreach ($orders as $order)
+                                @foreach ($orders as $key=> $order)
                                 @if ( $setting->order_status == 'all')
                                 <tr class="nk-tb-item">
                                     <td class="nk-tb-col nk-tb-col-check">
-                                        <input type="checkbox" name="" class="order_check " value="{{ $order->id }}">
-                                    </td>
-                                    <td class="nk-tb-col">
-                                        <div class="user-info">
-                                            <span class="tb-lead">{{ $order->id }}<span
-                                                    class="dot dot-success d-md-none ml-1"></span></span>
-                                        </div>
-                                    </td>
-                                    <td class="nk-tb-col">
-                                        <div class="user-info">
-                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->billing->first_name. " ".  $order->billing->last_name }}
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        @if ($order->status == 'on-hold')
-                                        <span class="dot bg-warning d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'completed')
-                                        <span class="dot bg-success d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'failed')
-                                        <span class="dot bg-danger d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'pending')
-                                        <span class="dot bg-info d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'processing')
-                                        <span class="dot bg-primary d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'refunded')
-                                        <span class="dot bg-secondary d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'cancelled')
-                                        <span class="dot bg-danger d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        <span class="tb-amount">{{ $order->status }}</span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-md">
-                                        <span>{{$order->date_created}}</span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
-                                        {{ $order->total }}
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg">
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg">
-                                        {{ count($order->line_items) }}
-                                    </td>
-                                   
-                                    <td class="nk-tb-col tb-col-md">
-
-                                        {{-- <a href="{{ route('orders.show',$order->id) }}"
-                                            class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
-                                            {{-- <ul class="nk-tb-actions gx-1"> --}}
-                                            <li class="nk-tb-action-hidden list-unstyled">
-                                                <a  href="{{ route('orders.show',$order->id) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip"
-                                                    data-placement="top" title="" data-original-title="Suspend">
-                                                    <em class="icon ni ni-eye"></em>
-                                                </a>
-                                            </li>
-                                            
-                                       
-                                    </td>
-
-                                </tr><!-- .nk-tb-item  -->
-
-                                @else
-
-                                @if ($order->status == $setting->order_status)
-
-                               <tr class="nk-tb-item">
-                                    <td class="nk-tb-col nk-tb-col-check">
-                                        <input type="checkbox" name="" class="order_check " value="{{ $order->id }}">
+                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input type="checkbox" class="custom-control-input order_check" id="uid{{ $key+2 }}" value="{{ $order->id }}">
+                                                    <label class="custom-control-label order_check" for="uid{{ $key+2}}"></label>
+                                                </div>
+                                        {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
                                     </td>
                                     <td class="nk-tb-col">
                                         <div class="user-info">
@@ -276,20 +261,113 @@
                                     <td class="nk-tb-col tb-col-lg">
                                         {{ count($order->line_items) }}
                                     </td>
-                                   
+
                                     <td class="nk-tb-col tb-col-md">
 
                                         {{-- <a href="{{ route('orders.show',$order->id) }}"
-                                            class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
-                                            {{-- <ul class="nk-tb-actions gx-1"> --}}
-                                            <li class="nk-tb-action-hidden list-unstyled">
-                                                <a  href="{{ route('orders.show',$order->id) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip"
-                                                    data-placement="top" title="" data-original-title="View Detail">
-                                                    <em class="icon ni ni-eye"></em>
-                                                </a>
-                                            </li>
-                                            
-                                       
+                                        class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
+                                        {{-- <ul class="nk-tb-actions gx-1"> --}}
+                                        <li class="nk-tb-action-hidden list-unstyled">
+                                            <a href="{{ route('orders.show',$order->id) }}"
+                                                class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                                data-placement="top" title="" data-original-title="Suspend">
+                                                <em class="icon ni ni-eye"></em>
+                                            </a>
+                                        </li>
+
+
+                                    </td>
+
+                                </tr><!-- .nk-tb-item  -->
+
+                                @else
+
+                                @if ($order->status == $setting->order_status)
+
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col nk-tb-col-check">
+                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input type="checkbox" class="custom-control-input order_check" id="uid{{ $key+2 }}" value="{{ $order->id }}">
+                                                    <label class="custom-control-label order_check" for="uid{{ $key+2}}"></label>
+                                                </div>
+                                        {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
+                                    </td>
+                                    <td class="nk-tb-col">
+                                        <div class="user-info">
+                                            <span class="tb-lead">{{ $order->id }}<span
+                                                    class="dot dot-success d-md-none ml-1"></span></span>
+                                        </div>
+                                    </td>
+                                    <td class="nk-tb-col">
+                                        <div class="user-info">
+                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->billing->first_name. " ".  $order->billing->last_name }}
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-mb">
+                                        @if ($order->status == 'on-hold')
+                                        <span class="dot bg-warning d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'completed')
+                                        <span class="dot bg-success d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'failed')
+                                        <span class="dot bg-danger d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'pending')
+                                        <span class="dot bg-info d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'processing')
+                                        <span class="dot bg-primary d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'refunded')
+                                        <span class="dot bg-secondary d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'cancelled')
+                                        <span class="dot bg-danger d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
+                                    </td>
+                                    <td class="nk-tb-col tb-col-md">
+                                        <span>{{$order->date_created}}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                        {{ $order->total }}
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        {{ count($order->line_items) }}
+                                    </td>
+
+                                    <td class="nk-tb-col tb-col-md">
+
+                                        {{-- <a href="{{ route('orders.show',$order->id) }}"
+                                        class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
+                                        {{-- <ul class="nk-tb-actions gx-1"> --}}
+                                        <li class="nk-tb-action-hidden list-unstyled">
+                                            <a href="{{ route('orders.show',$order->id) }}"
+                                                class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                                data-placement="top" title="" data-original-title="View Detail">
+                                                <em class="icon ni ni-eye"></em>
+                                            </a>
+                                        </li>
+
+
                                     </td>
 
                                 </tr><!-- .nk-tb-item  -->
@@ -422,7 +500,7 @@
             });
         }
     })
-    $("#orders_check").click(function () {
+    $("#uid1").click(function () {
         var cars = [];
         if ($(this).is(':checked')) {
             $('.order_check').attr('checked', 'checked');
