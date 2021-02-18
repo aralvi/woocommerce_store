@@ -78,7 +78,7 @@
                         </li>
                         <li class="nk-block-tools-opt pb-0">
                             {{-- <div class="btn-group"> --}}
-                                <button class="btn btn-md btn-dim btn-primary order_status" onclick="getOrderList();"
+                                <button class="btn btn-md btn-dim btn-primary order_status mt-3" onclick="getOrderList();"
                                     data-toggle="modal" data-target="#modalForm">Change Order Status </button>
                             {{-- </div> --}}
                         </li>
