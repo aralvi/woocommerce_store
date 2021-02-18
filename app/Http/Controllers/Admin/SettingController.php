@@ -55,18 +55,21 @@ class SettingController extends Controller
             $settingExists = Setting::where('user_id',Auth::user()->id)->exists();
             if($settingExists){
                 $setting = Setting::where('user_id', Auth::user()->id)->first();
-                unlink( 'uploads/logo/' . $setting->logo);
             }else{
                 $setting = new Setting();
             }
             $setting->user_id = Auth::user()->id;
             if ($company_logo = $request->file('logo')) {
-            $company_logo_original_name = $company_logo->getClientOriginalName();
-            $image_changed_name = time() . '_' . str_replace('', '-', '');
-            $destinationPath = 'uploads/logo/'; // upload path
-            $company_logo->move($destinationPath, $image_changed_name);
-            $setting->logo = $image_changed_name;
-        }
+                $company_logo_original_name = $company_logo->getClientOriginalName();
+                $image_changed_name = time() . '_' . str_replace('', '-', '');
+                if($setting->logo != null){
+
+                    unlink( 'uploads/logo/' . $setting->logo);
+                }
+                $destinationPath = 'uploads/logo/'; // upload path
+                $company_logo->move($destinationPath, $image_changed_name);
+                $setting->logo = $image_changed_name;
+            }
         $setting->shop_id = $request->store;
         $setting->expiry_time = $request->expiry_time;
         $setting->order_status = $request->order_status;

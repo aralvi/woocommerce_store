@@ -35,17 +35,22 @@
                                         $setting = App\Models\Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
                                     }
                                 @endphp
-                                @if (isset($setting))
+                                @if ($setting->logo != null)
+                                
                                 <img class="logo-light logo-img" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo" />
                                 <img class="logo-dark logo-img" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo-dark" />
                                 <img class="logo-small logo-img logo-img-small" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo-small" />
-                                
-                                <input type="hidden"  id="expiry_page_time" value="{{ $setting->expiry_time }}">
                                 @else
                                 <img class="logo-light logo-img" src="{{ asset('assets/images/icons/logo.png') }}" srcset="{{ asset('assets/images/icons/logo2x.png 2x') }}" alt="logo" />
                                 <img class="logo-dark logo-img" src="{{ asset('assets/images/icons/logo-dark.png') }}" srcset="{{ asset('assets/images/icons/logo-dark2x.png 2x') }}" alt="logo-dark" />
                                 <img class="logo-small logo-img logo-img-small" src="{{ asset('assets/images/icons/logo-small.png') }}" srcset="{{ asset('assets/images/icons/logo-small2x.png 2x') }}" alt="logo-small" />
+                                @endif
+                                @if (isset($setting))
+                                    
+                                <input type="hidden"  id="expiry_page_time" value="{{ $setting->expiry_time }}">
+                                @else
                                 <input type="hidden"  id="expiry_page_time" value="900000">
+                                    
                                 @endif
                             </a>
                         </div>
@@ -267,7 +272,7 @@
         <!-- main  -->
 
         <!-- app-root  -->
-        <!-- JavaScript -->@yield('expiry_time')
+        <!-- JavaScript -->
         <script src="{{ asset('assets/js/bundle.js?ver=2.3.0') }}"></script>
         <script src="{{ asset('assets/js/scripts.js?ver=2.3.0') }}"></script>
         <script src="{{ asset('assets/js/charts/chart-ecommerce.js?ver=2.3.0') }}"></script>
