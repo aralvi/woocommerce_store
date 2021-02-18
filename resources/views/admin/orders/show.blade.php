@@ -377,6 +377,9 @@
                         </select>
                     </div>
                 </div>
+                <input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
+                                        <input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
+                                        <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($secret)? $secret : '' }}">
                 <div class="modal-footer bg-light">
                     <div class="form-group">
                         <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
