@@ -3,7 +3,7 @@
 
       </span>
   </div>
-  <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer" data-auto-responsive="false">
+  <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer mt-5" data-auto-responsive="false">
       <thead class="thead-dark">
           <tr class="nk-tb-item nk-tb-head">
               <th class="nk-tb-col nk-tb-col-check">
@@ -28,13 +28,13 @@
       <tbody id="order_table">
           @if (isset($orders))
 
-          @foreach ($orders as $key => $order)
+          @foreach ($orders as $count => $order)
 
           <tr class="nk-tb-item">
               <td class="nk-tb-col nk-tb-col-check">
                   <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                    <input type="checkbox" class="custom-control-input order_check" id="uid{{ $key+2 }}" value="{{ $order->id }}">
-                                                    <label class="custom-control-label order_check" for="uid{{ $key+2}}"></label>
+                                                    <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}" value="{{ $order->id }}">
+                                                    <label class="custom-control-label order_check" for="uid{{ $count+2}}"></label>
                                                 </div>
                   {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
               </td>

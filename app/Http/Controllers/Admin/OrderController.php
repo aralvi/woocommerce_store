@@ -207,6 +207,7 @@ class OrderController extends Controller
                     Config::set('woocommerce.store_url', $shopDefault->store_url);
                     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                    // dd('fuck');
                     $store_url = $shopDefault->store_url;
                     $key = $shopDefault->consumer_key;
                     $secret = $shopDefault->consumer_secret;
