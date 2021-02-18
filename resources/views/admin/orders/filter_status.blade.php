@@ -44,12 +44,44 @@
                           <button type="submit"
                               class="btn btn-dim text-primary text-left">{{ $order->billing->first_name. " ".  $order->billing->last_name }}</button>
                       </form>
-                      {{-- <a href="{{ route('orders.show',$order->id) }}"
-                      >{{ $order->billing->first_name. " ".  $order->billing->last_name }} --}}
-                      {{-- </a> --}}
                   </div>
               </td>
               <td class="nk-tb-col tb-col-mb">
+                  @if ($order->status == 'on-hold')
+                  <span class="dot bg-warning d-mb-none"></span>
+                  <span
+                      class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                  @endif
+                  @if ($order->status == 'completed')
+                  <span class="dot bg-success d-mb-none"></span>
+                  <span
+                      class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
+                  @endif
+                  @if ($order->status == 'failed')
+                  <span class="dot bg-danger d-mb-none"></span>
+                  <span
+                      class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                  @endif
+                  @if ($order->status == 'pending')
+                  <span class="dot bg-info d-mb-none"></span>
+                  <span
+                      class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                  @endif
+                  @if ($order->status == 'processing')
+                  <span class="dot bg-primary d-mb-none"></span>
+                  <span
+                      class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                  @endif
+                  @if ($order->status == 'refunded')
+                  <span class="dot bg-secondary d-mb-none"></span>
+                  <span
+                      class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                  @endif
+                  @if ($order->status == 'cancelled')
+                  <span class="dot bg-danger d-mb-none"></span>
+                  <span
+                      class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                  @endif
                   <span class="tb-amount">{{ $order->status }}</span>
               </td>
               <td class="nk-tb-col tb-col-md">
@@ -70,11 +102,11 @@
                       <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
                       <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
                       <li class="nk-tb-action-hidden list-unstyled">
-                                                <button  type="submit" class="btn btn-trigger btn-icon" data-toggle="tooltip"
-                                                    data-placement="top" title="" data-original-title="Suspend">
-                                                    <em class="icon ni ni-eye"></em>
-                                                </button>
-                                            </li>
+                          <button type="submit" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                              data-placement="top" title="" data-original-title="Suspend">
+                              <em class="icon ni ni-eye"></em>
+                          </button>
+                      </li>
                       {{-- <button type="submit" class="btn btn-sm btn-dim btn-primary"><i
                               class="icon ni ni-eye"></i></button> --}}
                   </form>
