@@ -75,7 +75,12 @@
                     <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
                     <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
                     <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
-                    <button type="submit" class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></button>
+                    <li class="nk-tb-action-hidden list-unstyled">
+                          <button type="submit" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                              data-placement="top" title="" data-original-title="View Detail">
+                              <em class="icon ni ni-eye"></em>
+                          </button>
+                      </li>
                 </form>
                 
             </td>

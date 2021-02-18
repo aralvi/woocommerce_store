@@ -239,16 +239,15 @@
                                         @endif
                                     </td>
                                     <td class="nk-tb-col tb-col-md">
-                                        <a class="btn btn-dim btn-sm btn-primary"
+                                        {{-- <a class="btn btn-dim btn-sm btn-primary"
                                             href="{{ route('products.show',$product->id) }}"><i
-                                                class="icon ni ni-eye"></i></a>
-                                        {{-- <button type="button" class="btn btn-sm btn-dim btn-primary editProduct"    
-                                            data-productId="{{ $product->id }}"
-                                        data-productPrice="{{ $product->regular_price }}"
-                                        data-salePrice="{{ $product->sale_price }}"><i class="icon ni ni-pen"></i></button>
-                                        <button type="button" class="btn btn-sm btn-dim btn-primary deleteProduct"
-                                            data-productId="{{ $product->id }}" d><i class="icon ni ni-trash"></i></button>
-                                        --}}
+                                                class="icon ni ni-eye"></i></a> --}}
+                                                <li class="nk-tb-action-hidden list-unstyled">
+                                                <a href="{{ route('products.show',$product->id) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                                    data-placement="top" title="" data-original-title="View Detail">
+                                                    <em class="icon ni ni-eye"></em>
+                                                </a>
+                                            </li>
                                     </td>
     
                                 </tr><!-- .nk-tb-item  -->

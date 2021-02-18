@@ -284,7 +284,7 @@
                                             {{-- <ul class="nk-tb-actions gx-1"> --}}
                                             <li class="nk-tb-action-hidden list-unstyled">
                                                 <a  href="{{ route('orders.show',$order->id) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip"
-                                                    data-placement="top" title="" data-original-title="Suspend">
+                                                    data-placement="top" title="" data-original-title="View Detail">
                                                     <em class="icon ni ni-eye"></em>
                                                 </a>
                                             </li>

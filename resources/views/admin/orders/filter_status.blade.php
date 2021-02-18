@@ -103,7 +103,7 @@
                       <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
                       <li class="nk-tb-action-hidden list-unstyled">
                           <button type="submit" class="btn btn-trigger btn-icon" data-toggle="tooltip"
-                              data-placement="top" title="" data-original-title="Suspend">
+                              data-placement="top" title="" data-original-title="View Detail">
                               <em class="icon ni ni-eye"></em>
                           </button>
                       </li>
