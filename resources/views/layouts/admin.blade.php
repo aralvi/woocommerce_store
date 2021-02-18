@@ -65,12 +65,12 @@
                             <div class="nk-sidebar-menu" data-simplebar>
                                 <ul class="nk-menu">
                                     <!-- .nk-menu-heading -->
-                                    <li class="nk-menu-item has-sub {{ Request::is('home*')?'active':'' }}">
+                                    {{-- <li class="nk-menu-item has-sub {{ Request::is('home*')?'active':'' }}">
                                         <a href="{{ route('home') }}" class="nk-menu-link">
                                             <span class="nk-menu-icon"><em class="icon ni ni-app"></em></span> <span class="nk-menu-text">Dashboard</span>
                                         </a>
                                         <!-- .nk-menu-sub -->
-                                    </li>
+                                    </li> --}}
                                     <!-- .nk-menu-heading -->
                                     <li class="nk-menu-item has-sub {{ Request::is('orders*')?'active':'' }}">
                                         <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
