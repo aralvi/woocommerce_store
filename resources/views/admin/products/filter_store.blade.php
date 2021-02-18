@@ -1,5 +1,11 @@
 
-<table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
+<div class="spinner-border text-secondary d-none" id="loading" role="status">
+                            <span class="sr-only">
+
+                            </span>
+                        </div>
+                        <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer"
+                            data-auto-responsive="false">
     <thead class="thead-dark">
         <tr class="nk-tb-item nk-tb-head">
             <th class="nk-tb-col"># </th>

@@ -113,7 +113,7 @@
 @endsection
 @section('title','Products') @section('page-title','Product Lists') @section('content')
 <div class="col-xxl-12 col-sm-12">
-    <div class="card">
+    <div class="">
         <div class="nk-ecwg nk-ecwg6">
             <div class="card-inner">
                 {{-- card header section --}}
@@ -177,7 +177,13 @@
                     </div>
                     <div id="products_table">
 
-                        <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
+                        <div class="spinner-border text-secondary d-none" id="loading" role="status">
+                            <span class="sr-only">
+
+                            </span>
+                        </div>
+                        <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer"
+                            data-auto-responsive="false">
                             <thead class="thead-dark">
                                 <tr class="nk-tb-item nk-tb-head">
                                     <th class="nk-tb-col"># </th>
@@ -313,6 +319,7 @@
             var store_url = $(this).val();
             var key = $(this).children("option:selected").attr('data-key');
             var secret = $(this).children("option:selected").attr('data-secret');
+            $('#loading').removeClass('d-none');
             $.ajax({
                 type: "post",
                 url: "{{ route('product.store')}}",

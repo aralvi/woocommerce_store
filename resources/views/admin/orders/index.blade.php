@@ -211,11 +211,9 @@
 
                                 @if ($order->status == $setting->order_status)
 
-                                <tr class="nk-tb-item">
+                               <tr class="nk-tb-item">
                                     <td class="nk-tb-col nk-tb-col-check">
-                                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                                            <input type="checkbox" name="" class="order_check ">
-                                        </div>
+                                        <input type="checkbox" name="" class="order_check " value="{{ $order->id }}">
                                     </td>
                                     <td class="nk-tb-col">
                                         <div class="user-info">
@@ -230,6 +228,41 @@
                                         </div>
                                     </td>
                                     <td class="nk-tb-col tb-col-mb">
+                                        @if ($order->status == 'on-hold')
+                                        <span class="dot bg-warning d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'completed')
+                                        <span class="dot bg-success d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'failed')
+                                        <span class="dot bg-danger d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'pending')
+                                        <span class="dot bg-info d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'processing')
+                                        <span class="dot bg-primary d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'refunded')
+                                        <span class="dot bg-secondary d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'cancelled')
+                                        <span class="dot bg-danger d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
                                         <span class="tb-amount">{{ $order->status }}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-md">
@@ -245,15 +278,18 @@
                                     </td>
                                    
                                     <td class="nk-tb-col tb-col-md">
-                                     
+
                                         {{-- <a href="{{ route('orders.show',$order->id) }}"
                                             class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
-                                       <li class="nk-tb-action-hidden list-unstyled">
+                                            {{-- <ul class="nk-tb-actions gx-1"> --}}
+                                            <li class="nk-tb-action-hidden list-unstyled">
                                                 <a  href="{{ route('orders.show',$order->id) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip"
                                                     data-placement="top" title="" data-original-title="Suspend">
                                                     <em class="icon ni ni-eye"></em>
                                                 </a>
                                             </li>
+                                            
+                                       
                                     </td>
 
                                 </tr><!-- .nk-tb-item  -->
