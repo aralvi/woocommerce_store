@@ -10,7 +10,7 @@
 			<div class="col-md-12 d-flex justify-content-between mb-2 p-0">
 				<div class="">
 					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode"> </div>
-				<div class="btn-group" aria-label="Basic example"> <a href="{{ $store_url." /wp-admin/post.php?post=".$orders['id']." &action=edit " }}" class="btn btn-dim btn-primary"><i class="icon ni ni-eye"> Woocommerce</i></a>
+				<div class="btn-group" aria-label="Basic example"> <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit " }}" class="btn btn-dim btn-primary"><i class="icon ni ni-eye"> Woocommerce</i></a>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status" data-orderId="{{ $orders['id'] }}">Change Order status</button>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote" data-orderId="{{ $orders['id'] }}">Add Note</button>
 				</div>
