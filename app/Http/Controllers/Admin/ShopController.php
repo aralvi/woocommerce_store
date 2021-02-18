@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Setting;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,14 +17,7 @@ class ShopController extends Controller
     public function index()
     {
         $shops = Shop::all();
-        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-        if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-            return view('admin.stores.index',compact('shops','setting'));
-        }else{
-
-            return view('admin.stores.index',compact('shops'));
-        }
+        return view('admin.stores.index',compact('shops'));
     }
 
     /**

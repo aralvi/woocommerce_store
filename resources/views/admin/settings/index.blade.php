@@ -102,12 +102,3 @@
         }
 	</script>
 @endsection
-@section('expiry_time')
-	@if (isset($setting))
-            
-        <input type="hidden"  id="expiry_page_time" value="{{ $setting->expiry_time }}">
-        @else
-        <input type="hidden"  id="expiry_page_time" value="900000">
-            
-        @endif
-@endsection
