@@ -267,12 +267,20 @@
                                         {{-- <a href="{{ route('orders.show',$order->id) }}"
                                         class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
                                         {{-- <ul class="nk-tb-actions gx-1"> --}}
-                                        <li class="nk-tb-action-hidden list-unstyled">
+                                        <li class="nk-tb-action-hidden list-unstyled d-flex">
                                             <a href="{{ route('orders.show',$order->id) }}"
                                                 class="btn btn-trigger btn-icon" data-toggle="tooltip"
                                                 data-placement="top" title="" data-original-title="Suspend">
                                                 <em class="icon ni ni-eye"></em>
                                             </a>
+                                            {{-- <div class="drodown mr-n1">
+                                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <ul class="link-list-opt no-bdr">
+                                                                    <li><a {{ route('orders.show',$order->id) }}><em class="icon ni ni-eye"></em><span>Order Details</span></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div> --}}
                                         </li>
 
 

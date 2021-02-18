@@ -4,7 +4,6 @@
     .datatable-filter #DataTables_Table_0_length {
         display: none !important;
     }
-
 </style>
 @endsection @section('title','Order detail') @section('page-title','Order Detail #'. $orders['id']) @section('content')
 <div class="col-xxl-12 col-sm-12">
@@ -20,16 +19,14 @@
 
                     <div class="col-md-12 d-flex justify-content-between mb-2 p-0">
                         <div class="">
-                            <input type="text" name="barcode" id="barcode" class="form-control"
-                                placeholder="Enter barcode">
+                            <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode">
                         </div>
                         <div class="btn-group" aria-label="Basic example">
-                            <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit" }}"
-                                class="btn btn-dim btn-primary"><i class="icon ni ni-eye"> Woocommerce</i></a>
-                            <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status"
-                                data-orderId="{{ $orders['id'] }}">Change Order status</button>
-                            <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote"
-                                data-orderId="{{ $orders['id'] }}">Add Note</button>
+                            <!-- <a href="{{".$store_url."}}" class="btn btn-dim btn-primary">
+                                <i class="icon ni ni-eye"> Woocommerce</i>
+                            </a> -->
+                            <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status" data-orderId="{{ $orders['id'] }}">Change Order status</button>
+                            <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote" data-orderId="{{ $orders['id'] }}">Add Note</button>
 
                         </div>
                     </div>
@@ -44,9 +41,7 @@
                                     </th>
                                     <th class="nk-tb-col ">Image</th>
                                     <th class="nk-tb-col tb-col-mb ">Qty to ship</th>
-                                    <th class="nk-tb-col tb-col-md "><button
-                                            class="border-0 btn btn-sm btn-primary btn-dim">-</button> Qty <button
-                                            class="border-0 btn btn-sm btn-primary btn-dim">+</button></th>
+                                    <th class="nk-tb-col tb-col-md "><button class="border-0 btn btn-sm btn-primary btn-dim">-</button> Qty <button class="border-0 btn btn-sm btn-primary btn-dim">+</button></th>
                                     <th class="nk-tb-col tb-col-lg ">Sku</th>
                                     <th class="nk-tb-col tb-col-lg ">supplier</th>
                                     <th class="nk-tb-col tb-col-md ">Barcode</th>
@@ -76,21 +71,15 @@
                                     </td>
                                     <td class="nk-tb-col tb-col-mb">
                                         <span class="tb-amount ship_quantity">{{ $product->quantity }}</span>
-                                        <input type="hidden" name="" id="" class="shipquantity"
-                                            value="{{ $product->quantity }}">
+                                        <input type="hidden" name="" id="" class="shipquantity" value="{{ $product->quantity }}">
                                     </td>
                                     <td class="td_quantity nk-tb-col tb-col-mb">
-                                        <div
-                                            class="d-flex justify-content-between align-items-center btn-group div_quantity">
-                                            <button type="button" id="sub"
-                                                class="sub border btn btn-sm btn-primary btn-dim">--</button>
-                                            <button type="button" id="sub"
-                                                class="sub border btn btn-sm btn-primary btn-dim">-</button>
+                                        <div class="d-flex justify-content-between align-items-center btn-group div_quantity">
+                                            <button type="button" id="sub" class="sub border btn btn-sm btn-primary btn-dim">--</button>
+                                            <button type="button" id="sub" class="sub border btn btn-sm btn-primary btn-dim">-</button>
                                             <input type="number" id="1" value="0" min="0" class="quantity" />
-                                            <button type="button" id="add"
-                                                class="add border btn btn-sm btn-primary btn-dim">+</button>
-                                            <button type="button" id="add"
-                                                class="add border btn btn-sm btn-primary btn-dim">++</button>
+                                            <button type="button" id="add" class="add border btn btn-sm btn-primary btn-dim">+</button>
+                                            <button type="button" id="add" class="add border btn btn-sm btn-primary btn-dim">++</button>
                                         </div>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
@@ -99,8 +88,7 @@
                                     <td class="nk-tb-col tb-col-lg">
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
-                                        <input type="text" name="barcode" value="12313{{ $key }}"
-                                            class="form-control product_barcode" readonly>
+                                        <input type="text" name="barcode" value="12313{{ $key }}" class="form-control product_barcode" readonly>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
                                         {{ $product->name }}
@@ -117,8 +105,7 @@
                                 <th colspan="3" class="text-right pt-3">Total Weight</th>
                                 <td><input type="number" name="" id="" class="form-control" /></td>
                                 <th colspan="3" class="text-right pt-3">Product count</th>
-                                <td colspan="2"><input type="number" name="count" value="" id=""
-                                        class="form-control count" readonly /></td>
+                                <td colspan="2"><input type="number" name="count" value="" id="" class="form-control count" readonly /></td>
                             </tfoot>
                         </table>
                     </div>
@@ -245,53 +232,51 @@
 
 <div class="col-xxl-12 col-sm-12">
     <div class="nk-block nk-block-lg">
-    <div class="card">
-        <div class="nk-ecwg nk-ecwg6">
-            <div class="card-inner">
-                {{-- card header section --}}
-                <div class="card-title-group">
-                    <h3>Order Notes</h3>
-                </div>
-                {{-- card header section end --}}
-                <div class="data">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class="thead-dark">
-                                <tr class="nk-tb-item nk-tb-head">
-                                    <th class="nk-tb-col">Id </th>
-                                    <th class="nk-tb-col tb-col-mb">Note</th>
-                                    {{-- <th class="nk-tb-col tb-col-lg">Actions</th> --}}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($ordreNotes as $ordreNote)
-                                <tr class="nk-tb-item" id="target_{{ $ordreNote->id }}">
-                                    <td class="nk-tb-col">
-                                        <div class="user-info">
-                                            <span class="tb-lead"><span
-                                                    class="dot dot-success d-md-none ml-1"></span>{{$ordreNote->id}}</span>
-                                        </div>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        <span class="tb-amount"> {{$ordreNote->note}}</span>
-                                    </td>
+        <div class="card">
+            <div class="nk-ecwg nk-ecwg6">
+                <div class="card-inner">
+                    {{-- card header section --}}
+                    <div class="card-title-group">
+                        <h3>Order Notes</h3>
+                    </div>
+                    {{-- card header section end --}}
+                    <div class="data">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr class="nk-tb-item nk-tb-head">
+                                        <th class="nk-tb-col">Id </th>
+                                        <th class="nk-tb-col tb-col-mb">Note</th>
+                                        {{-- <th class="nk-tb-col tb-col-lg">Actions</th> --}}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($ordreNotes as $ordreNote)
+                                    <tr class="nk-tb-item" id="target_{{ $ordreNote->id }}">
+                                        <td class="nk-tb-col">
+                                            <div class="user-info">
+                                                <span class="tb-lead"><span class="dot dot-success d-md-none ml-1"></span>{{$ordreNote->id}}</span>
+                                            </div>
+                                        </td>
+                                        <td class="nk-tb-col tb-col-mb">
+                                            <span class="tb-amount"> {{$ordreNote->note}}</span>
+                                        </td>
 
-                                    {{-- <td class="nk-tb-col tb-col-md">
+                                        {{-- <td class="nk-tb-col tb-col-md">
                                     <button type="button" class="btn btn-dim btn-primary "
                                         data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button>
-                                    <button type="button" class="btn btn-dim btn-primary "
-                                        data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-trash"></i></button>
-                                    </td> --}}
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                        <button type="button" class="btn btn-dim btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-trash"></i></button>
+                                        </td> --}}
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
 
@@ -306,8 +291,7 @@
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
-            <form action="{{ route('orders.index') }}" id="singleorderStatus" class="form-validate is-alter"
-                method="POST">
+            <form action="{{ route('orders.index') }}" id="singleorderStatus" class="form-validate is-alter" method="POST">
                 @method('put')
                 <div class="modal-body">
                     @csrf
@@ -325,12 +309,9 @@
                         </select>
                     </div>
                 </div>
-                <input type="hidden" name="store_url" class="store_url"
-                    value="{{ isset($store_url)? $store_url : '' }}">
-                <input type="hidden" name="consumer_key" class="consumer_key"
-                    value="{{ isset($consumer_key)? $consumer_key:'' }}">
-                <input type="hidden" name="consumer_secret" class="consumer_secret"
-                    value="{{ isset($secret)? $secret : '' }}">
+                <input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
+                <input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
+                <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($secret)? $secret : '' }}">
                 <div class="modal-footer bg-light">
                     <div class="form-group">
                         <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
@@ -374,10 +355,10 @@
 
 @section('script')
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         calculateTotal();
-        $(document.body).on("click", "button.add", function () {
+        $(document.body).on("click", "button.add", function() {
             $quantity = $(this).prev().val(+$(this).prev().val() + 1);
 
             $ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td')
@@ -402,7 +383,7 @@
                 $quantity.addClass('bg-danger');
             }
         });
-        $(document.body).on("click", "button.sub", function () {
+        $(document.body).on("click", "button.sub", function() {
             if ($(this).next().val() > 1) {
                 $quantity = $(this).next().val(+$(this).next().val() - 1);
                 $ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings(
@@ -444,9 +425,9 @@
         }
 
 
-        $("#barcode").change(function () {
+        $("#barcode").change(function() {
             $barcode = $(this).val();
-            $('.product_barcode[value="' + $barcode + '"]').each(function () {
+            $('.product_barcode[value="' + $barcode + '"]').each(function() {
                 $product_barcode = $('.product_barcode[value="' + $barcode + '"]');
                 $quantity = $product_barcode.parent('td').siblings('td.td_quantity').children(
                     'div.div_quantity').children('input.quantity').val(1);
@@ -476,6 +457,5 @@
 
         });
     });
-
 </script>
 @endsection
