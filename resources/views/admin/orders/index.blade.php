@@ -59,7 +59,7 @@
                         </div>
                         <div class="col-md-4 d-flex justify-content-end align-items-end">
                             <div class="btn-group">
-                                <button class="btn btn-md btn-dim btn-primary order_status" onclick="getOrderList();" data-toggle="modal" data-target="#modalForm">Change Status for All</button>
+                                <button class="btn btn-md btn-dim btn-primary order_status" onclick="getOrderList();" data-toggle="modal" data-target="#modalForm">Change Order Status </button>
                             </div>
 
                         </div>
@@ -91,8 +91,13 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div id="orders_table">
-
+                    <div class="spinner-border text-secondary d-none" id="loading" role="status" >
+                        <span class="sr-only">
+                            
+                        </span>
+                        </div>
                         <table class="datatable-init nk-tb-list nk-tb-ulist col-md-12" data-auto-responsive="false">
                             <thead class="thead-dark">
                                 <tr class="nk-tb-item nk-tb-head">
@@ -373,7 +378,7 @@
         var key = $('.consumer_key').val();
         var store_url = $('.store_url').val();
         var secret = $('.consumer_secret').val();
-        console.log(key,status,secret,store_url)
+        
         $.ajax({
             type: 'post',
             url: "{{ route('order.status')}}",
@@ -416,6 +421,7 @@
         var store_url = $(this).val();
         var key = $(this).children("option:selected").attr('data-key');
         var secret = $(this).children("option:selected").attr('data-secret');
+        $('#loading').removeClass('d-none');
         $.ajax({
             type: "post",
             url: "{{ route('order.store')}}",

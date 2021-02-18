@@ -432,15 +432,21 @@
             $ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
             $status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
             if ($ship_quantity > $quantity.val()) {
-                     $quantity.css({"background-color": "yellow"})
+                    $quantity.removeClass('bg-danger');
+                    $quantity.removeClass('bg-success');
+                     $quantity.addClass('bg-warning');
                 }
                 if ($ship_quantity == $quantity.val()) {
-                    $quantity.css({"background-color": "green"});
-                    $status.html('Packed').css({"background-color": "green","color": 'white','border-radius':'10px' });
+                    $quantity.removeClass('bg-warning');
+                    $quantity.removeClass('bg-danger');
+                    $quantity.addClass('bg-success');
+                    $status.html('Packed').addClass(['bg-success','text-white']);
 
                 }
                 if ($ship_quantity < $quantity.val()) {
-                    $quantity.css({"background-color": "red"});
+                    $quantity.removeClass('bg-success');
+                    $quantity.removeClass('bg-waning');
+                    $quantity.addClass('bg-danger');
                 }
         });
         $(document.body).on("click", "button.sub", function () {
@@ -448,16 +454,22 @@
                 $quantity = $(this).next().val(+$(this).next().val() - 1);
                 $ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
                 $status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
-                 if ($ship_quantity > $quantity.val()) {
-                     $quantity.css({"background-color": "yellow"})
+                if ($ship_quantity > $quantity.val()) {
+                    $quantity.removeClass('bg-danger');
+                    $quantity.removeClass('bg-success');
+                     $quantity.addClass('bg-warning');
                 }
                 if ($ship_quantity == $quantity.val()) {
-                    $quantity.css({"background-color": "green"});
-                    $status.html('Packed').css({"background-color": "green","color": 'white','border-radius':'10px' });
+                    $quantity.removeClass('bg-warning');
+                    $quantity.removeClass('bg-danger');
+                    $quantity.addClass('bg-success');
+                    $status.html('Packed').addClass(['bg-success','text-white']);
 
                 }
                 if ($ship_quantity < $quantity.val()) {
-                    $quantity.css({"background-color": "red"});
+                    $quantity.removeClass('bg-success');
+                    $quantity.removeClass('bg-waning');
+                    $quantity.addClass('bg-danger');
                 }
 
             }
@@ -485,15 +497,22 @@
                 $ship_quantity = $product_barcode.parent('td').siblings('td').children('.ship_quantity').text();
                 $status = $product_barcode.parent('td').siblings('td').children('.pack_status');
                  if ($ship_quantity > $quantity.val()) {
-                    $quantity.css({"background-color": "yellow"})
+                     $quantity.removeClass('bg-danger');
+                    $quantity.removeClass('bg-success');
+                    $quantity.addClass('bg-warning');
                 }
                 if ($ship_quantity == $quantity.val()) {
-                    $quantity.css({"background-color": "green"});
-                    $status.html('Packed').css({"background-color": "green","color": 'white','border-radius':'10px' });
+                    $quantity.removeClass('bg-warning');
+                    $quantity.removeClass('bg-danger');
+                    $quantity.addClass('bg-success');
+                    
+                    $status.html('Packed').addClass(['bg-success','text-white']);
 
                 }
                 if ($ship_quantity < $quantity.val()) {
-                    $quantity.css({"background-color": "red"});
+                    $quantity.removeClass('bg-success');
+                    $quantity.removeClass('bg-waning');
+                    $quantity.addClass('bg-danger');
                 }
 
             });
