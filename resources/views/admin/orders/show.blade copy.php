@@ -7,109 +7,127 @@
 
 </style>
 @endsection @section('title','Order detail') @section('page-title','Order Detail #'. $orders['id']) @section('content')
-
 <div class="col-xxl-12 col-sm-12">
-    <div class="card card-preview">
-        <div class="card-inner">
-            <div class="col-md-12 d-flex justify-content-between mb-2 p-0">
-                <div class="">
-                    <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode">
-                </div>
-                <div class="btn-group" aria-label="Basic example">
-                    <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit" }}"
-                        class="btn btn-dim btn-primary"><i class="icon ni ni-eye"> Woocommerce</i></a>
-                    <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status"
-                        data-orderId="{{ $orders['id'] }}">Change Order status</button>
-                    <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote"
-                        data-orderId="{{ $orders['id'] }}">Add Note</button>
+    <div class="card">
+        <div class="nk-ecwg nk-ecwg6">
+            <div class="card-inner">
+                {{-- card header section --}}
+                <div class="card-title-group">
 
                 </div>
-            </div>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th class="">
-                                    #
-                            </th>
-                            <th class=" ">Image</th>
-                            <th class="  ">Qty to ship</th>
-                            <th class="  "><button class="border-0 btn btn-sm btn-primary btn-dim">-</button> Qty
-                                <button class="border-0 btn btn-sm btn-primary btn-dim">+</button></th>
-                            <th class="  ">Sku</th>
-                            <th class="  ">supplier</th>
-                            <th class="  ">Barcode</th>
-                            <th class="  ">Product Name</th>
-                            <th class="  ">Scan status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orders['line_items'] as $key=> $product)
+                {{-- card header section end --}}
+                <div class="data">
 
-                        <tr class="">
-                            <td class="">
-                                {{ $product->product_id }}
-                            </td>
-                            <td class="">
-                                <div class="user-info">
-                                    @php
-                                    $single_product = Product::find($product->product_id);
-                                    @endphp
-                                    @foreach ($single_product['images'] as $image)
-                                    <img src="{{ $image->src }}" alt="" width="60" height="60">
-                                    @break
-                                    @endforeach
-                                </div>
-                            </td>
-                            <td class=" ">
-                                <span class="tb-amount ship_quantity">{{ $product->quantity }}</span>
-                                <input type="hidden" name="" id="" class="shipquantity"
-                                    value="{{ $product->quantity }}">
-                            </td>
-                            <td class="td_quantity  ">
-                                <div class="d-flex justify-content-between align-items-center btn-group div_quantity">
-                                    <button type="button" id="sub"
-                                        class="sub border btn btn-sm btn-primary btn-dim">--</button>
-                                    <button type="button" id="sub"
-                                        class="sub border btn btn-sm btn-primary btn-dim">-</button>
-                                    <input type="number" id="1" value="0" min="0" class="quantity" />
-                                    <button type="button" id="add"
-                                        class="add border btn btn-sm btn-primary btn-dim">+</button>
-                                    <button type="button" id="add"
-                                        class="add border btn btn-sm btn-primary btn-dim">++</button>
-                                </div>
-                            </td>
-                            <td class=" " data-order="Email Verified - Kyc Unverified">
-                                {{ $product->sku }}
-                            </td>
-                            <td class=" ">
-                            </td>
-                            <td class=" ">
-                                <input type="text" name="barcode" value="12313{{ $key }}"
-                                    class="form-control product_barcode" readonly>
-                            </td>
-                            <td class=" ">
-                                {{ $product->name }}
-                            </td>
-                            <td class="">
-                                <label class="pack_status p-2">Un-Packed</label>
-                            </td>
+                    <div class="col-md-12 d-flex justify-content-between mb-2 p-0">
+                        <div class="">
+                            <input type="text" name="barcode" id="barcode" class="form-control"
+                                placeholder="Enter barcode">
+                        </div>
+                        <div class="btn-group" aria-label="Basic example">
+                            <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit" }}"
+                                class="btn btn-dim btn-primary"><i class="icon ni ni-eye"> Woocommerce</i></a>
+                            <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status"
+                                data-orderId="{{ $orders['id'] }}">Change Order status</button>
+                            <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote"
+                                data-orderId="{{ $orders['id'] }}">Add Note</button>
 
-                        </tr><!-- .nk-tb-item  -->
-                        @endforeach
-                    </tbody>
-                    <tfoot>
-                        <th colspan="3" class="text-right pt-3">Total Weight</th>
-                        <td><input type="number" name="" id="" class="form-control" /></td>
-                        <th colspan="3" class="text-right pt-3">Product count</th>
-                        <td colspan="2"><input type="number" name="count" value="" id="" class="form-control count"
-                                readonly /></td>
-                    </tfoot>
-                </table>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class=" table">
+                            <thead>
+                                <tr class="nk-tb-item nk-tb-head">
+                                    <th class="nk-tb-col nk-tb-col-check">
+                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                            #
+                                        </div>
+                                    </th>
+                                    <th class="nk-tb-col ">Image</th>
+                                    <th class="nk-tb-col tb-col-mb ">Qty to ship</th>
+                                    <th class="nk-tb-col tb-col-md "><button
+                                            class="border-0 btn btn-sm btn-primary btn-dim">-</button> Qty <button
+                                            class="border-0 btn btn-sm btn-primary btn-dim">+</button></th>
+                                    <th class="nk-tb-col tb-col-lg ">Sku</th>
+                                    <th class="nk-tb-col tb-col-lg ">supplier</th>
+                                    <th class="nk-tb-col tb-col-md ">Barcode</th>
+                                    <th class="nk-tb-col tb-col-md ">Product Name</th>
+                                    <th class="nk-tb-col tb-col-md ">Scan status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="order_table">
+
+                                @foreach ($orders['line_items'] as $key=> $product)
+
+                                <tr class="nk-tb-item">
+                                    <td class="nk-tb-col nk-tb-col-check">
+                                        {{ $product->product_id }}
+                                    </td>
+                                    <td class="nk-tb-col">
+                                        <div class="user-info">
+                                            @php
+                                            $single_product = Product::find($product->product_id);
+                                            @endphp
+                                            @foreach ($single_product['images'] as $image)
+                                            <img src="{{ $image->src }}" alt="" width="60" height="60">
+                                            @break
+                                            @endforeach
+                                        </div>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-mb">
+                                        <span class="tb-amount ship_quantity">{{ $product->quantity }}</span>
+                                        <input type="hidden" name="" id="" class="shipquantity"
+                                            value="{{ $product->quantity }}">
+                                    </td>
+                                    <td class="td_quantity nk-tb-col tb-col-mb">
+                                        <div
+                                            class="d-flex justify-content-between align-items-center btn-group div_quantity">
+                                            <button type="button" id="sub"
+                                                class="sub border btn btn-sm btn-primary btn-dim">--</button>
+                                            <button type="button" id="sub"
+                                                class="sub border btn btn-sm btn-primary btn-dim">-</button>
+                                            <input type="number" id="1" value="0" min="0" class="quantity" />
+                                            <button type="button" id="add"
+                                                class="add border btn btn-sm btn-primary btn-dim">+</button>
+                                            <button type="button" id="add"
+                                                class="add border btn btn-sm btn-primary btn-dim">++</button>
+                                        </div>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                        {{ $product->sku }}
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        <input type="text" name="barcode" value="12313{{ $key }}"
+                                            class="form-control product_barcode" readonly>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg">
+                                        {{ $product->name }}
+                                    </td>
+                                    <td class="nk-tb-col tb-col-md">
+                                        <label class="pack_status p-2">Un-Packed</label>
+                                    </td>
+
+                                </tr><!-- .nk-tb-item  -->
+                                @endforeach
+
+                            </tbody>
+                            <tfoot>
+                                <th colspan="3" class="text-right pt-3">Total Weight</th>
+                                <td><input type="number" name="" id="" class="form-control" /></td>
+                                <th colspan="3" class="text-right pt-3">Product count</th>
+                                <td colspan="2"><input type="number" name="count" value="" id=""
+                                        class="form-control count" readonly /></td>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
             </div>
+            <!-- .card-inner -->
         </div>
-    </div><!-- .card-preview -->
-
+        <!-- .nk-ecwg -->
+    </div>
     <!-- .card -->
 </div>
 
@@ -226,42 +244,55 @@
 {{-- order notes --}}
 
 <div class="col-xxl-12 col-sm-12">
-    <div class="card card-preview">
-        <div class="card-inner">
-            <div class="card-title-group">
-                <h3>Order Notes</h3>
-            </div>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Note</th>
-                            {{-- <th class="nk-tb-col tb-col-lg">Actions</th> --}}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($ordreNotes as $ordreNote)
-                        <tr id="target_{{ $ordreNote->id }}">
-                            <th scope="row">{{ $ordreNote->id }}</th>
-                            <td>{{ $ordreNote->note }}</td>
-                            {{-- <td class="nk-tb-col tb-col-md">
+    <div class="nk-block nk-block-lg">
+    <div class="card">
+        <div class="nk-ecwg nk-ecwg6">
+            <div class="card-inner">
+                {{-- card header section --}}
+                <div class="card-title-group">
+                    <h3>Order Notes</h3>
+                </div>
+                {{-- card header section end --}}
+                <div class="data">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr class="nk-tb-item nk-tb-head">
+                                    <th class="nk-tb-col">Id </th>
+                                    <th class="nk-tb-col tb-col-mb">Note</th>
+                                    {{-- <th class="nk-tb-col tb-col-lg">Actions</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($ordreNotes as $ordreNote)
+                                <tr class="nk-tb-item" id="target_{{ $ordreNote->id }}">
+                                    <td class="nk-tb-col">
+                                        <div class="user-info">
+                                            <span class="tb-lead"><span
+                                                    class="dot dot-success d-md-none ml-1"></span>{{$ordreNote->id}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-mb">
+                                        <span class="tb-amount"> {{$ordreNote->note}}</span>
+                                    </td>
+
+                                    {{-- <td class="nk-tb-col tb-col-md">
                                     <button type="button" class="btn btn-dim btn-primary "
                                         data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button>
-                            <button type="button" class="btn btn-dim btn-primary " data-storId="{{ $ordreNote->id }}"><i
-                                    class="icon ni ni-trash"></i></button>
-                            </td> --}}
-                        </tr>
-                        @endforeach
+                                    <button type="button" class="btn btn-dim btn-primary "
+                                        data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-trash"></i></button>
+                                    </td> --}}
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
-                    </tbody>
-                </table>
+                </div>
             </div>
         </div>
-    </div><!-- .card-preview -->
-
-
-
+    </div>
+    </div>
 </div>
 
 
