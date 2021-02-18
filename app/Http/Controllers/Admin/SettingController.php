@@ -60,6 +60,7 @@ class SettingController extends Controller
         }
         $setting->user_id = Auth::user()->id;
         $setting->shop_id = $request->store;
+        $setting->expiry_time = $request->expiry_time;
         $setting->order_status = $request->order_status;
         $setting->save();
         

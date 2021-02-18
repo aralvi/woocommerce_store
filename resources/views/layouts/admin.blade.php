@@ -519,23 +519,14 @@
         </div>
         <!-- app-root  -->
         <!-- JavaScript -->
+       @yield('expiry_time')
+        
         <script src="{{ asset('assets/js/bundle.js?ver=2.3.0') }}"></script>
         <script src="{{ asset('assets/js/scripts.js?ver=2.3.0') }}"></script>
         <script src="{{ asset('assets/js/charts/chart-ecommerce.js?ver=2.3.0') }}"></script>
         <script src="{{ asset('assets/js/custome.js') }}"></script>
         <script>
-            $(document).ready(function () {
-                const timeout = 900000;  // 900000 ms = 15 minutes
-                var idleTimer = null;
-                $('*').bind('mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick', function () {
-                    clearTimeout(idleTimer);
-
-                    idleTimer = setTimeout(function () {
-                        document.getElementById('logout-form').submit();
-                    }, timeout);
-                });
-                $("body").trigger("mousemove");
-            });
+            
         </script>
         @yield('script')
     </body>

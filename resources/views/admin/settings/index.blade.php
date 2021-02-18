@@ -43,6 +43,19 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-sm-6 mt-3">
+							<div class="form-group">
+								<label for="Expiry time" class="mb-0">Expiry time</label>
+								<select id="expiry_time" name="expiry_time" class="form-control form-select" data-search="on">
+									<option value="300000" @if ($setting !=null) @if ( '300000'==$setting->expiry_time) selected @endif @endif>5 Minutes</option>
+									<option value="600000" @if ($setting !=null) @if ( '600000'==$setting->expiry_time) selected @endif @endif>10 Minutes</option>
+									<option value="900000" @if ($setting !=null) @if ( '900000'==$setting->expiry_time) selected @endif @endif>15 Minutes</option>
+									<option value="1200000" @if ($setting !=null) @if ( '1200000'==$setting->expiry_time) selected @endif @endif>20 Minutes</option>
+									<option value="1500000" @if ($setting !=null) @if ( '1500000'==$setting->expiry_time) selected @endif @endif>25 Minutes</option>
+									<option value="1800000" @if ($setting !=null) @if ( '1800000'==$setting->expiry_time) selected @endif @endif>30 Minutes</option>
+								</select>
+							</div>
+						</div>
 						<div class="col-sm-12 ">
 							<div class="form-group mt-3 float-right">
 								<button class="btn btn-dim btn-primary ">Update Setting</button>
@@ -57,3 +70,12 @@
 	</div>
 	<!-- .card -->
 </div> @endsection
+@section('expiry_time')
+	@if (isset($setting))
+            
+        <input type="hidden"  id="expiry_page_time" value="{{ $setting->expiry_time }}">
+        @else
+        <input type="hidden"  id="expiry_page_time" value="900000">
+            
+        @endif
+@endsection
