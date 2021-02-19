@@ -205,14 +205,30 @@
 						</tr>
 					</thead>
 					<tbody> @foreach($ordreNotes as $ordreNote)
-						<tr id="target_{{ $ordreNote->id }}">
+						@if ($ordreNote->author == 'WooCommerce')
+							
+						<tr id="target_{{ $ordreNote->id }}" style=" background: #d7cad2;">
 							<th scope="row">{{ $ordreNote->id }}</th>
 							<td>{{ $ordreNote->note }}</td>
 							<td class="nk-tb-col tb-col-md"> {{--
 								<button type="button" class="btn btn-dim btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button> --}}
 								<button type="button" class="btn btn-trigger btn-icon deleteNote" data-NoteId="{{ $ordreNote->id }}"><em class="icon ni ni-trash"></em></button>
 							</td>
-						</tr> @endforeach </tbody>
+						</tr> 
+						@else
+						<tr id="target_{{ $ordreNote->id }}" class="bg-warning">
+							<th scope="row">{{ $ordreNote->id }}</th>
+							<td>{{ $ordreNote->note }}</td>
+							<td class="nk-tb-col tb-col-md"> {{--
+								<button type="button" class="btn btn-dim btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button> --}}
+								<button type="button" class="btn btn-trigger btn-icon deleteNote" data-NoteId="{{ $ordreNote->id }}"><em class="icon ni ni-trash"></em></button>
+							</td>
+						</tr>
+						@endif
+						
+						
+						@endforeach 
+					</tbody>
 				</table>
 			</div>
 		</div>
