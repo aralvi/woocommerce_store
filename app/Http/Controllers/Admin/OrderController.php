@@ -36,7 +36,7 @@ class OrderController extends Controller
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $orders = Order::all();
-                // dd($orders);
+                dd($orders);
                 return view('admin.orders.index', compact('orders', 'shops', 'setting'));
             } else {
                 session()->now('error', 'please configure your store settings!');
@@ -295,7 +295,7 @@ class OrderController extends Controller
             curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
             curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
             curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
-            curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode(array("tracking_provider"=>"Fedex","tracking_number"=>"12345678","date_shipped"=>"2019-03-08"))); 
+            curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode(array("tracking_provider"=>"Fedex","tracking_number"=>123456789012,"date_shipped"=>"2019-03-08"))); 
             $response = curl_exec($curl);
             $err = curl_error($curl);
             curl_close($curl);
@@ -305,6 +305,21 @@ class OrderController extends Controller
             } 
             else 
             {
+                // $data = json_decode($response);
+                // if(property_exists($data,'data'))
+                // {
+                //     if($data->data->status==404)
+                //     {
+                //         echo $data->message;
+                //         exit;
+                //     }
+                // }
+
+                // echo "Shipping detail</br>";
+                // echo "Tracking Id : ".$data->tracking_id."</br>";
+                // echo "Tracking Provider : ".$data->tracking_provider."</br>";
+                // echo "Tracking Number : ".$data->tracking_number."</br>";
+                // echo "Shipped Date: ".$data->date_shipped."</br>";
                 $data = json_decode($response);
                 if(property_exists($data,'data'))
                 {
