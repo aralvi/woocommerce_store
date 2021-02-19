@@ -199,8 +199,9 @@
 							<th scope="row">{{ $ordreNote->id }}</th>
 							<td>{{ $ordreNote->note }}</td> 
 							<td class="nk-tb-col tb-col-md">
+								
 								{{-- <button type="button" class="btn btn-dim btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button> --}}
-								<button type="button" class="btn btn-dim btn-primary deleteNote"  data-NoteId="{{ $ordreNote->id }}"><i class="icon ni ni-trash"></i></button>
+								<button type="button" class="btn btn-trigger btn-icon deleteNote"  data-NoteId="{{ $ordreNote->id }}"><em class="icon ni ni-trash"></em></button>
 							</td> 
 						</tr> 
 						@endforeach 
@@ -237,7 +238,7 @@
 				</div>
 				<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
 				<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
-				<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($secret)? $secret : '' }}">
+				<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
 				<div class="modal-footer bg-light">
 					<div class="form-group">
 						<button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
@@ -289,7 +290,7 @@
 				<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
 				<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
 				<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
-				<input type="hidden" name="order_id" id="order_id" value="{{ $orders['id'] }}">
+				<input type="hidden" name="order_id" class="order_id" value="{{ $orders['id'] }}">
             </div>
             <div class="modal-footer bg-light">
                 <button class="btn btn-dim btn-danger" id="deleteNoteBtn">Yes,sure</button>

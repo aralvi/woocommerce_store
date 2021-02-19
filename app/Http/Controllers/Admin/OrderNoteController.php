@@ -138,7 +138,6 @@ class OrderNoteController extends Controller
         $order_id = $request->order_id;
         $note_id = $id;
         $options = ['force' => true]; // Set force option true for delete permanently. Default value false
-
         $note = Note::delete($order_id, $note_id, $options);
     }
 }

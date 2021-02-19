@@ -120,7 +120,7 @@ $('.deleteNote').on('click', function() {
 /*** Deleting NOte  ***/
 $('#deleteNoteBtn').on('click', function() {
     var NoteID = $(this).val();
-    var OrderID = $('#order_id').val();
+    var OrderID = $('.order_id').val();
     var store_url = $('.store_url').val();
     var key = $('.consumer_key').val();
     var secret = $('.consumer_secret').val();
