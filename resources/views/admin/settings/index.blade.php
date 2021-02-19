@@ -8,8 +8,8 @@
                         Update Setting
                     </h4> </div>
 				<div class="row gy-4">
-					<form action="" method="post" class="col-sm-12"> @csrf
-						<div class="d-flex">
+					<form action="" method="post" class="col-sm-12" enctype="multipart/form-data"> @csrf
+						<div class="row">
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="" class="mb-0">Select Store</label>
@@ -43,6 +43,37 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+
+							<div class="col-sm-6 mt-4">
+								<div class="form-group">
+									<label for="Expiry time" class="mb-0">Expiry time</label>
+									<select id="expiry_time" name="expiry_time" class="form-control form-select" data-search="on">
+										<option value="300000" @if ($setting !=null) @if ( '300000'==$setting->expiry_time) selected @endif @endif>5 Minutes</option>
+										<option value="600000" @if ($setting !=null) @if ( '600000'==$setting->expiry_time) selected @endif @endif>10 Minutes</option>
+										<option value="900000" @if ($setting !=null) @if ( '900000'==$setting->expiry_time) selected @endif @endif>15 Minutes</option>
+										<option value="1200000" @if ($setting !=null) @if ( '1200000'==$setting->expiry_time) selected @endif @endif>20 Minutes</option>
+										<option value="1500000" @if ($setting !=null) @if ( '1500000'==$setting->expiry_time) selected @endif @endif>25 Minutes</option>
+										<option value="1800000" @if ($setting !=null) @if ( '1800000'==$setting->expiry_time) selected @endif @endif>30 Minutes</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-6 d-flex mt-5 ">
+	
+								<div class="form-group mb-0 ">
+									<label class="btn img-lbl border p-1 mb-0">Upload Logo<input type="file" style="display: none;" name="logo" onchange="readURL(this);"></label>
+								</div>
+								<div class="image-div ml-3">
+								@if (isset($setting))
+									<img id="blah" src="{{ asset('uploads/logo/'.$setting->logo) }}" class="rounded-circle" alt="No Logo Found" width="80px" height="80px">
+									
+									@else
+									<img id="blah" src="" class="rounded-circle" alt="No Logo Found" width="80px" height="80px">
+									
+								@endif
+								</div>
+							</div>
+						</div>
 						<div class="col-sm-12 ">
 							<div class="form-group mt-3 float-right">
 								<button class="btn btn-dim btn-primary ">Update Setting</button>
@@ -57,3 +88,17 @@
 	</div>
 	<!-- .card -->
 </div> @endsection
+ @section('script')
+	<script>
+		function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+	</script>
+@endsection

@@ -94,13 +94,13 @@ $('#deleteModalBtn').on('click', function() {
 });
 
 // open order status change modal
-// $('.order_status').on('click', function() {
-//     var orderID = $(this).attr('data-orderId');
-//     url = $('#orderStatus').attr('action')
-//     url = url + "/" + orderID;
-//     $('#orderStatus').attr('action', url);
-//     $('#modalForm').modal('toggle');
-// });
+$('.single_order_status').on('click', function() {
+    var orderID = $(this).attr('data-orderId');
+    url = $('#singleorderStatus').attr('action')
+    url = url + "/" + orderID;
+    $('#singleorderStatus').attr('action', url);
+    $('#OrderStatusmodalForm').modal('toggle');
+});
 
 
 
@@ -109,8 +109,43 @@ $('.orderNote').on('click', function() {
     var orderID = $(this).attr('data-orderId');
     $('#order_id').val(orderID);
     $('#OrderNoteModalForm').modal('toggle');
-})
+});
+/*** Open Deleting note  Modal ***/
+$('.deleteNote').on('click', function() {
+    var NoteID = $(this).attr('data-NoteId');
+    $('#DeleteNoteModal').modal('toggle');
+    $('#deleteNoteBtn').val(NoteID);
+});
 
+/*** Deleting NOte  ***/
+$('#deleteNoteBtn').on('click', function() {
+    var NoteID = $(this).val();
+    var OrderID = $('.order_id').val();
+    var store_url = $('.store_url').val();
+    var key = $('.consumer_key').val();
+    var secret = $('.consumer_secret').val();
+    $.ajax({
+        type: 'DELETE',
+        url: url + '/ordernotes/' + NoteID,
+        data: { store_url: store_url, key: key, secret: secret, order_id: OrderID, id: NoteID, _token: token, _method: 'DELETE' },
+        success: function(data) {
+            $("#DeleteNoteModal").modal("hide");
+            $("#target_" + NoteID).hide();
+            $('#success_errror_any').addClass("hide");
+            $('#messageDiv').removeClass("alert-danger hide");
+            $('#messageDiv').addClass("alert-success");
+            $('#message').html(data);
+        },
+        error: function() {
+            $('#success_errror_any').addClass("hide");
+            $('#messageDiv').removeClass("alert-success hide");
+            $('#messageDiv').addClass("alert-danger");
+            $('#message').html('Category not found or Something is wrong');
+            $('#DeleteNoteModal').modal('hide');
+        }
+
+    });
+});
 
 // open edit Product modal
 $('.editProduct').on('click', function() {
@@ -163,4 +198,19 @@ $('#deleteProductModalBtn').on('click', function() {
         }
 
     });
+});
+
+
+// auto logout
+$(document).ready(function() {
+    const timeout = $('#expiry_page_time').val(); // 900000 ms = 15 minutes
+    var idleTimer = null;
+    $('*').bind('mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick', function() {
+        clearTimeout(idleTimer);
+
+        idleTimer = setTimeout(function() {
+            document.getElementById('logout-form').submit();
+        }, timeout);
+    });
+    $("body").trigger("mousemove");
 });

@@ -142,6 +142,6 @@
             <div class="modal-body requestdata"></div>
         </div>
     </div>
+</div>
         @endsection
     
-</div>

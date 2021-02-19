@@ -51,15 +51,27 @@ class SettingController extends Controller
         $this->validate($request, [
             'store' => 'required',
             'order_status' => 'required',
-        ]);
-        $settingExists = Setting::where('user_id',Auth::user()->id)->exists();
-        if($settingExists){
-            $setting = Setting::where('user_id', Auth::user()->id)->first();
-        }else{
-            $setting = new Setting();
-        }
-        $setting->user_id = Auth::user()->id;
+            ]);
+            $settingExists = Setting::where('user_id',Auth::user()->id)->exists();
+            if($settingExists){
+                $setting = Setting::where('user_id', Auth::user()->id)->first();
+            }else{
+                $setting = new Setting();
+            }
+            $setting->user_id = Auth::user()->id;
+            if ($company_logo = $request->file('logo')) {
+                $company_logo_original_name = $company_logo->getClientOriginalName();
+                $image_changed_name = time() . '_' . str_replace('', '-', '');
+                if($setting->logo != null){
+
+                    unlink( 'uploads/logo/' . $setting->logo);
+                }
+                $destinationPath = 'uploads/logo/'; // upload path
+                $company_logo->move($destinationPath, $image_changed_name);
+                $setting->logo = $image_changed_name;
+            }
         $setting->shop_id = $request->store;
+        $setting->expiry_time = $request->expiry_time;
         $setting->order_status = $request->order_status;
         $setting->save();
         
