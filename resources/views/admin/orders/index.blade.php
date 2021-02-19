@@ -2,7 +2,12 @@
 @section('title','Orders')
 
 @section('content')
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 invalidOrderIdError">
+        </div>
+    </div>
+</div>
 <div class="col-xxl-12 col-sm-12">
     <div class="">
         <div class="nk-ecwg nk-ecwg6">
@@ -31,7 +36,7 @@
                                                         @if (isset($shops))
 
                                                         @foreach ($shops as $shop)
-                                                        @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role
+                                                        @if (Auth::user()->id == $shop->user_id || Auth::user()->role
                                                         == 'SuperAdmin'
                                                         || Auth::user()->parent_id == $shop->user_id)
 
@@ -595,6 +600,7 @@
         });
 
     });
+
     $('#stores').on('change', function (e) {
         var store_url = $(this).val();
         var key = $(this).children("option:selected").attr('data-key');
@@ -620,6 +626,40 @@
             },
         });
 
+    });
+
+   
+    $(document).keyup(function(event) {
+        if (event.which === 13) {
+            let id = $('.dataTables_filter label input').val();
+            if(id!='')
+            {
+                var c_url = '{{ route("orders.show", ":id") }}';
+                c_url = c_url.replace(':id',id);
+                $.ajax({
+                    url:"{{ route('single.order.detail')}}",
+                    type:"get",
+                    data:{id:id},
+                    success:function(data)
+                    {
+                        if(data=="exist")
+                        {
+                            $('.invalidOrderIdError').html('');
+                            window.open(c_url);
+                            // window.location = c_url;
+                        }
+                    },
+                    error: function (request) {
+                        let html = '<div class="alert alert-danger alert-block" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Invalid Order ID</strong></div>';
+                        $('.invalidOrderIdError').html(html);
+                    }
+                });
+            }
+            else
+            {
+                alert("empty");
+            }
+        }
     });
 
 </script>
