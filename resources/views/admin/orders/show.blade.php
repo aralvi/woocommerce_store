@@ -189,22 +189,28 @@
 					<thead>
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">Note</th> {{--
-							<th class="nk-tb-col tb-col-lg">Actions</th> --}} </tr>
+							<th scope="col">Note</th> 
+							<th class="nk-tb-col tb-col-lg">Actions</th> 
+						</tr>
 					</thead>
-					<tbody> @foreach($ordreNotes as $ordreNote)
+					<tbody> 
+						@foreach($ordreNotes as $ordreNote)
 						<tr id="target_{{ $ordreNote->id }}">
 							<th scope="row">{{ $ordreNote->id }}</th>
-							<td>{{ $ordreNote->note }}</td> {{--
+							<td>{{ $ordreNote->note }}</td> 
 							<td class="nk-tb-col tb-col-md">
-								<button type="button" class="btn btn-dim btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button>
-								<button type="button" class="btn btn-dim btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-trash"></i></button>
-							</td> --}} </tr> @endforeach </tbody>
+								{{-- <button type="button" class="btn btn-dim btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button> --}}
+								<button type="button" class="btn btn-dim btn-primary deleteNote"  data-NoteId="{{ $ordreNote->id }}"><i class="icon ni ni-trash"></i></button>
+							</td> 
+						</tr> 
+						@endforeach 
+					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
 	<!-- .card-preview -->
+	
 </div>
 <div class="modal fade zoom" tabindex="-1" id="OrderStatusmodalForm">
 	<div class="modal-dialog" role="document">
@@ -265,7 +271,34 @@
 			</form>
 		</div>
 	</div>
-</div> @endsection @section('script')
+</div> 
+
+{{-- delete mdal  --}}
+
+<div class="modal fade zoom" tabindex="-1" id="DeleteNoteModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Note</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this note?</p>
+				<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
+				<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
+				<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
+				<input type="hidden" name="order_id" id="order_id" value="{{ $orders['id'] }}">
+            </div>
+            <div class="modal-footer bg-light">
+                <button class="btn btn-dim btn-danger" id="deleteNoteBtn">Yes,sure</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+ @section('script')
 <script>
 $(document).ready(function() {
 	calculateTotal();

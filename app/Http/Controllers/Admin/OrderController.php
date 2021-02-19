@@ -91,12 +91,14 @@ class OrderController extends Controller
                     $shopDefault = Shop::where('id', $setting->shop_id)->first();
                     $shops = Shop::all();
                     $store_url =  $shopDefault->store_url;
+                    $consumer_key =  $shopDefault->consumer_key;
+                    $consumer_secret =  $shopDefault->consumer_secret;
                     Config::set('woocommerce.store_url', $shopDefault->store_url);
                     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                     $orders = Order::find($id);
                     $ordreNotes = Note::all($id);
-                    return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url'));
+                    return view('admin.orders.show', compact('orders', 'ordreNotes','store_url', 'consumer_secret', 'consumer_key'));
                 } else {
                     return view('admin.orders.index')->with('error', 'please configure your store settings!');
                 }
@@ -108,13 +110,13 @@ class OrderController extends Controller
         }else{
             $store_url =  $request->store_url;
             $consumer_key = $request->consumer_key;
-            $secret = $request->consumer_secret;
+            $consumer_secret = $request->consumer_secret;
             Config::set('woocommerce.store_url', $request->store_url);
             Config::set('woocommerce.consumer_key', $request->consumer_key);
             Config::set('woocommerce.consumer_secret', $request->consumer_secret);
             $orders = Order::find($id);
             $ordreNotes = Note::all($id);
-            return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'secret'));
+            return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'consumer_secret'));
         }
         
     }
