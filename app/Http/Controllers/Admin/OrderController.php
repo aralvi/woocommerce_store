@@ -35,8 +35,12 @@ class OrderController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                $orders = Order::all();
-                return view('admin.orders.index', compact('orders', 'shops', 'setting'));
+                $store_url=$shopDefault->store_url;
+                $options = [
+                    'per_page' => 100 // Or your desire number
+                ];
+                $orders = Order::all($options);
+                return view('admin.orders.index', compact('orders', 'shops', 'setting', 'store_url'));
             } else {
                 session()->now('error', 'please configure your store settings!');
                 return view('admin.orders.index')->with('error', 'please configure your store settings!');
