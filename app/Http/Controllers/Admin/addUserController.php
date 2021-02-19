@@ -55,7 +55,7 @@ class addUserController extends Controller
             
         }else{
 
-            $user->role = '1';
+            $user->role = '0';
         }
         $user->save();
         return back()->with('success','User Add successfully');
@@ -98,7 +98,18 @@ class addUserController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-        User::find($id)->update($request->all());
+       $user= User::findOrFail($id);
+        $user->name = $request->name;
+        $user->parent_id = Auth::user()->id;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        if (isset($request->role)) {
+            $user->role = '1';
+        } else {
+
+            $user->role = '0';
+        }
+        $user->save();
         return redirect()->route('users.index')->with('success','User updated successfully');
     }
 

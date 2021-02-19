@@ -21,7 +21,15 @@
         </div>
     </div>
     
-
+    <div class="col-md-12 col-sm-12">
+        <div class="preview-block">
+            <span class="preview-title overline-title">Role</span>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" {{ $user->role == 'Admin' ? 'checked':'' }} name="role" id="customSwitch3">
+                <label class="custom-control-label" for="customSwitch3">Staff/Admin</label>
+            </div>
+        </div>
+    </div>
 
     </div>
     <div class="modal-footer bg-light">
