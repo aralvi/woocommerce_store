@@ -24,6 +24,7 @@ Route::group([ 'middleware' => ['auth']], function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('orders', 'Admin\OrderController');
+    Route::get('order/detail','Admin\OrderController@singleOrderDetail')->name('single.order.detail');
     // Route::get('order/{status}', 'Admin\OrderController@filter')->name('order.status');
     Route::post('order/status', 'Admin\OrderController@filter')->name('order.status');
     Route::post('order/search', 'Admin\OrderController@search')->name('order.search');
