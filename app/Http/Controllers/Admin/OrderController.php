@@ -35,6 +35,8 @@ class OrderController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                $orders = Order::all();
+                return view('admin.orders.index', compact('orders', 'shops', 'setting'));
                 $store_url=$shopDefault->store_url;
                 $options = [
                     'per_page' => 100 // Or your desire number
@@ -301,22 +303,57 @@ class OrderController extends Controller
         } else {
             return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
         }
-        }
-        else{
-            
-            Config::set('woocommerce.store_url', $request->store_url);
-            Config::set('woocommerce.consumer_key', $request->key);
-            Config::set('woocommerce.consumer_secret',$request->secret);
-            foreach ($ids as $id) {
 
-                $order_id = $id;
-                $data     = [
-                    'status' => $request->order_status,
-                ];
-                $order = Order::update($order_id, $data);
+    }
+
+    public function createShipping($id)
+    {
+        if(count($this->userSetting(Auth::user()->id)) > 0)
+        {
+            $curl=curl_init(); 
+            curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+            curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$id.'/shipment-trackings');
+            curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
+            curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
+            curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode(array("tracking_provider"=>"Fedex","tracking_number"=>123456789012,"date_shipped"=>"2019-03-08"))); 
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            curl_close($curl);
+            if ($err) 
+            {
+                echo "Create Shipping Error #:" . $err;
+            } 
+            else 
+            {
+                // $data = json_decode($response);
+                // if(property_exists($data,'data'))
+                // {
+                //     if($data->data->status==404)
+                //     {
+                //         echo $data->message;
+                //         exit;
+                //     }
+                // }
+
+                // echo "Shipping detail</br>";
+                // echo "Tracking Id : ".$data->tracking_id."</br>";
+                // echo "Tracking Provider : ".$data->tracking_provider."</br>";
+                // echo "Tracking Number : ".$data->tracking_number."</br>";
+                // echo "Shipped Date: ".$data->date_shipped."</br>";
+                $data = json_decode($response);
+                if(property_exists($data,'data'))
+                {
+                    if($data->data->status==404)
+                    {
+                        return back()->with('error', $data->message);
+                    }
+                }
+
+                return back()->with('success', 'Shippment has been created');
+                
             }
-            return back()->with('success', 'Order status has been updated');
-        }
+        }        
     }
 
     public function getDetail(Request $request)
