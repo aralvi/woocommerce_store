@@ -10,7 +10,18 @@
 			<div class="col-md-12 d-flex justify-content-between mb-2 p-0">
 				<div class="">
 					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode"> </div>
-				<div class="btn-group" aria-label="Basic example"> <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit " }}" class="btn btn-dim btn-primary"><i class="icon ni ni-eye"> Woocommerce</i></a>
+				<div class="btn-group" aria-label="Basic example"> 
+					<form action="{{ route('order.detail') }}" target="_blank" id="new_order_form" method="POST">
+						@csrf
+						<div class="form-group">
+							<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
+							<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
+							<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
+							<input type="number" name="order_id" id="order_id" class="form-control" placeholder="order id view detail">
+							<button type="submit" class="d-none"></button>
+						</div>
+					</form>
+					<a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit " }}" class="btn btn-dim btn-primary"><i class="icon ni ni-eye"> Woocommerce</i></a>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status" data-orderId="{{ $orders['id'] }}">Change Order status</button>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote" data-orderId="{{ $orders['id'] }}">Add Note</button>
 				</div>
@@ -257,11 +268,13 @@
 			</div>
 			<form action="{{ route('ordernotes.store') }}" class="form-validate is-alter" method="POST"> @csrf
 				<div class="modal-body">
+					
 					<div class="form-group">
 						<label class="form-label" for="ordernote">Order Note</label>
 						<div class="form-control-wrap">
 							<input type="hidden" name="order_id" value="" id="order_id">
-							<input type="text" class="form-control" name="order_note" required> </div>
+							<textarea name="order_note" class="form-control" id="" cols="30" rows="3"></textarea>
+							{{-- <input type="text" class="form-control" name="order_note" required> </div> --}}
 					</div>
 				</div>
 				<div class="modal-footer bg-light">
@@ -383,5 +396,9 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+
+// view new order detail
+	
 });
 </script> @endsection

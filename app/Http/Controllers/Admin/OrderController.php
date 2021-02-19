@@ -318,4 +318,19 @@ class OrderController extends Controller
             return back()->with('success', 'Order status has been updated');
         }
     }
+
+    public function getDetail(Request $request)
+    {
+        // dd($request->all());
+        $store_url =  $request->store_url;
+        $consumer_key = $request->consumer_key;
+        $consumer_secret = $request->consumer_secret;
+        $id = $request->order_id;
+        Config::set('woocommerce.store_url', $request->store_url);
+        Config::set('woocommerce.consumer_key', $request->consumer_key);
+        Config::set('woocommerce.consumer_secret', $request->consumer_secret);
+        $orders = Order::find($id);
+        $ordreNotes = Note::all($id);
+        return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'consumer_secret'));
+    }
 }
