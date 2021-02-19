@@ -50,7 +50,13 @@ class addUserController extends Controller
         $user->parent_id = Auth::user()->id;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->role = '0';
+        if(isset($request->role)){
+            $user->role = '1';
+            
+        }else{
+
+            $user->role = '1';
+        }
         $user->save();
         return back()->with('success','User Add successfully');
     }

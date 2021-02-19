@@ -5,7 +5,8 @@
             <div class="card-inner">
                 {{-- card header section --}}
                 <div class="card-title-group">
-                    <button type="button" class="btn btn-dim btn-primary" data-toggle="modal" data-target="#modalForm">Add User</button>
+                    <button type="button" class="btn btn-dim btn-primary" data-toggle="modal"
+                        data-target="#modalForm">Add User</button>
                 </div>
                 {{-- card header section end --}}
                 <div class="data">
@@ -21,35 +22,41 @@
                         </thead>
                         <tbody>
                             @foreach($Users as $user)
-                                @if (($user->parent_id == Auth::user()->id && $user->role != 'SuperAdmin'  || Auth::user()->parent_id == $user->parent_id && Auth::user()->id != $user->id )|| (Auth::user()->role == 'SuperAdmin') )
-                                    <tr class="nk-tb-item" id="target_{{ $user->id }}">
-                                        <td class="nk-tb-col">
-                                            <div class="user-info">
-                                                <span class="tb-lead"><span class="dot dot-success d-md-none ml-1"></span>{{$user->id}}</span>
-                                            </div>
-                                        </td>
-                                        <td class="nk-tb-col tb-col-mb">
-                                            <span class="tb-amount"> {{$user->name}}</span>
-                                        </td>
-                                        <td class="nk-tb-col tb-col-mb">
-                                            <span class="tb-amount"> {{$user->role}}</span>
-                                        </td>
-                                        <td class="nk-tb-col tb-col-md">
-                                            <span class="tb-amount">{{$user->email}}</span>
-                                        </td>
-                                        <!-- <td class="nk-tb-col tb-col-md">
+                            @if (($user->parent_id == Auth::user()->id && $user->role != 'SuperAdmin' ||
+                            Auth::user()->parent_id == $user->parent_id && Auth::user()->id != $user->id )||
+                            (Auth::user()->role == 'SuperAdmin') )
+                            <tr class="nk-tb-item" id="target_{{ $user->id }}">
+                                <td class="nk-tb-col">
+                                    <div class="user-info">
+                                        <span class="tb-lead"><span
+                                                class="dot dot-success d-md-none ml-1"></span>{{$user->id}}</span>
+                                    </div>
+                                </td>
+                                <td class="nk-tb-col tb-col-mb">
+                                    <span class="tb-amount"> {{$user->name}}</span>
+                                </td>
+                                <td class="nk-tb-col tb-col-mb">
+                                    <span class="tb-amount"> {{$user->role}}</span>
+                                </td>
+                                <td class="nk-tb-col tb-col-md">
+                                    <span class="tb-amount">{{$user->email}}</span>
+                                </td>
+                                <!-- <td class="nk-tb-col tb-col-md">
                                             <span class="tb-amount">{{$user->password}}</span>
                                         </td> -->
 
-                                        <td class="nk-tb-col tb-col-md">
-                                            <button type="button" class="btn btn-dim btn-primary editUser" data-userId="{{ $user->id }}"><i class="icon ni ni-pen"></i></button>
-                                            @if ($user->role != 'SuperAdmin' && $user->id !=Auth::user()->id && $user->parent_id == Auth::user()->id)
-                                                
-                                            <button type="button" class="btn btn-dim btn-primary deleteUser" data-userId="{{ $user->id }}"><i class="icon ni ni-trash"></i></button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endif
+                                <td class="nk-tb-col tb-col-md">
+                                    <button type="button" class="btn btn-dim btn-primary editUser"
+                                        data-userId="{{ $user->id }}"><i class="icon ni ni-pen"></i></button>
+                                    @if ($user->role != 'SuperAdmin' && $user->id !=Auth::user()->id || $user->parent_id
+                                    == Auth::user()->id)
+
+                                    <button type="button" class="btn btn-dim btn-primary deleteUser"
+                                        data-userId="{{ $user->id }}"><i class="icon ni ni-trash"></i></button>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endif
                             <!-- .nk-tb-item  -->
                             @endforeach
                         </tbody>
@@ -81,24 +88,36 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="form-label" for="full-name-1">Name</label>
-                                <div class="form-control-wrap"><input type="text" name="name" class="form-control" id="full-name-1" /></div>
+                                <div class="form-control-wrap"><input type="text" name="name" class="form-control"
+                                        id="full-name-1" /></div>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="form-label" for="email-address-1">Email </label>
-                                <div class="form-control-wrap"><input type="email" name="email" class="form-control" id="email-address-1" /></div>
+                                <div class="form-control-wrap"><input type="email" name="email" class="form-control"
+                                        id="email-address-1" /></div>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="form-label" for="phone-no-1">password</label>
-                                <div class="form-control-wrap"><input type="password" name="password" class="form-control" id="phone-no-1" /></div>
+                                <div class="form-control-wrap"><input type="password" name="password"
+                                        class="form-control" id="phone-no-1" /></div>
                             </div>
                         </div>
-
+                        <div class="col-md-12 col-sm-12">
+                            <div class="preview-block">
+                                <span class="preview-title overline-title">Role</span>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" checked="" name="role" id="customSwitch2">
+                                    <label class="custom-control-label" for="customSwitch2">Staff/Admin</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12">
-                            <div class="form-group"><button type="submit" class="btn btn-lg btn-primary">Save Informations</button></div>
+                            <div class="form-group"><button type="submit" class="btn btn-lg btn-primary">Save
+                                    Informations</button></div>
                         </div>
                     </div>
                 </form>
@@ -106,9 +125,9 @@
         </div>
     </div>
 
-  
-    </div>
-    {{-- delete mdal --}}
+
+</div>
+{{-- delete mdal --}}
 
 <div class="modal fade zoom" tabindex="-1" id="DeleteUserModal">
     <div class="modal-dialog" role="document">
@@ -143,5 +162,4 @@
         </div>
     </div>
 </div>
-        @endsection
-    
+@endsection

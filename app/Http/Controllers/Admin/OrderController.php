@@ -35,9 +35,7 @@ class OrderController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                $orders = Order::all();
-                return view('admin.orders.index', compact('orders', 'shops', 'setting'));
-                $store_url=$shopDefault->store_url;
+                $store_url = $shopDefault->store_url;
                 $options = [
                     'per_page' => 100 // Or your desire number
                 ];
@@ -305,7 +303,7 @@ class OrderController extends Controller
         }
 
     }
-
+    }
     public function createShipping($id)
     {
         if(count($this->userSetting(Auth::user()->id)) > 0)
