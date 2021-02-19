@@ -1,9 +1,5 @@
 @extends('layouts.admin') @section('style')
-<style>
-.datatable-filter #DataTables_Table_0_length {
-	display: none !important;
-}
-</style> @endsection @section('title','Order detail') @section('page-title','Order Detail #'. $orders['id']) @section('content')
+ @endsection @section('title','Order detail') @section('page-title','Order Detail #'. $orders['id']) @section('content')
 <div class="col-xxl-12 col-sm-12">
 	<div class="card card-preview">
 		<div class="card-inner">
@@ -41,6 +37,7 @@
 							<th class="  ">supplier</th>
 							<th class="  ">Barcode</th>
 							<th class="  ">Product Name</th>
+							<th class="  ">Price</th>
 							<th class="  ">Scan status</th>
 						</tr>
 					</thead>
@@ -48,7 +45,9 @@
 						<tr class="">
 							<td class=""> {{ $product->product_id }} </td>
 							<td class="">
-								<div class="user-info"> @php $single_product = Product::find($product->product_id); @endphp @foreach ($single_product['images'] as $image) <img src="{{ $image->src }}" alt="" width="60" height="60"> @break @endforeach </div>
+								<div class="user-info"> @php $single_product = Product::find($product->product_id); @endphp 
+									@foreach ($single_product['images'] as $image) 
+									<img id="myImg" class="product_image" src="{{ $image->src }}" alt="" width="60" height="60"> @break @endforeach </div>
 							</td>
 							<td class=" "> <span class="tb-amount ship_quantity">{{ $product->quantity }}</span>
 								<input type="hidden" name="" id="" class="shipquantity" value="{{ $product->quantity }}"> </td>
@@ -65,7 +64,17 @@
 							<td class=" "> </td>
 							<td class=" ">
 								<input type="text" name="barcode" value="12313{{ $key }}" class="form-control product_barcode" readonly> </td>
-							<td class=" "> {{ $product->name }} </td>
+							<td class=" "> 
+								<form action="{{ route('products.show',$product->product_id) }}" target="_blank" method="get">
+									@csrf
+									<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
+									<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
+									<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
+									<button class="btn btn-dim border-0 bg-none text-primary" type="submit">{{ $product->name }} </button>
+									
+								</form>
+							</td>
+							<td class=" "> ${{ $product->price }} </td>
 							<td class="">
 								<label class="pack_status p-2">Un-Packed</label>
 							</td>
@@ -316,7 +325,15 @@
 			</div>
 		</div>
 	</div>
-</div> @endsection @section('script')
+</div> 
+
+
+<div id="myModal" class="modal">
+    <span id="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+</div>
+@endsection @section('script')
 <script>
 $(document).ready(function() {
 	calculateTotal();
@@ -410,5 +427,10 @@ $(document).ready(function() {
 		$(this).val('');
 	});
 	// view new order detail
+
+
+
+
+
 });
 </script> @endsection

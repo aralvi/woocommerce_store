@@ -13,6 +13,7 @@
         <!-- StyleSheets  -->
         <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=2.3.0') }}" />
         <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=2.3.0') }}" />
+        <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" />
         <script>
             var url = "{{ url('/') }}";
             var token = "{{ csrf_token() }}";

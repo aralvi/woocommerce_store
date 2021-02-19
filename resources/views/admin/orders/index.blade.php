@@ -258,7 +258,7 @@
                         <span
                             class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
                         @endif
-                        <span class="tb-amount">{{ $order->status }}</span>
+                        {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
                     </td>
                     <td class="nk-tb-col tb-col-md">
                         <span>{{$order->date_created}}</span>
