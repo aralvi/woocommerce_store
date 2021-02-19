@@ -9,7 +9,9 @@
 		<div class="card-inner">
 			<div class="col-md-12 d-flex justify-content-between mb-2 p-0">
 				<div class="">
-					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode"> </div>
+					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode">
+					<label class="d-none lbl_scan_alert"></label> 
+				</div>
 				<div class="btn-group" aria-label="Basic example"> 
 					<form action="{{ route('order.detail') }}" target="_blank" id="new_order_form" method="POST">
 						@csrf
@@ -21,9 +23,9 @@
 							<button type="submit" class="d-none"></button>
 						</div>
 					</form>
-					<a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit " }}" class="btn btn-dim btn-primary"><i class="icon ni ni-eye"> Woocommerce</i></a>
-					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status" data-orderId="{{ $orders['id'] }}">Change Order status</button>
-					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote" data-orderId="{{ $orders['id'] }}">Add Note</button>
+					<a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit " }}" class="btn btn-dim btn-primary top-btn ml-1"><i class="icon ni ni-eye"> Woocommerce</i></a>
+					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
+					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
 				</div>
 			</div>
 			<div class="table-responsive">
@@ -373,7 +375,37 @@ $(document).ready(function() {
 	}
 	$("#barcode").change(function() {
 		$barcode = $(this).val();
+		// alert($barcode);
+		// if($('.product_barcode_' + $barcode).length > 0)
+		// {
+		// 		$product_barcode = $('.product_barcode_' + $barcode);
+		// 		$quantity = $product_barcode.parent('td').siblings('td.td_quantity').children('div.div_quantity').children('input.quantity').val(5);
+		// 		$ship_quantity = $product_barcode.parent('td').siblings('td').children('.ship_quantity').text();
+		// 		$status = $product_barcode.parent('td').siblings('td').children('.pack_status');
+		// 		if($ship_quantity > $quantity.val()) {
+		// 			$quantity.removeClass('bg-danger');
+		// 			$quantity.removeClass('bg-success');
+		// 			$quantity.addClass('bg-warning');
+		// 		}
+		// 		if($ship_quantity == $quantity.val()) {
+		// 			$quantity.removeClass('bg-warning');
+		// 			$quantity.removeClass('bg-danger');
+		// 			$quantity.addClass('bg-success');
+		// 			$status.html('Packed').addClass(['bg-success', 'text-white']);
+		// 		}
+		// 		if($ship_quantity < $quantity.val()) {
+		// 			$quantity.removeClass('bg-success');
+		// 			$quantity.removeClass('bg-waning');
+		// 			$quantity.addClass('bg-danger');
+		// 		}
+		// 		$('.lbl_scan_alert').removeClass('d-none').addClass('text-success').html('Scan Suuccessful');
+		// }
+		// else{
+		// 	$('.lbl_scan_alert').removeClass('d-none').addClass('text-danger').html('Incorrect barcode')
+		// }
+		var check = '';
 		$('.product_barcode[value="' + $barcode + '"]').each(function() {
+
 			$product_barcode = $('.product_barcode[value="' + $barcode + '"]');
 			$quantity = $product_barcode.parent('td').siblings('td.td_quantity').children('div.div_quantity').children('input.quantity').val(1);
 			$ship_quantity = $product_barcode.parent('td').siblings('td').children('.ship_quantity').text();
@@ -394,7 +426,18 @@ $(document).ready(function() {
 				$quantity.removeClass('bg-waning');
 				$quantity.addClass('bg-danger');
 			}
+			check = 1;
+			
+			
 		});
+		if(check == 1){
+			$('.lbl_scan_alert').removeClass(['d-none','text-danger']).addClass('text-success').html('Scan Suuccessful');
+		}else{
+			$('.lbl_scan_alert').removeClass(['d-none','text-success']).addClass('text-danger').html('Incorrect barcode')
+
+		}
+		$('.top-btn').addClass('h-50')
+		$(this).val('');
 	});
 
 
