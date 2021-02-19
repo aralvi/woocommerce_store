@@ -214,3 +214,20 @@ $(document).ready(function() {
     });
     $("body").trigger("mousemove");
 });
+
+// image zoom in
+$(document.body).on("click", "img.product_image", function() {
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    var modalImg = document.getElementById("img01");
+    modal.style.display = "block";
+    modalImg.src = $(this).attr('src');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementById("close");
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+});
