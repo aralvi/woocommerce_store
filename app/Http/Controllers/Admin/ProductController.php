@@ -113,8 +113,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
+        
+        if (empty($request->all())) {
         $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         if ($settingExist) {
             $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
@@ -122,16 +124,29 @@ class ProductController extends Controller
             if ($shopExist) {
                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
                 $shops = Shop::all();
+                    $store_url = $shopDefault->store_url;
+                    $consumer_key = $shopDefault->consumer_key;
+                    $consumer_secret = $shopDefault->consumer_secret;
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $product = Product::find($id);
-                return view('admin.products.edit', compact('product'));
+                return view('admin.products.edit', compact('product', 'store_url', 'consumer_key', 'consumer_secret'));
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
         } else {
             return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
+        }
+        } else {
+            $store_url = $request->store_url;
+            $consumer_key = $request->consumer_key;
+            $consumer_secret = $request->consumer_secret;
+            Config::set('woocommerce.store_url', $request->store_url);
+            Config::set('woocommerce.consumer_key', $request->consumer_key);
+            Config::set('woocommerce.consumer_secret', $request->consumer_secret);
+            $product = Product::find($id);
+            return view('admin.products.edit', compact('product', 'store_url', 'consumer_key', 'consumer_secret'));
         }
         
     }
@@ -145,30 +160,47 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-        if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-            $shopExist = Shop::where('id', $setting->shop_id)->exists();
-            if ($shopExist) {
-                $shopDefault = Shop::where('id', $setting->shop_id)->first();
-                $shops = Shop::all();
-                Config::set('woocommerce.store_url', $shopDefault->store_url);
-                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
-                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+        // dd($request->all());
+        // $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+        // if ($settingExist) {
+        //     $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+        //     $shopExist = Shop::where('id', $setting->shop_id)->exists();
+        //     if ($shopExist) {
+        //         $shopDefault = Shop::where('id', $setting->shop_id)->first();
+        //         $shops = Shop::all();
+                Config::set('woocommerce.store_url', $request->store_url);
+                Config::set('woocommerce.consumer_key', $request->consumer_key);
+                Config::set('woocommerce.consumer_secret', $request->consumer_secret);
+                
+                if(isset($request->catalog_visibility)){
+                    $catalog_visibility = $request->catalog_visibility;
+                }else{
+                    $catalog_visibility = 'hidden';
+                }
                 $data       = [
                     'name' => $request->name,
                     'regular_price' => $request->regular_price,
                     'sale_price'    => $request->sale_price, // 50% off
+                    'purchase_price'    => $request->purchase_price, // 50% off
+                    'sku'    => $request->sku, // 50% off
+                    'product_status'    => $request->product_status, // 50% off
+                    'manage_stock'    => $request->manage_stock, // 50% off
+                    'stock_quantity'    => $request->stock_quantity, // 50% off
+                    'backorders'    => $request->backorders, // 50% off
+                    'weight'    => $request->weight, // 50% off
+                    'purchase_note'    => $request->purchase_note, // 50% off
+                    'catalog_visibility'    => $catalog_visibility, // 50% off
+                    'out_stock_threshold'    => $request->out_stock_threshold, // 50% off
                 ];
 
                 $product = Product::update($id, $data);
                 return back()->with('success', 'Product has been updated');
-            } else {
-                return view('admin.products.index')->with('error', 'please configure your store settings!');
-            }
-        } else {
-            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
-        }
+        //     } else {
+        //         return view('admin.products.index')->with('error', 'please configure your store settings!');
+        //     }
+        // } else {
+        //     return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
+        // }
         
                     
     }
