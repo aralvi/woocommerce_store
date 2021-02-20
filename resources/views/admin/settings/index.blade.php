@@ -43,6 +43,42 @@
 								</div>
 							</div>
 						</div>
+						<div class="row mt-4">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="" class="mb-0">Exclude Status</label>
+									<div class="form-control-wrap">
+										<select class="form-select select2-hidden-accessible" id="excluded_status" name="excluded_status[]" multiple="" data-placeholder="Select Exclude Status" data-select2-id="9" tabindex="-1" aria-hidden="true">
+											@if (isset($setting))
+												<option value="pending" @if ($setting !=null) @if ( 'pending'==$setting->order_status) selected @endif @endif >Pending payment</option>
+												<option value="processing" @if ($setting !=null) @if ( 'processing'==$setting->order_status) selected @endif @endif >Processing</option>
+												<option value="on-hold" @if ($setting !=null) @if ( 'on-hold'==$setting->order_status) selected @endif @endif >On hold</option>
+												<option value="completed" @if ($setting !=null) @if ( 'completed'==$setting->order_status) selected @endif @endif >Completed</option>
+												<option value="cancelled" @if ($setting !=null) @if ( 'cancelled'==$setting->order_status) selected @endif @endif >Cancelled</option>
+												<option value="refunded" @if ($setting !=null) @if ( 'refunded'==$setting->order_status) selected @endif @endif >Refunded</option>
+												<option value="failed" @if ($setting !=null) @if ( 'failed'==$setting->order_status) selected @endif @endif >Failed</option>
+											@endif
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="filter By Status" class="mb-0">Changeable Status</label>
+									<select class="form-select select2-hidden-accessible" id="change_able_status" name="change_able_status[]" multiple="" data-placeholder="Select Changeable Status" data-select2-id="10" tabindex="-1" aria-hidden="true">
+										@if (isset($setting))
+										<option value="pending" @if ($setting !=null) @if ( 'pending'==$setting->order_status) selected @endif @endif >Pending payment</option>
+										<option value="processing" @if ($setting !=null) @if ( 'processing'==$setting->order_status) selected @endif @endif >Processing</option>
+										<option value="on-hold" @if ($setting !=null) @if ( 'on-hold'==$setting->order_status) selected @endif @endif >On hold</option>
+										<option value="completed" @if ($setting !=null) @if ( 'completed'==$setting->order_status) selected @endif @endif >Completed</option>
+										<option value="cancelled" @if ($setting !=null) @if ( 'cancelled'==$setting->order_status) selected @endif @endif >Cancelled</option>
+										<option value="refunded" @if ($setting !=null) @if ( 'refunded'==$setting->order_status) selected @endif @endif >Refunded</option>
+										<option value="failed" @if ($setting !=null) @if ( 'failed'==$setting->order_status) selected @endif @endif >Failed</option>
+										@endif
+									</select>
+								</div>
+							</div>
+						</div>
 						<div class="row">
 
 							<div class="col-sm-6 mt-4">

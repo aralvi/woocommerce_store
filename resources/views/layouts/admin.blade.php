@@ -45,7 +45,7 @@
                                 <img class="logo-dark logo-img" src="{{ asset('assets/images/icons/logo-dark.png') }}" srcset="{{ asset('assets/images/icons/logo-dark2x.png 2x') }}" alt="logo-dark" />
                                 <img class="logo-small logo-img logo-img-small" src="{{ asset('assets/images/icons/logo-small.png') }}" srcset="{{ asset('assets/images/icons/logo-small2x.png 2x') }}" alt="logo-small" />
                                 @endif
-                                @if (isset($setting))
+                                @if (isset($setting->expiry_time))
                                     
                                 <input type="hidden"  id="expiry_page_time" value="{{ $setting->expiry_time }}">
                                 @else
