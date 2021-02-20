@@ -218,11 +218,11 @@
                     </div> --}}
                     <div id="products_table">
 
-                        <div class="spinner-border text-secondary d-none" id="loading" role="status">
-                            <span class="sr-only">
-
-                            </span>
-                        </div>
+                          <div class="d-flex justify-content-center">
+  <div class="spinner-border text-primary d-none" id="loading" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
                         <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer"
                             data-auto-responsive="false">
                             <thead class="thead-dark">
