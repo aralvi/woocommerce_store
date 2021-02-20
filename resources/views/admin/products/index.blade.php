@@ -129,9 +129,8 @@
                                             <div class="form-group">
                                                 <label for="" class="mb-0">Select Store</label>
                                                 <div class="form-control-wrap">
-                                                    <select class="form-select form-control form-control-lg" id="stores"
+                                                    <select class="form-select form-control form-control-lg" id="stores" data-placeholder="Select Store"
                                                         name="store" data-search="on">
-                                                        <option value="default_option">Choose store</option>
                                                         @if (isset($shops))
 
                                                         @foreach ($shops as $shop)
