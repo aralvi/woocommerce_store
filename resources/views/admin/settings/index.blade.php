@@ -138,7 +138,7 @@
 											<option value="failed" @if ($setting !=null) 
 											@if (isset($change_able_statuses))
 												
-											@foreach($change_able_statuses as $key=> $change_able_statuse) @if ($excluded_statuse =='failed' ) selected @endif @endforeach
+											@foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='failed' ) selected @endif @endforeach
 											@endif
 												 @endif >Failed</option> @endif </select>
 								</div>
