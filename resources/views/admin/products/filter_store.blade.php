@@ -1,9 +1,8 @@
-
-<div class="spinner-border text-secondary d-none" id="loading" role="status">
-                            <span class="sr-only">
-
-                            </span>
-                        </div>
+  <div class="d-flex justify-content-center">
+  <div class="spinner-border text-primary d-none" id="loading" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
                         <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer"
                             data-auto-responsive="false">
     <thead class="thead-dark">
@@ -32,7 +31,7 @@
             </td>
             <td class="nk-tb-col tb-col-mb">
                 @if (count($product->images) <> 0) <img id="myImg" class="product_image" alt="Snow"
-                        style="width:100%;max-width:300px" src="{{ $product->images[0]->src }}" alt="" width="60"
+                        src="{{ $product->images[0]->src }}" alt="" width="60"
                         height="60">
                     @endif
 
