@@ -454,7 +454,7 @@
                                                                 <li>
                                                                     <a href="@foreach($data as $d){{ $d->tracking_link }}@endforeach" target="_blank">
                                                                         <em class="icon ni ni-eye"></em>
-                                                                        <span>Order Tracking</span>
+                                                                        <span>@foreach($data as $d){{ $d->tracking_link }}@endforeach</span>
                                                                     </a>
                                                                 </li>
                                                             @endif
@@ -509,7 +509,6 @@
                                 <select name="provider"
                                     class="form-control form-select" data-search="on" required>
                                         <option value="Fastway">Fastway</option>
-                                        <option value="Fastway2">Fastway2</option>
                                 </select>
                             </div>
                         </div>
