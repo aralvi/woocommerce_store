@@ -48,6 +48,7 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $this->validate($request, [
             'store' => 'required',
             'order_status' => 'required',
@@ -73,6 +74,8 @@ class SettingController extends Controller
         $setting->shop_id = $request->store;
         $setting->expiry_time = $request->expiry_time;
         $setting->order_status = $request->order_status;
+        $setting->excluded_Status = json_encode($request->excluded_status);
+        $setting->change_able_status = json_encode($request->change_able_status);
         $setting->save();
         
         return back()->with('success',"setting has been updated");

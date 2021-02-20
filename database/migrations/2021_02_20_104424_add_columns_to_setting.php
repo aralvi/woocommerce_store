@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnToSetting extends Migration
+class AddColumnsToSetting extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AddColumnToSetting extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->string('expiry_time')->after('order_status')->nullable();
+            $table->string('excluded_Status')->after('logo')->nullable();
+            $table->string('change_able_Status')->after('excluded_Status')->nullable();
         });
     }
 

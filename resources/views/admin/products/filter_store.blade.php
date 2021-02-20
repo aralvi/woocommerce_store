@@ -71,17 +71,36 @@
                 @endif
             </td>
             <td class="nk-tb-col tb-col-md">
+                <li class="nk-tb-action-hidden list-unstyled">
                 <form action="{{ route('products.show',$product->id) }}">
                     <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
                     <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
                     <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
-                    <li class="nk-tb-action-hidden list-unstyled">
                           <button type="submit" class="btn btn-trigger btn-icon" data-toggle="tooltip"
                               data-placement="top" title="" data-original-title="View Detail">
                               <em class="icon ni ni-eye"></em>
                           </button>
-                      </li>
-                </form>
+                        </form>
+                         <div class="drodown mr-n1">
+                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                                                        class="icon ni ni-more-h"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                                        <li>
+                                                            <form action="{{ route('products.edit',$product->id) }}">
+                                                        <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
+                                                        <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
+                                                        <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
+                                                            <button type="submit" class="btn btn-trigger btn-icon" data-toggle="tooltip"
+                                                                data-placement="top" title="" data-original-title="Edit Product">
+                                                                <em class="icon ni ni-eye"> Edit Product</em>
+                                                            </button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                    </li>
                 
             </td>
 
