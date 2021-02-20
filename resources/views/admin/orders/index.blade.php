@@ -313,7 +313,7 @@
                                                         
                                                         @if(count($data) > 0)
                                                             <li>
-                                                                <a href="{{ $data[0]->tracking_link }}" target="_blank">
+                                                                <a href="@foreach($data as $d){{ $d->tracking_link }}@endforeach" target="_blank">
                                                                     <em class="icon ni ni-eye"></em>
                                                                     <span>Order Tracking</span>
                                                                 </a>
@@ -454,7 +454,7 @@
                                                                 <li>
                                                                     <a href="@foreach($data as $d){{ $d->tracking_link }}@endforeach" target="_blank">
                                                                         <em class="icon ni ni-eye"></em>
-                                                                        <span>@foreach($data as $d){{ $d->tracking_link }}@endforeach</span>
+                                                                        <span>Order Tracking</span>
                                                                     </a>
                                                                 </li>
                                                             @endif
