@@ -19,7 +19,7 @@
               <th class="nk-tb-col tb-col-md">Date</th>
               <th class="nk-tb-col tb-col-lg">Total</th>
               <th class="nk-tb-col tb-col-lg">Tracking</th>
-              <th class="nk-tb-col tb-col-md">Itmes</th>
+              <th class="nk-tb-col tb-col-md">Items</th>
               {{-- <th class="nk-tb-col tb-col-md">Curior</th> --}}
               <th class="nk-tb-col tb-col-md">Action</th>
 
@@ -140,6 +140,36 @@
                             class="icon ni ni-eye"></i></button> --}}
                                       </form>
                                   </li>
+
+                                  <li>
+                                    <a type="button" onclick="orderSetting(this,{{ $order->id }});" data-toggle="modal" data-target="#addTrackingInfo">
+                                        <em class="icon ni ni-eye"></em>
+                                        <span>Add Tracking</span>
+                                    </a>
+                                  </li>
+                                  @php 
+                                    $curl=curl_init(); 
+                                    curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+                                    curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
+                                    curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
+                                    curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
+                                    curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
+                                    $response = curl_exec($curl);
+                                    curl_close($curl);
+                                  @endphp
+
+                                  @if ($response) 
+                                      @php $data = json_decode($response) @endphp
+                                      
+                                      @if(count($data) > 0)
+                                          <li>
+                                              <a href="@foreach($data as $d){{ $d->tracking_link }}@endforeach" target="_blank">
+                                                  <em class="icon ni ni-eye"></em>
+                                                  <span>Order Tracking</span>
+                                              </a>
+                                          </li>
+                                      @endif
+                                  @endif
                               </ul>
                           </div>
                       </div>

@@ -292,11 +292,34 @@
                                                     </li>
 
                                                     <li>
-                                                        <a href="{{ route('add.tracking.info',$order->id) }}">
+                                                        <a type="button" data-toggle="modal" onclick="orderSetting(this,{{ $order->id }});" data-target="#addTrackingInfo">
                                                             <em class="icon ni ni-eye"></em>
                                                             <span>Add Tracking</span>
                                                         </a>
                                                     </li>
+
+                                                    @php 
+                                                        $curl=curl_init(); 
+                                                        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+                                                        curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
+                                                        curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
+                                                        curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
+                                                        curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
+                                                        $response = curl_exec($curl);
+                                                        curl_close($curl);
+                                                    @endphp
+                                                    @if ($response) 
+                                                        @php $data = json_decode($response) @endphp
+                                                        
+                                                        @if(count($data) > 0)
+                                                            <li>
+                                                                <a href="{{ $data[0]->tracking_link }}" target="_blank">
+                                                                    <em class="icon ni ni-eye"></em>
+                                                                    <span>Order Tracking</span>
+                                                                </a>
+                                                            </li>
+                                                        @endif
+                                                    @endif
 
                                                 </ul>
                                             </div>
@@ -404,11 +427,38 @@
                                                         </li>
 
                                                         <li>
-                                                            <a href="{{ route('add.tracking.info',$order->id) }}">
+                                                            <a type="button" onclick="orderSetting(this,{{ $order->id }});" data-toggle="modal" data-target="#addTrackingInfo">
                                                                 <em class="icon ni ni-eye"></em>
                                                                 <span>Add Tracking</span>
                                                             </a>
+                                                            {{-- <a href="{{ route('add.tracking.info',$order->id) }}">
+                                                                <em class="icon ni ni-eye"></em>
+                                                                <span>Add Tracking</span>
+                                                            </a> --}}
                                                         </li>
+
+                                                         @php 
+                                                            $curl=curl_init(); 
+                                                            curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+                                                            curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
+                                                            curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
+                                                            curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
+                                                            curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
+                                                            $response = curl_exec($curl);
+                                                            curl_close($curl);
+                                                        @endphp
+                                                        @if ($response) 
+                                                            @php $data = json_decode($response) @endphp
+                                                            
+                                                            @if(count($data) > 0)
+                                                                <li>
+                                                                    <a href="@foreach($data as $d){{ $d->tracking_link }}@endforeach" target="_blank">
+                                                                        <em class="icon ni ni-eye"></em>
+                                                                        <span>Order Tracking</span>
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endif
 
                                                     </ul>
                                                 </div>
@@ -434,6 +484,69 @@
 </div>
 <!-- .card -->
 </div>
+
+{{-- Add modal --}}
+
+<div class="modal fade zoom" tabindex="-1" id="addTrackingInfo">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h5 class="modal-title">Add Tracking Info</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+
+            <div class="modal-body">
+                <form action="" method="POST" id="addTrackingInfoForm">
+                    @csrf
+                    <input type="hidden" name="order_id" id="order_id_for_tracking" value="">
+                    <div class="row g-4">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label">Provider</label>
+                                <select name="provider"
+                                    class="form-control form-select" data-search="on" required>
+                                        <option value="Fastway">Fastway</option>
+                                        <option value="Fastway2">Fastway2</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label" for="tracking_number">Tracking Number</label>
+                                <div class="form-control-wrap"><input type="text" name="tracking_number" class="form-control"
+                                        id="tracking_number" required="" /></div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                
+                                <div class="form-control-wrap focused">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-calendar-alt"></em>
+                                    </div>
+                                    <input type="text" class="form-control form-control-xl form-control-outlined date-picker" name="shipping_date" id="outlined-date-picker" required="">
+                                    <label class="form-label-outlined" for="outlined-date-picker">Shipping Date</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group"><button type="submit" class="btn btn-lg btn-primary">Add Tracking</button></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div> {{-- Add Tracking Info Modal --}}
+
 <div class="modal fade zoom" tabindex="-1" id="modalForm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -505,170 +618,177 @@
     </div>
 </div>
 @endsection @section('script')
-<script>
-    function getOrderList() {
-        $('#orderStatus').find('#appended_section').remove();
-        var cars = [];
-        $.each($('.order_check'), function () {
-            if ($(this).is(':checked')) {
-                cars.push($(this).val());
-
-            }
-        });
-        var key = $('.consumer_key').val();
-        var store_url = $('.store_url').val();
-        var secret = $('.consumer_secret').val();
-        let ht = '<div id="appended_section"></div><input type="hidden" id="order_list" name="order_list" value="' +
-            cars + '"/><input type="hidden" id="key" name="key" value="' + key +
-            '"/><input type="hidden" id="store_url" name="store_url" value="' + store_url +
-            '"/><input type="hidden" id="secret" name="secret" value="' + secret + '"/></div>';
-        $('#orderStatus').append(ht);
-    }
-    $('#update_Status').on('click', function () {
-        if ($('#order_list').val() == '') {
-            $('#lblStatus').html('Please check Atleast one order ').css({
-                'display': 'block',
-                'color': 'red'
-            });
-            return false
-        } else {
-            $('#lblStatus').css({
-                'display': 'none'
-            });
+    <script>
+        function orderSetting(elem,id)
+        {
+            // var c_url = '{{ route("add.tracking.info", ":id") }}';
+            // c_url = c_url.replace(':id',id);
+            $('#addTrackingInfoForm').attr('action','{{ route("add.tracking.info")}}');
+            $('#order_id_for_tracking').val(id);
         }
-        if ($('#change_order_status').val() == null) {
-            $('#lblStatus').html('Please select  atleast one option ').css({
-                'display': 'block',
-                'color': 'red'
-            });
-            return false
-        } else {
-            $('#lblStatus').css({
-                'display': 'none'
-            });
-        }
-    })
-    $("#uid1").click(function () {
-        var cars = [];
-        if ($(this).is(':checked')) {
-            $('.order_check').attr('checked', 'checked');
+        function getOrderList() {
+            $('#orderStatus').find('#appended_section').remove();
+            var cars = [];
             $.each($('.order_check'), function () {
                 if ($(this).is(':checked')) {
                     cars.push($(this).val());
 
                 }
-
             });
-        } else {
-            $('.order_check').removeAttr('checked', 'checked');
-
+            var key = $('.consumer_key').val();
+            var store_url = $('.store_url').val();
+            var secret = $('.consumer_secret').val();
+            let ht = '<div id="appended_section"></div><input type="hidden" id="order_list" name="order_list" value="' +
+                cars + '"/><input type="hidden" id="key" name="key" value="' + key +
+                '"/><input type="hidden" id="store_url" name="store_url" value="' + store_url +
+                '"/><input type="hidden" id="secret" name="secret" value="' + secret + '"/></div>';
+            $('#orderStatus').append(ht);
         }
-    });
-    $("#order_status").on('change', function () {
-        var status = $(this).val();
-        var key = $('.consumer_key').val();
-        var store_url = $('.store_url').val();
-        var secret = $('.consumer_secret').val();
-        $('#loading').removeClass('d-none');
-        $.ajax({
-            type: 'post',
-            url: "{{ route('order.status')}}",
-            data: {
-                key: key,
-                store_url: store_url,
-                secret: secret,
-                status: status,
-                _token: "{{ csrf_token() }}"
-            },
-            success: function (data) {
-                $('#orders_table').empty();
-                $('#orders_table').html(data);
-            }
-        });
-
-    });
-
-
-    $('#search_order').on('input', function (e) {
-        var query = $(this).val();
-        $.ajax({
-            type: "post",
-            url: "{{ route('order.search')}}",
-            data: {
-                query: query,
-                _token: "{{ csrf_token() }}"
-            },
-
-            success: function (data) {
-                $('#order_table').empty();
-                $('#order_table').html(data);
-
-
-            },
-        });
-
-    });
-
-    $('#stores').on('change', function (e) {
-        var store_url = $(this).val();
-        var key = $(this).children("option:selected").attr('data-key');
-        var secret = $(this).children("option:selected").attr('data-secret');
-        $('#loading').removeClass('d-none');
-        $.ajax({
-            type: "post",
-            url: "{{ route('order.store')}}",
-            data: {
-                store_url: store_url,
-                key: key,
-                secret: secret,
-                _token: "{{ csrf_token() }}"
-            },
-
-            success: function (data) {
-                $('#orders_table').empty();
-                $('#orders_check').removeAttr('checked');
-                $('#orders_table').html(data);
-
-
-
-            },
-        });
-
-    });
-
-   
-    $(document).keyup(function(event) {
-        if (event.which === 13) {
-            let id = $('.dataTables_filter label input').val();
-            if(id!='')
-            {
-                var c_url = '{{ route("orders.show", ":id") }}';
-                c_url = c_url.replace(':id',id);
-                $.ajax({
-                    url:"{{ route('single.order.detail')}}",
-                    type:"get",
-                    data:{id:id},
-                    success:function(data)
-                    {
-                        if(data=="exist")
-                        {
-                            $('.invalidOrderIdError').html('');
-                            window.open(c_url);
-                            // window.location = c_url;
-                        }
-                    },
-                    error: function (request) {
-                        let html = '<div class="alert alert-danger alert-block" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Invalid Order ID</strong></div>';
-                        $('.invalidOrderIdError').html(html);
-                    }
+        $('#update_Status').on('click', function () {
+            if ($('#order_list').val() == '') {
+                $('#lblStatus').html('Please check Atleast one order ').css({
+                    'display': 'block',
+                    'color': 'red'
+                });
+                return false
+            } else {
+                $('#lblStatus').css({
+                    'display': 'none'
                 });
             }
-            else
-            {
-                alert("empty");
+            if ($('#change_order_status').val() == null) {
+                $('#lblStatus').html('Please select  atleast one option ').css({
+                    'display': 'block',
+                    'color': 'red'
+                });
+                return false
+            } else {
+                $('#lblStatus').css({
+                    'display': 'none'
+                });
             }
-        }
-    });
+        })
+        $("#uid1").click(function () {
+            var cars = [];
+            if ($(this).is(':checked')) {
+                $('.order_check').attr('checked', 'checked');
+                $.each($('.order_check'), function () {
+                    if ($(this).is(':checked')) {
+                        cars.push($(this).val());
 
-</script>
+                    }
+
+                });
+            } else {
+                $('.order_check').removeAttr('checked', 'checked');
+
+            }
+        });
+        $("#order_status").on('change', function () {
+            var status = $(this).val();
+            var key = $('.consumer_key').val();
+            var store_url = $('.store_url').val();
+            var secret = $('.consumer_secret').val();
+            $('#loading').removeClass('d-none');
+            $.ajax({
+                type: 'post',
+                url: "{{ route('order.status')}}",
+                data: {
+                    key: key,
+                    store_url: store_url,
+                    secret: secret,
+                    status: status,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function (data) {
+                    $('#orders_table').empty();
+                    $('#orders_table').html(data);
+                }
+            });
+
+        });
+
+
+        $('#search_order').on('input', function (e) {
+            var query = $(this).val();
+            $.ajax({
+                type: "post",
+                url: "{{ route('order.search')}}",
+                data: {
+                    query: query,
+                    _token: "{{ csrf_token() }}"
+                },
+
+                success: function (data) {
+                    $('#order_table').empty();
+                    $('#order_table').html(data);
+
+
+                },
+            });
+
+        });
+
+        $('#stores').on('change', function (e) {
+            var store_url = $(this).val();
+            var key = $(this).children("option:selected").attr('data-key');
+            var secret = $(this).children("option:selected").attr('data-secret');
+            $('#loading').removeClass('d-none');
+            $.ajax({
+                type: "post",
+                url: "{{ route('order.store')}}",
+                data: {
+                    store_url: store_url,
+                    key: key,
+                    secret: secret,
+                    _token: "{{ csrf_token() }}"
+                },
+
+                success: function (data) {
+                    $('#orders_table').empty();
+                    $('#orders_check').removeAttr('checked');
+                    $('#orders_table').html(data);
+
+
+
+                },
+            });
+
+        });
+
+       
+        $(document).keyup(function(event) {
+            if (event.which === 13) {
+                let id = $('.dataTables_filter label input').val();
+                if(id!='')
+                {
+                    var c_url = '{{ route("orders.show", ":id") }}';
+                    c_url = c_url.replace(':id',id);
+                    $.ajax({
+                        url:"{{ route('single.order.detail')}}",
+                        type:"get",
+                        data:{id:id},
+                        success:function(data)
+                        {
+                            if(data=="exist")
+                            {
+                                $('.invalidOrderIdError').html('');
+                                window.open(c_url);
+                                // window.location = c_url;
+                            }
+                        },
+                        error: function (request) {
+                            let html = '<div class="alert alert-danger alert-block" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Invalid Order ID</strong></div>';
+                            $('.invalidOrderIdError').html(html);
+                        }
+                    });
+                }
+                else
+                {
+                    alert("empty");
+                }
+            }
+        });
+
+    </script>
 @endsection

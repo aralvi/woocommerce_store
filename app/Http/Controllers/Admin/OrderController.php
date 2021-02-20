@@ -324,15 +324,15 @@ class OrderController extends Controller
 
     }
     }
-    public function createTrackingInfo($id)
+    public function createTrackingInfo(Request $request)
     {
-        
+    
         if(count($this->userSetting(Auth::user()->id)) > 0)
         {
-
+        
             $curl=curl_init(); 
             curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-            curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$id.'/shipment-trackings');
+            curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$request->order_id.'/shipment-trackings');
             curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
             curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
             curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
@@ -343,13 +343,13 @@ class OrderController extends Controller
                 $data = json_decode($response);
                 if(count($data) == 0)
                 {
-                    // $curl=curl_init(); 
+                    $curl=curl_init(); 
                     curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-                    curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$id.'/shipment-trackings');
+                    curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$request->order_id.'/shipment-trackings');
                     curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
                     curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
                     curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
-                    curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode(array("tracking_provider"=>"Fedex","tracking_number"=>123456789012,"date_shipped"=>"2019-03-08"))); 
+                    curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode(array("tracking_provider"=>$request->provider,"tracking_number"=>$request->tracking_number,"date_shipped"=>date('Y-m-d',strtotime($request->shipping_date))))); 
                     $response = curl_exec($curl);
                     $err = curl_error($curl);
                     curl_close($curl);
@@ -389,7 +389,7 @@ class OrderController extends Controller
                 }
                 else
                 {
-                    return back()->with('warning', 'Tracking Info has already been added');
+                    return back()->with('warning', 'Tracking info for order id '.$request->order_id.' has been already added');
                 }
             } 
             
