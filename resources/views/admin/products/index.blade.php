@@ -285,11 +285,25 @@
                                         {{-- <a class="btn btn-dim btn-sm btn-primary"
                                             href="{{ route('products.show',$product->id) }}"><i
                                                 class="icon ni ni-eye"></i></a> --}}
-                                                <li class="nk-tb-action-hidden list-unstyled">
+                                                <li class="nk-tb-action-hidden list-unstyled d-flex">
                                                 <a href="{{ route('products.show',$product->id) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip"
                                                     data-placement="top" title="" data-original-title="View Detail">
                                                     <em class="icon ni ni-eye"></em>
                                                 </a>
+                                                 <div class="drodown mr-n1">
+                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                                                        class="icon ni ni-more-h"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                                        <li>
+                                                            <a href="{{ route('products.edit',$product->id) }}">
+                                                                <em class="icon ni ni-eye"></em>
+                                                                <span>Edit Details</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                             </li>
                                     </td>
     
