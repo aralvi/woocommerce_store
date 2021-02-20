@@ -76,9 +76,11 @@ class OrderNoteController extends Controller
                 $current_time = Carbon::now()->toDateTimeString();
                 $data = [
                     'note' => $request->order_note . "- Added By:" . Auth::user()->name . '- Time:' . $current_time,
+                    'customer_note'=> 'true',
                 ];
 
                 $note = Note::create($request->order_id, $data);
+                dd($note);
                 return back()->with('success', 'Order Note has been created!');
             } else {
                 return view('admin.orders.index')->with('error', 'please configure your store settings!');
