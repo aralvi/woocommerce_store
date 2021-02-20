@@ -240,7 +240,8 @@
                                         </div>
                                         <!-- .nk-block-between -->
                                     </div>
-                                    <!-- .nk-block-head -->@include('common.messages')
+                                    <!-- .nk-block-head -->
+                                    @include('common.messages')
                                     <div class="nk-block">@yield('content')</div>
                                     <!-- .row -->
                                 </div>

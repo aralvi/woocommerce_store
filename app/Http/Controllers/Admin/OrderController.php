@@ -324,53 +324,119 @@ class OrderController extends Controller
 
     }
     }
-    public function createShipping($id)
+    public function createTrackingInfo($id)
     {
+        
         if(count($this->userSetting(Auth::user()->id)) > 0)
         {
+
             $curl=curl_init(); 
             curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
             curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$id.'/shipment-trackings');
             curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
-            curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
+            curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
             curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
-            curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode(array("tracking_provider"=>"Fedex","tracking_number"=>123456789012,"date_shipped"=>"2019-03-08"))); 
             $response = curl_exec($curl);
-            $err = curl_error($curl);
             curl_close($curl);
-            if ($err) 
+            if ($response) 
             {
-                echo "Create Shipping Error #:" . $err;
-            } 
-            else 
-            {
-                // $data = json_decode($response);
-                // if(property_exists($data,'data'))
-                // {
-                //     if($data->data->status==404)
-                //     {
-                //         echo $data->message;
-                //         exit;
-                //     }
-                // }
-
-                // echo "Shipping detail</br>";
-                // echo "Tracking Id : ".$data->tracking_id."</br>";
-                // echo "Tracking Provider : ".$data->tracking_provider."</br>";
-                // echo "Tracking Number : ".$data->tracking_number."</br>";
-                // echo "Shipped Date: ".$data->date_shipped."</br>";
                 $data = json_decode($response);
-                if(property_exists($data,'data'))
+                if(count($data) == 0)
                 {
-                    if($data->data->status==404)
+                    // $curl=curl_init(); 
+                    curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+                    curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$id.'/shipment-trackings');
+                    curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
+                    curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
+                    curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode(array("tracking_provider"=>"Fedex","tracking_number"=>123456789012,"date_shipped"=>"2019-03-08"))); 
+                    $response = curl_exec($curl);
+                    $err = curl_error($curl);
+                    curl_close($curl);
+                    if ($err) 
                     {
-                        return back()->with('error', $data->message);
+                        echo "Create Shipping Error #:" . $err;
+                    } 
+                    else 
+                    {
+                        // $data = json_decode($response);
+                        // if(property_exists($data,'data'))
+                        // {
+                        //     if($data->data->status==404)
+                        //     {
+                        //         echo $data->message;
+                        //         exit;
+                        //     }
+                        // }
+
+                        // echo "Shipping detail</br>";
+                        // echo "Tracking Id : ".$data->tracking_id."</br>";
+                        // echo "Tracking Provider : ".$data->tracking_provider."</br>";
+                        // echo "Tracking Number : ".$data->tracking_number."</br>";
+                        // echo "Shipped Date: ".$data->date_shipped."</br>";
+                        $data = json_decode($response);
+                        if(property_exists($data,'data'))
+                        {
+                            if($data->data->status==404)
+                            {
+                                return back()->with('error', $data->message);
+                            }
+                        }
+
+                        return back()->with('success', 'Tracking Info has been added successfully');
+                        
                     }
                 }
+                else
+                {
+                    return back()->with('warning', 'Tracking Info has already been added');
+                }
+            } 
+            
 
-                return back()->with('success', 'Shippment has been created');
+            // $curl=curl_init(); 
+            // curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+            // curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$id.'/shipment-trackings');
+            // curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
+            // curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
+            // curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
+            // curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode(array("tracking_provider"=>"Fedex","tracking_number"=>123456789012,"date_shipped"=>"2019-03-08"))); 
+            // $response = curl_exec($curl);
+            // $err = curl_error($curl);
+            // curl_close($curl);
+            // if ($err) 
+            // {
+            //     echo "Create Shipping Error #:" . $err;
+            // } 
+            // else 
+            // {
+            //     // $data = json_decode($response);
+            //     // if(property_exists($data,'data'))
+            //     // {
+            //     //     if($data->data->status==404)
+            //     //     {
+            //     //         echo $data->message;
+            //     //         exit;
+            //     //     }
+            //     // }
+
+            //     // echo "Shipping detail</br>";
+            //     // echo "Tracking Id : ".$data->tracking_id."</br>";
+            //     // echo "Tracking Provider : ".$data->tracking_provider."</br>";
+            //     // echo "Tracking Number : ".$data->tracking_number."</br>";
+            //     // echo "Shipped Date: ".$data->date_shipped."</br>";
+            //     $data = json_decode($response);
+            //     if(property_exists($data,'data'))
+            //     {
+            //         if($data->data->status==404)
+            //         {
+            //             return back()->with('error', $data->message);
+            //         }
+            //     }
+
+            //     return back()->with('success', 'Shippment has been created');
                 
-            }
+            // }
         }        
     }
 
