@@ -10,8 +10,8 @@
             <th class="nk-tb-col"># </th>
             <th class="nk-tb-col nk-tb-col-check">Image</th>
             <th class="nk-tb-col">Name </th>
-            <th class="nk-tb-col tb-col-mb">Sku</th>
-            <th class="nk-tb-col tb-col-md">Barcode</th>
+            {{-- <th class="nk-tb-col tb-col-mb">Sku</th>
+            <th class="nk-tb-col tb-col-md">Barcode</th> --}}
             <th class="nk-tb-col tb-col-lg">Stock Status</th>
             <th class="nk-tb-col tb-col-md">Action</th>
 
@@ -45,16 +45,18 @@
                     <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
                     <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
                     <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
-                    <button type="submit" class="text-primary btn btn-dim text-left">{{ $product->name }}</button>
+                    <button type="submit" class="text-primary btn btn-dim text-left p-0">{{ $product->name }}</button><br>
+                    <small>SKU: {{ $product->sku }}</small><br>
+                                        <small>Barcode: </small>
                 </form>
                 {{-- <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a> --}}
             </td>
-            <td class="nk-tb-col tb-col-lg">
+            {{-- <td class="nk-tb-col tb-col-lg">
                 {{ $product->sku }}
             </td>
             <td class="nk-tb-col tb-col-lg">
                 <input type="text" name="barcode" class="form-control">
-            </td>
+            </td> --}}
             <td class="nk-tb-col tb-col-lg">
                 @if ($product->stock_status == 'instock')
                 <p class="text-success">
