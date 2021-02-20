@@ -14,8 +14,8 @@ class AddColumnsToSetting extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->string('excluded_Status')->after('logo');
-            $table->string('change_able_Status')->after('excluded_Status');
+            $table->string('excluded_Status')->after('logo')->nullable();
+            $table->string('change_able_Status')->after('excluded_Status')->nullable();
         });
     }
 

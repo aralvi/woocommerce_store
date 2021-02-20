@@ -14,7 +14,7 @@ class AddColumnToSetting extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->string('expiry_time')->after('order_status');
+            $table->string('expiry_time')->after('order_status')->nullable();
         });
     }
 
