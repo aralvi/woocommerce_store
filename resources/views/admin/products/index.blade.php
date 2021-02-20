@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 <style>
-        #myImg {
+	    #myImg {
         border-radius: 5px;
         cursor: pointer;
         transition: 0.3s;
@@ -106,7 +106,7 @@
         }
     }
 </style>
-@section('title','Products') @section('page-title','Product Lists') @section('content')
+@section('title','Products') @section('content')
 <div class="col-xxl-12 col-sm-12">
     <div class="">
         <div class="nk-ecwg nk-ecwg6">
@@ -115,7 +115,53 @@
                 <div class="card-title-group"></div>
                 {{-- card header section end --}}
                 <div class="data">
-                    <div class="row mb-4">
+                     <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Products</h3>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle"><a href="#"
+                                    class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em
+                                        class="icon ni ni-more-v"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li>
+                                            <div class="form-group">
+                                                <label for="" class="mb-0">Select Store</label>
+                                                <div class="form-control-wrap">
+                                                    <select class="form-select form-control form-control-lg" id="stores"
+                                                        name="store" data-search="on">
+                                                        <option value="default_option">Choose store</option>
+                                                        @if (isset($shops))
+
+                                                        @foreach ($shops as $shop)
+                                                        @if (Auth::user()->id == $shop->user_id || Auth::user()->role
+                                                        == 'SuperAdmin'
+                                                        || Auth::user()->parent_id == $shop->user_id)
+
+                                                        <option class="text-capitalize" value="{{ $shop->store_url }}"
+                                                            data-key="{{ $shop->consumer_key }}"
+                                                            data-secret="{{ $shop->consumer_secret }}"
+                                                            {{ ($shop->id == $setting->shop_id) ? "selected":'' }}>
+                                                            {{ $shop->name }}
+                                                        </option>
+                                                        @endif
+
+                                                        @endforeach
+                                                        @endif
+
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </li>
+                                      
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <div class="row mb-4">
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="" class="mb-0">Select Store</label>
@@ -143,7 +189,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2"> --}}
                             {{-- <div class="form-group">
                                 <label for="" class="mb-0">Select curior Service</label>
                                 <div class="form-control-wrap">
@@ -154,14 +200,14 @@
                                     </select>
                                 </div>
                             </div> --}}
-                        </div>
-                        <div class="col-md-2">
+                        {{-- </div>
+                        <div class="col-md-2"> --}}
                             {{-- <div class="form-group">
                                 <label for="filter By Status" class="mb-0">Search</label>
                                 <input class="mu-input-box form-control" name="order_search" id="search_order"
                                     type="text" placeholder="search order status" />
                             </div> --}}
-                        </div>
+                        {{-- </div>
                         <div class="col-md-4">
 
 
@@ -169,7 +215,7 @@
                         <div class="col-md-2">
 
                         </div>
-                    </div>
+                    </div> --}}
                     <div id="products_table">
 
                         <div class="spinner-border text-secondary d-none" id="loading" role="status">
@@ -205,9 +251,9 @@
                                         </div>
                                     </td>
                                     <td class="nk-tb-col tb-col-mb">
-                                        @if (count($product->images) <> 0) <img id="myImg" class="product_image" alt="Snow"
-                                                style="width:100%;max-width:300px" src="{{ $product->images[0]->src }}"
-                                                alt="" width="60" height="60">
+                                        @if (count($product->images) <> 0) <img id="myImg" class="product_image" 
+                                                 src="{{ $product->images[0]->src }}"
+                                                alt="{{ $product->name }}" width="60" height="60">
                                             @endif
                                     </td>
                                     <td class="nk-tb-col tb-col-md ">
