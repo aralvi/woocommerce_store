@@ -460,6 +460,106 @@
                                                                 <span>Order Tracking</span>
                                                             </a>
                                                         </li>
+                                </td>
+                                <td class="nk-tb-col tb-col-mb">
+                                    @if ($order->status == 'on-hold')
+                                    <span class="dot bg-warning d-mb-none"></span>
+                                    <span
+                                        class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                    @endif
+                                    @if ($order->status == 'completed')
+                                    <span class="dot bg-success d-mb-none"></span>
+                                    <span
+                                        class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                    @endif
+                                    @if ($order->status == 'failed')
+                                    <span class="dot bg-danger d-mb-none"></span>
+                                    <span
+                                        class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                    @endif
+                                    @if ($order->status == 'pending')
+                                    <span class="dot bg-info d-mb-none"></span>
+                                    <span
+                                        class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                    @endif
+                                    @if ($order->status == 'processing')
+                                    <span class="dot bg-primary d-mb-none"></span>
+                                    <span
+                                        class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                    @endif
+                                    @if ($order->status == 'refunded')
+                                    <span class="dot bg-secondary d-mb-none"></span>
+                                    <span
+                                        class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                    @endif
+                                    @if ($order->status == 'cancelled')
+                                    <span class="dot bg-danger d-mb-none"></span>
+                                    <span
+                                        class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                    @endif
+                                    {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
+                                </td>
+                                <td class="nk-tb-col tb-col-md">
+                                    <span>{{$order->date_created}}</span>
+                                </td>
+                                <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                    {{ $order->total }}
+                                </td>
+                    
+                                <td class="nk-tb-col tb-col-lg">
+                                    {{ count($order->line_items) }}
+                                </td>
+
+                                <td class="nk-tb-col tb-col-md">
+
+                                    {{-- <a href="{{ route('orders.show',$order->id) }}"
+                                    class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
+                                    {{-- <ul class="nk-tb-actions gx-1"> --}}
+                                    <li class="nk-tb-action-hidden list-unstyled d-flex">
+                                        <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}" class="btn btn-trigger btn-icon"
+                                            data-toggle="tooltip" data-placement="top" title="" data-original-title="view at Woocommerce">
+                                            <em class="icon ni ni-eye"></em>
+                                        </a>
+                                        <div class="drodown mr-n1">
+                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                                                    class="icon ni ni-more-h"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li>
+                                                        <a href="{{ route('orders.show',$order->id) }}">
+                                                            <em class="icon ni ni-eye"></em>
+                                                            <span>Order Details</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a type="button" data-toggle="modal" onclick="orderSetting(this,{{ $order->id }});" data-target="#addTrackingInfo">
+                                                            <em class="icon ni ni-eye"></em>
+                                                            <span>Add Tracking</span>
+                                                        </a>
+                                                    </li>
+
+                                                    @php 
+                                                        $curl=curl_init(); 
+                                                        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+                                                        curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
+                                                        curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
+                                                        curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
+                                                        curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
+                                                        $response = curl_exec($curl);
+                                                        curl_close($curl);
+                                                    @endphp
+                                                    @if ($response) 
+                                                        @php $data = json_decode($response) @endphp
+                                                        
+                                                        @if(count($data) > 0)
+                                                            <li>
+                                                                <a href="@foreach($data as $d){{ $d->tracking_link }}@endforeach" target="_blank">
+                                                                    <em class="icon ni ni-eye"></em>
+                                                                    <span>Order Tracking</span>
+                                                                </a>
+                                                            </li>
+                                                        @endif
                                                     @endif
                                                 @endif
 
@@ -740,6 +840,28 @@
                                         </div>
                                     </div>
                                 </li>
+                                                         @php 
+                                                            $curl=curl_init(); 
+                                                            curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+                                                            curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
+                                                            curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
+                                                            curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
+                                                            curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
+                                                            $response = curl_exec($curl);
+                                                            curl_close($curl);
+                                                        @endphp
+                                                        @if ($response) 
+                                                            @php $data = json_decode($response) @endphp
+                                                            
+                                                            @if(count($data) > 0)
+                                                                <li>
+                                                                    <a href="@foreach($data as $d){{ $d->tracking_link }}@endforeach" target="_blank">
+                                                                        <em class="icon ni ni-eye"></em>
+                                                                        <span>Order Tracking</span>
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endif
 
 
                             </td>
@@ -787,7 +909,7 @@
                                 <label class="form-label">Provider</label>
                                 <select name="provider"
                                     class="form-control form-select" data-search="on" required>
-                                        <option value="Fastway">Fastway</option>
+                                        <option value="fastway-au">Fastway</option>
                                 </select>
                             </div>
                         </div>
