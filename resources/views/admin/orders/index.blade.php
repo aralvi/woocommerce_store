@@ -508,7 +508,7 @@
                                 <label class="form-label">Provider</label>
                                 <select name="provider"
                                     class="form-control form-select" data-search="on" required>
-                                        <option value="Fastway">Fastway</option>
+                                        <option value="fastway-au">Fastway</option>
                                 </select>
                             </div>
                         </div>
