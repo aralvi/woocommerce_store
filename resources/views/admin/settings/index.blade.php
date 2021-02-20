@@ -40,28 +40,107 @@
 								<div class="form-group">
 									<label for="" class="mb-0">Exclude Status</label>
 									<div class="form-control-wrap">
-										<select class="form-select select2-hidden-accessible" id="excluded_status" name="excluded_status[]" multiple="" data-placeholder="Select Exclude Status" data-select2-id="9" tabindex="-1" aria-hidden="true"> @if (isset($setting)) @php $excluded_statuses = json_decode($setting->excluded_Status); @endphp
-											<option value="pending" @if ($setting !=null) @foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse == 'pending' ) selected @endif @endforeach @endif >Pending payment</option>
-											<option value="processing" @if ($setting !=null) @foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='processing' ) selected @endif @endforeach @endif >Processing</option>
-											<option value="on-hold" @if ($setting !=null) @foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='on-hold' ) selected @endif @endforeach @endif >On hold</option>
-											<option value="completed" @if ($setting !=null) @foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='completed' ) selected @endif @endforeach @endif >Completed</option>
-											<option value="cancelled" @if ($setting !=null) @foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='cancelled' ) selected @endif @endforeach @endif >Cancelled</option>
-											<option value="refunded" @if ($setting !=null) @foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='refunded' ) selected @endif @endforeach @endif >Refunded</option>
-											<option value="failed" @if ($setting !=null) @foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='failed' ) selected @endif @endforeach @endif >Failed</option> @endif </select>
+										<select class="form-select select2-hidden-accessible" id="excluded_status" name="excluded_status[]" multiple="" data-placeholder="Select Exclude Status" data-select2-id="9" tabindex="-1" aria-hidden="true"> @if (isset($setting)) @php 
+											if (isset($setting->excluded_Status)) {
+												$excluded_statuses = json_decode($setting->excluded_Status); 
+											}
+											@endphp
+											<option value="pending" @if ($setting !=null) 
+											@if(isset($excluded_statuses))
+												
+											@foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse == 'pending' ) selected @endif @endforeach
+											@endif
+											@endif >Pending payment</option>
+											<option value="processing" @if ($setting !=null) 
+											@if(isset($excluded_statuses))
+												
+											@foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='processing' ) selected @endif @endforeach
+											@endif
+											@endif >Processing</option>
+											<option value="on-hold" @if ($setting !=null) 
+											@if(isset($excluded_statuses))
+												
+											@foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='on-hold' ) selected @endif @endforeach
+											@endif
+											@endif >On hold</option>
+											<option value="completed" @if ($setting !=null) 
+											@if(isset($excluded_statuses))
+												
+											@foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='completed' ) selected @endif @endforeach
+											@endif
+											@endif >Completed</option>
+											<option value="cancelled" @if ($setting !=null) 
+											@if(isset($excluded_statuses))
+												
+											@foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='cancelled' ) selected @endif @endforeach
+											@endif
+											@endif >Cancelled</option>
+											<option value="refunded" @if ($setting !=null) 
+											@if(isset($excluded_statuses))
+												
+											@foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='refunded' ) selected @endif @endforeach
+											@endif
+											@endif >Refunded</option>
+											<option value="failed" @if ($setting !=null) 
+											@if(isset($excluded_statuses))
+												
+											@foreach($excluded_statuses as $key=> $excluded_statuse) @if ($excluded_statuse =='failed' ) selected @endif @endforeach
+											@endif
+											@endif >Failed</option> @endif </select>
 									</div>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="filter By Status" class="mb-0">Changeable Status</label>
-									<select class="form-select select2-hidden-accessible" id="change_able_status" name="change_able_status[]" multiple="" data-placeholder="Select Changeable Status" data-select2-id="10" tabindex="-1" aria-hidden="true">@if (isset($setting)) @php $change_able_statuses = json_decode($setting->change_able_Status); @endphp
-											<option value="pending" @if ($setting !=null) @foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse == 'pending' ) selected @endif @endforeach @endif >Pending payment</option>
-											<option value="processing" @if ($setting !=null) @foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='processing' ) selected @endif @endforeach @endif >Processing</option>
-											<option value="on-hold" @if ($setting !=null) @foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='on-hold' ) selected @endif @endforeach @endif >On hold</option>
-											<option value="completed" @if ($setting !=null) @foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='completed' ) selected @endif @endforeach @endif >Completed</option>
-											<option value="cancelled" @if ($setting !=null) @foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='cancelled' ) selected @endif @endforeach @endif >Cancelled</option>
-											<option value="refunded" @if ($setting !=null) @foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='refunded' ) selected @endif @endforeach @endif >Refunded</option>
-											<option value="failed" @if ($setting !=null) @foreach($change_able_statuses as $key=> $change_able_statuse) @if ($excluded_statuse =='failed' ) selected @endif @endforeach @endif >Failed</option> @endif </select>
+									<select class="form-select select2-hidden-accessible" id="change_able_status" name="change_able_status[]" multiple="" data-placeholder="Select Changeable Status" data-select2-id="10" tabindex="-1" aria-hidden="true">@if (isset($setting)) 
+										@php 
+										if ($setting->change_able_Status) {
+											$change_able_statuses = json_decode($setting->change_able_Status); 
+										}
+										@endphp
+											<option value="pending" @if ($setting !=null) 
+											@if (isset($change_able_statuses))
+												
+											@foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse == 'pending' ) selected @endif @endforeach
+											@endif
+												 @endif >Pending payment</option>
+											<option value="processing" @if ($setting !=null) 
+											@if (isset($change_able_statuses))
+												
+											@foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='processing' ) selected @endif @endforeach
+											@endif
+												 @endif >Processing</option>
+											<option value="on-hold" @if ($setting !=null) 
+											@if (isset($change_able_statuses))
+												
+											@foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='on-hold' ) selected @endif @endforeach
+											@endif
+												 @endif >On hold</option>
+											<option value="completed" @if ($setting !=null) 
+											@if (isset($change_able_statuses))
+												
+											@foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='completed' ) selected @endif @endforeach
+											@endif
+												 @endif >Completed</option>
+											<option value="cancelled" @if ($setting !=null) 
+											@if (isset($change_able_statuses))
+												
+											@foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='cancelled' ) selected @endif @endforeach
+											@endif
+												 @endif >Cancelled</option>
+											<option value="refunded" @if ($setting !=null) 
+											@if (isset($change_able_statuses))
+												
+											@foreach($change_able_statuses as $key=> $change_able_statuse) @if ($change_able_statuse =='refunded' ) selected @endif @endforeach
+											@endif
+												 @endif >Refunded</option>
+											<option value="failed" @if ($setting !=null) 
+											@if (isset($change_able_statuses))
+												
+											@foreach($change_able_statuses as $key=> $change_able_statuse) @if ($excluded_statuse =='failed' ) selected @endif @endforeach
+											@endif
+												 @endif >Failed</option> @endif </select>
 								</div>
 							</div>
 						</div>
