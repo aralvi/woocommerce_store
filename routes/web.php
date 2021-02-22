@@ -37,5 +37,6 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::resource('users', 'Admin\addUserController');
     Route::resource('stores', 'Admin\ShopController');
     Route::resource('ordernotes', 'Admin\OrderNoteController');
+    Route::resource('questions', 'Admin\QuestionController');
     Route::post('add/tracking/info','Admin\OrderController@createTrackingInfo')->name('add.tracking.info');
 });

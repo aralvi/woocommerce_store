@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Question;
 use App\Models\Setting;
 use App\Models\Shop;
 use Codexshaper\WooCommerce\Facades\Note;
@@ -98,7 +99,8 @@ class OrderController extends Controller
                     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                     $orders = Order::find($id);
                     $ordreNotes = Note::all($id);
-                    return view('admin.orders.show', compact('orders', 'ordreNotes','store_url', 'consumer_secret', 'consumer_key'));
+                    $questions = Question::where('order_id',$id)->get();
+                    return view('admin.orders.show', compact('orders', 'ordreNotes','store_url', 'consumer_secret', 'consumer_key','questions'));
                 } else {
                     return view('admin.orders.index')->with('error', 'please configure your store settings!');
                 }
@@ -116,7 +118,8 @@ class OrderController extends Controller
             Config::set('woocommerce.consumer_secret', $request->consumer_secret);
             $orders = Order::find($id);
             $ordreNotes = Note::all($id);
-            return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'consumer_secret'));
+            $questions = Question::where('order_id', $id)->get();
+            return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'consumer_secret', 'questions'));
         }
         
     }

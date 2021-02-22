@@ -147,6 +147,50 @@ $('#deleteNoteBtn').on('click', function() {
     });
 });
 
+
+/*** Open Deleting Question  Modal ***/
+$('.deleteQuestion').on('click', function() {
+    var QuestionID = $(this).attr('data-QuestionId');
+    $('#DeleteQuestionModal').modal('toggle');
+    $('#deleteQuestionBtn').val(QuestionID);
+});
+
+/*** Deleting Question  ***/
+$('#deleteQuestionBtn').on('click', function() {
+    var QuestionID = $(this).val();
+
+    $.ajax({
+        type: 'DELETE',
+        url: url + '/questions/' + QuestionID,
+        data: { id: QuestionID, _token: token, _method: 'DELETE' },
+        success: function(data) {
+            $("#DeleteQuestionModal").modal("hide");
+            $("#target_" + QuestionID).hide();
+            $('#success_errror_any').addClass("hide");
+            $('#messageDiv').removeClass("alert-danger hide");
+            $('#messageDiv').addClass("alert-success");
+            $('#message').html(data);
+        },
+        error: function() {
+            $('#success_errror_any').addClass("hide");
+            $('#messageDiv').removeClass("alert-success hide");
+            $('#messageDiv').addClass("alert-danger");
+            $('#message').html('Category not found or Something is wrong');
+            $('#DeleteQuestionModal').modal('hide');
+        }
+
+    });
+});
+// edit Question
+$('.editQuestion').on('click', function() {
+    var QuestionID = $(this).attr('data-QuestionId');
+    alert($(this).attr('data-Question'))
+    $('#question').val($(this).attr('data-Question'));
+    url = $('#editQuestionForm').attr('action');
+    url = url + "/" + QuestionID;
+    $('#editQuestionForm').attr('action', url);
+    $('#EditCustomQuestionModal').modal('toggle');
+});
 // open edit Product modal
 $('.editProduct').on('click', function() {
     var productID = $(this).attr('data-productId');
@@ -174,7 +218,7 @@ $('.deleteProduct').on('click', function() {
     $('#deleteProductModalBtn').val(productID);
 });
 
-/*** Deleting Category  ***/
+/*** Deleting product  ***/
 $('#deleteProductModalBtn').on('click', function() {
     var productID = $(this).val();
     $.ajax({

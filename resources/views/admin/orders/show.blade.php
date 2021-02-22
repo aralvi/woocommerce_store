@@ -127,6 +127,7 @@
 					</form> <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" class="btn btn-dim btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
+					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
 				</div>
 			</div>
 			<div class="table-responsive">
@@ -351,6 +352,42 @@
 	</div>
 	<!-- .card-preview -->
 </div>
+{{-- custom questions --}}
+<div class="col-xxl-12 col-sm-12">
+	<div class="card card-preview">
+		<div class="card-inner">
+			<div class="card-title-group">
+				<h3>Order Noted</h3> </div>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Note</th>
+							<th class="nk-tb-col tb-col-lg">Actions</th>
+						</tr>
+					</thead>
+					<tbody> @foreach($questions as $question)
+							
+						<tr id="target_{{ $question->id }}" >
+							<th scope="row">{{ $question->id }}</th>
+							<td>{{ $question->question }}</td>
+							<td class="nk-tb-col tb-col-md"> 
+								<button type="button" class="btn btn-trigger btn-icon editQuestion" data-QuestionId="{{ $question->id }}" data-Question="{{ $question->question }}"><em class="icon ni ni-pen"></em></button>
+								<button type="button" class="btn btn-trigger btn-icon deleteQuestion" data-QuestionId="{{ $question->id }}" ><em class="icon ni ni-trash"></em></button>
+							</td>
+						</tr> 
+						
+						
+						
+						@endforeach 
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- .card-preview -->
+</div>
 <div class="modal fade zoom" tabindex="-1" id="OrderStatusmodalForm">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -412,7 +449,64 @@
 			</form>
 		</div>
 	</div>
-</div> {{-- delete mdal --}}
+</div>
+{{-- add question modal  --}}
+<div class="modal fade zoom" tabindex="-1" id="AddCustomQuestionModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Add Custom Question</h5>
+				<a href="#" class="close" data-dismiss="modal" aria-label="Close"> <em class="icon ni ni-cross"></em> </a>
+			</div>
+			<form action="{{ route('questions.store') }}" class="form-validate is-alter" method="POST"> @csrf
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="form-label" for="ordernote">Question</label>
+						<div class="form-control-wrap">
+							<input type="hidden" name="order_id" value="{{ $orders['id'] }}" id="order_id">
+							{{-- <textarea name="question" class="form-control" id="" cols="30" rows="2"></textarea>  --}}
+							<input type="text" class="form-control" name="question" placeholder="ask question" required> 
+						</div>
+						</div>
+				</div>
+				<div class="modal-footer bg-light">
+					<div class="form-group">
+						<button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{{-- edit question modal  --}}
+<div class="modal fade zoom" tabindex="-1" id="EditCustomQuestionModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Add Custom Question</h5>
+				<a href="#" class="close" data-dismiss="modal" aria-label="Close"> <em class="icon ni ni-cross"></em> </a>
+			</div>
+			<form action="{{ route('questions.index') }}" class="form-validate is-alter" method="POST" id="editQuestionForm"> @csrf @method('PUT')
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="form-label" for="ordernote">Question</label>
+						<div class="form-control-wrap">
+							<input type="hidden" name="order_id" value="{{ $orders['id'] }}" id="order_id">
+							{{-- <textarea name="question" class="form-control" id="" cols="30" rows="2"></textarea>  --}}
+							<input type="text" class="form-control" name="question" id="question" placeholder="ask question" required> 
+						</div>
+						</div>
+				</div>
+				<div class="modal-footer bg-light">
+					<div class="form-group">
+						<button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{{-- delete mdal --}}
 <div class="modal fade zoom" tabindex="-1" id="DeleteNoteModal">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -434,7 +528,24 @@
 	</div>
 </div> 
 
-
+{{-- delete mdal --}}
+<div class="modal fade zoom" tabindex="-1" id="DeleteQuestionModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Delete Question</h5>
+				<a href="#" class="close" data-dismiss="modal" aria-label="Close"> <em class="icon ni ni-cross"></em> </a>
+			</div>
+			<div class="modal-body">
+				<p>Are you sure you want to delete this question?</p>
+				
+			</div>
+			<div class="modal-footer bg-light">
+				<button class="btn btn-dim btn-danger" id="deleteQuestionBtn">Yes,sure</button>
+			</div>
+		</div>
+	</div>
+</div> 
 <div id="myModal" class="modal img-modal">
     <span id="close">&times;</span>
     <img class="modal-content img-modal-contetn" id="img01">
