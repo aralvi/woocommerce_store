@@ -11,12 +11,12 @@
     }
     /* The Modal (background) */
     
-    .img-modal {
+    .modal {
         display: none;
         /* Hidden by default */
         position: fixed;
         /* Stay in place */
-        z-index: 1;
+        z-index: unset !important;
         /* Sit on top */
         padding-top: 100px;
         /* Location of the box */
@@ -26,7 +26,7 @@
         /* Full width */
         height: 100%;
         /* Full height */
-        overflow: auto;
+        overflow: auto !important;
         /* Enable scroll if needed */
         background-color: rgb(0, 0, 0);
         /* Fallback color */
@@ -35,7 +35,7 @@
     }
     /* Modal Content (image) */
     
-    .img-modal-content {
+    .modal-content {
         margin: auto;
         display: block;
         width: 80%;
@@ -55,7 +55,7 @@
     }
     /* Add Animation */
     
-    .img-modal-content,
+    .modal-content,
     #caption {
         -webkit-animation-name: zoom;
         -webkit-animation-duration: 0.6s;
@@ -101,7 +101,7 @@
     /* 100% Image Width on Smaller Screens */
     
     @media only screen and (max-width: 700px) {
-        .img-modal-content {
+        .modal-content {
             width: 100%;
         }
     }

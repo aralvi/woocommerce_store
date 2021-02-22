@@ -16,7 +16,7 @@
         /* Hidden by default */
         position: fixed;
         /* Stay in place */
-        z-index: 1;
+        z-index: unset !important;
         /* Sit on top */
         padding-top: 100px;
         /* Location of the box */
@@ -26,7 +26,7 @@
         /* Full width */
         height: 100%;
         /* Full height */
-        overflow: auto;
+        overflow: auto !important;
         /* Enable scroll if needed */
         background-color: rgb(0, 0, 0);
         /* Fallback color */

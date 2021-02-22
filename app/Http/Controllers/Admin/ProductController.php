@@ -86,12 +86,15 @@ class ProductController extends Controller
                 if ($shopExist) {
                     $shopDefault = Shop::where('id', $setting->shop_id)->first();
                     $shops = Shop::all();
+                    $store_url = $shopDefault->store_url;
+                    $consumer_key = $shopDefault->consumer_key;
+                    $consumer_secret = $shopDefault->consumer_secret;
                     Config::set('woocommerce.store_url', $shopDefault->store_url);
                     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                     $product = Product::find($id);
                     
-                    return view('admin.products.show', compact('product', 'shops', 'setting'));
+                    return view('admin.products.show', compact('product', 'shops','setting', 'store_url', 'consumer_key', 'consumer_secret'));
                 } else {
                     return view('admin.products.index')->with('error', 'please configure your store settings!');
                 }
@@ -99,11 +102,14 @@ class ProductController extends Controller
                 return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
             }
         } else {
+            $store_url = $request->store_url;
+            $consumer_key = $request->consumer_key;
+            $consumer_secret = $request->consumer_secret;
             Config::set('woocommerce.store_url', $request->store_url);
             Config::set('woocommerce.consumer_key', $request->consumer_key);
             Config::set('woocommerce.consumer_secret', $request->consumer_secret);
             $product = Product::find($id);
-            return view('admin.products.show', compact('product'));
+            return view('admin.products.show', compact('product', 'store_url', 'consumer_key', 'consumer_secret'));
         }
     }
 
@@ -160,6 +166,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         // dd($request->all());
         // $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         // if ($settingExist) {
