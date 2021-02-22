@@ -198,6 +198,18 @@
             <tbody id="order_table">
                 @if ($orders->count() > 0)
                     @foreach ($orders as $count=> $order)
+                        @php
+                            $curl=curl_init();
+                            curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+                            curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
+                            curl_setopt($curl, CURLOPT_USERPWD,
+                            Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
+                            curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
+                            curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
+                            $response = curl_exec($curl);
+                            curl_close($curl);
+                        @endphp
+
                         @if ( $setting->order_status == 'all')
                             @php
                                 if (isset($setting->excluded_Status)) {
@@ -308,17 +320,7 @@
                                                                     </a>
                                                                 </li>
 
-                                                                @php
-                                                                $curl=curl_init();
-                                                                curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-                                                                curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
-                                                                curl_setopt($curl, CURLOPT_USERPWD,
-                                                                Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
-                                                                curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
-                                                                curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
-                                                                $response = curl_exec($curl);
-                                                                curl_close($curl);
-                                                                @endphp
+                                                                
                                                                 @if ($response)
                                                                     @php $data = json_decode($response) @endphp
                                                                     @if(count($data) > 0)
@@ -446,17 +448,6 @@
                                                             </a>
                                                         </li>
 
-                                                        @php
-                                                        $curl=curl_init();
-                                                        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-                                                        curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
-                                                        curl_setopt($curl, CURLOPT_USERPWD,
-                                                        Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
-                                                        curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
-                                                        curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
-                                                        $response = curl_exec($curl);
-                                                        curl_close($curl);
-                                                        @endphp
                                                         @if ($response)
                                                             @php $data = json_decode($response) @endphp
 
@@ -551,17 +542,7 @@
                                                             </a>
                                                         </li>
 
-                                                        @php
-                                                        $curl=curl_init();
-                                                        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-                                                        curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
-                                                        curl_setopt($curl, CURLOPT_USERPWD,
-                                                        Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
-                                                        curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
-                                                        curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
-                                                        $response = curl_exec($curl);
-                                                        curl_close($curl);
-                                                        @endphp
+                                                        
                                                         @if ($response)
                                                             @php $data = json_decode($response) @endphp
 
@@ -693,28 +674,18 @@
                                                                     </a>
                                                                 </li>
 
-                                                                @php
-                                                                $curl=curl_init();
-                                                                curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-                                                                curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
-                                                                curl_setopt($curl, CURLOPT_USERPWD,
-                                                                Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
-                                                                curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
-                                                                curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
-                                                                $response = curl_exec($curl);
-                                                                curl_close($curl);
-                                                                @endphp
+                                                                
                                                                 @if ($response)
-                                                                @php $data = json_decode($response) @endphp
+                                                                    @php $data = json_decode($response) @endphp
 
-                                                                @if(count($data) > 0)
-                                                                <li>
-                                                                    <a href="{{ $data[0]->tracking_link }}" target="_blank">
-                                                                        <em class="icon ni ni-eye"></em>
-                                                                        <span>Order Tracking</span>
-                                                                    </a>
-                                                                </li>
-                                                                @endif
+                                                                    @if(count($data) > 0)
+                                                                    <li>
+                                                                        <a href="{{ $data[0]->tracking_link }}" target="_blank">
+                                                                            <em class="icon ni ni-eye"></em>
+                                                                            <span>Order Tracking</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    @endif
                                                                 @endif
 
                                                             </ul>
@@ -831,56 +802,36 @@
                                                             </a>
                                                         </li>
 
-                                                        @php
-                                                        $curl=curl_init();
-                                                        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-                                                        curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
-                                                        curl_setopt($curl, CURLOPT_USERPWD,
-                                                        Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
-                                                        curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
-                                                        curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
-                                                        $response = curl_exec($curl);
-                                                        curl_close($curl);
-                                                        @endphp
+                                                        
                                                         @if ($response)
-                                                        @php $data = json_decode($response) @endphp
+                                                            @php $data = json_decode($response) @endphp
 
-                                                        @if(count($data) > 0)
-                                                        <li>
-                                                            <a href="{{ $data[0]->tracking_link }}" target="_blank">
-                                                                <em class="icon ni ni-eye"></em>
-                                                                <span>Order Tracking</span>
-                                                            </a>
-                                                        </li>
-                                                        @endif
+                                                            @if(count($data) > 0)
+                                                            <li>
+                                                                <a href="{{ $data[0]->tracking_link }}" target="_blank">
+                                                                    <em class="icon ni ni-eye"></em>
+                                                                    <span>Order Tracking</span>
+                                                                </a>
+                                                            </li>
+                                                            @endif
                                                         @endif
 
                                                     </ul>
                                                 </div>
                                             </div>
                                         </li>
-                                        @php
-                                        $curl=curl_init();
-                                        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-                                        curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
-                                        curl_setopt($curl, CURLOPT_USERPWD,
-                                        Config::get('woocommerce.consumer_key').":".Config::get('woocommerce.consumer_secret'));
-                                        curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'GET');
-                                        curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
-                                        $response = curl_exec($curl);
-                                        curl_close($curl);
-                                        @endphp
+                                        
                                         @if ($response)
-                                        @php $data = json_decode($response) @endphp
+                                            @php $data = json_decode($response) @endphp
 
-                                        @if(count($data) > 0)
-                                        <li>
-                                            <a href="@foreach($data as $d){{ $d->tracking_link }}@endforeach" target="_blank">
-                                                <em class="icon ni ni-eye"></em>
-                                                <span>Order Tracking</span>
-                                            </a>
-                                        </li>
-                                        @endif
+                                            @if(count($data) > 0)
+                                            <li>
+                                                <a href="@foreach($data as $d){{ $d->tracking_link }}@endforeach" target="_blank">
+                                                    <em class="icon ni ni-eye"></em>
+                                                    <span>Order Tracking</span>
+                                                </a>
+                                            </li>
+                                            @endif
                                         @endif
 
 
