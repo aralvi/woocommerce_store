@@ -195,8 +195,7 @@
                             <select id="product_supplier" name="product_supplier" class="form-control form-select"
                                 data-search="on">
                                 <option disabled selected>Choose supplier</option>
-                                <option value="supplier1">supplier 1</option>
-                                <option value="supplier2">supplier 2</option>
+                                
                             </select>
                         </div>
                         <div class="form-group col-md-6">

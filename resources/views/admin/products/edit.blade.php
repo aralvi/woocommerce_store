@@ -12,11 +12,11 @@
                         <div class="row">
 							<div class="form-group col-md-6">
 								<label for="name" class="mb-0">Name</label>
-								<input type="text" name="name" id="name" value="{{ $product['name'] }}" class="form-control" required>
+								<input type="text" name="name" id="name" value="{{ $product['name'] }}" class="form-control" >
 							</div>
 							<div class="form-group col-md-6">
 								<label for="regular_price" class="mb-0">Regular Price</label>
-								<input type="number" name="regular_price" id="regular_price" value="{{ $product['regular_price'] }}" class="form-control" required> 
+								<input type="number" name="regular_price" id="regular_price" value="{{ $product['regular_price'] }}" class="form-control" > 
                             </div>
 							<div class="form-group col-md-6">
 								<label for="purchase_price" class="mb-0">Purchase Price</label>
@@ -41,8 +41,7 @@
 								<label for="supplier" class="mb-0">Suppliers</label>
 								<select id="product_supplier" name="product_supplier" class="form-control form-select" data-search="on">
 									<option disabled selected>Choose supplier</option>
-									<option value="supplier1" >supplier 1</option>
-									<option value="supplier2" >supplier 2</option>
+									
 								</select>
 							</div>
 							<div class="form-group col-md-6">
