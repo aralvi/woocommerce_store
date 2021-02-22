@@ -154,6 +154,9 @@
 
                                             </div>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('products.index') }}"  class="btn btn-dim btn-primary top-btn ml-1 mt-3">Fetch Products</a>
+                                        </li>
                                       
                                     </ul>
                                 </div>
