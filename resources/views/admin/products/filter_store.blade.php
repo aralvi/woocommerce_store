@@ -30,7 +30,7 @@
                 </div>
             </td>
             <td class="nk-tb-col tb-col-mb">
-                @if (count($product->images) <> 0) <img id="myImg" class="product_image" alt="Snow"
+                @if (count($product->images) <> 0) <img id="myImg" class="product_image" alt="{{ $product->name }}"
                         src="{{ $product->images[0]->src }}" alt="" width="60"
                         height="60">
                     @endif
@@ -72,7 +72,7 @@
                 @endif
             </td>
             <td class="nk-tb-col tb-col-md">
-                <li class="nk-tb-action-hidden list-unstyled">
+                <li class="nk-tb-action-hidden list-unstyled d-flex">
                 <form action="{{ route('products.show',$product->id) }}">
                     <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
                     <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
@@ -94,7 +94,7 @@
                                                         <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
                                                             <button type="submit" class="btn btn-trigger btn-icon" data-toggle="tooltip"
                                                                 data-placement="top" title="" data-original-title="Edit Product">
-                                                                <em class="icon ni ni-eye"> Edit Product</em>
+                                                                <em class="icon ni ni-pen"> </em>Edit Product
                                                             </button>
                                                             </form>
                                                         </li>

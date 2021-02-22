@@ -296,7 +296,7 @@
                                                     <ul class="link-list-opt no-bdr">
                                                         <li>
                                                             <a href="{{ route('products.edit',$product->id) }}">
-                                                                <em class="icon ni ni-eye"></em>
+                                                                <em class="icon ni ni-pen"></em>
                                                                 <span>Edit Details</span>
                                                             </a>
                                                         </li>
