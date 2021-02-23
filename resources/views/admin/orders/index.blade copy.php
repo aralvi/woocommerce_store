@@ -92,21 +92,80 @@
                                                 data-target="#modalForm">Change Order Status </button>
                                             {{-- </div> --}}
                                         </li>
-                                        <li class="nk-block-tools-opt pb-0">
-                                            <form action="{{ route('fetch.orders') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="store_url"  value="{{ $store_url }}" id="fetch_store_url">
-                                                <input type="hidden" name="consumer_key" value="{{ $consumer_key }}"  id="fetch_consumer_key">
-                                                <input type="hidden" name="consumer_secret" value="{{ $consumer_secret }}"  id="fetch_consumer_secret">
-                                                <button type="submit" class="btn btn-dim btn-primary mt-3">Fetch Orders</button>
-                                            </form>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+                    {{-- <div class="row mb-4">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="" class="mb-0">Select Store</label>
+                                <div class="form-control-wrap">
+                                    <select class="form-select form-control form-control-lg" id="stores" name="store"
+                                        data-search="on">
+                                        <option value="default_option">Choose store</option>
+                                        @if (isset($shops))
+
+                                        @foreach ($shops as $shop)
+                                        @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin'
+                                        || Auth::user()->parent_id == $shop->user_id)
+
+                                        <option class="text-capitalize" value="{{ $shop->store_url }}"
+                    data-key="{{ $shop->consumer_key }}"
+                    data-secret="{{ $shop->consumer_secret }}"
+                    {{ ($shop->id == $setting->shop_id) ? "selected":'' }}>{{ $shop->name }}
+                    </option>
+                    @endif
+
+                    @endforeach
+                    @endif
+
+                    </select>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-4 d-flex justify-content-end align-items-end">
+            <div class="btn-group">
+                <button class="btn btn-md btn-dim btn-primary order_status" onclick="getOrderList();"
+                    data-toggle="modal" data-target="#modalForm">Change Order Status </button>
+            </div>
+
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="filter By Status" class="mb-0">Filter Status</label>
+                <select id="order_status" name="order_status" class="form-control form-select" data-search="on">
+                    @if (isset($setting))
+
+                    <option value="all" {{ 'all' == $setting->order_status ? "selected":'' }}>All
+                    </option>
+                    <option value="pending" {{ 'pending' == $setting->order_status ? "selected":'' }}>
+                        Pending payment</option>
+                    <option value="processing" {{ 'processing' == $setting->order_status ? "selected":'' }}>Processing
+                    </option>
+                    <option value="on-hold" {{ 'on-hold' == $setting->order_status ? "selected":'' }}>On
+                        hold</option>
+                    <option value="completed" {{ 'completed' == $setting->order_status ? "selected":'' }}>Completed
+                    </option>
+                    <option value="cancelled" {{ 'cancelled' == $setting->order_status ? "selected":'' }}>Cancelled
+                    </option>
+                    <option value="refunded" {{ 'refunded' == $setting->order_status ? "selected":'' }}>
+                        Refunded</option>
+                    <option value="failed" {{ 'failed' == $setting->order_status ? "selected":'' }}>
+                        Failed</option>
+                    @endif
+                </select>
+            </div>
+        </div>
+    </div> --}}
 
     <div id="orders_table">
         <div class="d-flex justify-content-center">
@@ -140,7 +199,7 @@
                 @if ($orders->count() > 0)
                     @foreach ($orders as $count=> $order)
                         @php
-                        $curl=curl_init();
+                            $curl=curl_init();
                             curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
                             curl_setopt($curl,CURLOPT_URL,Config::get('woocommerce.store_url').'/wp-json/wc-ast/v3/orders/'.$order->id.'/shipment-trackings');
                             curl_setopt($curl, CURLOPT_USERPWD,
@@ -149,8 +208,6 @@
                             curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
                             $response = curl_exec($curl);
                             curl_close($curl);
-                            // $response = '';
-
                         @endphp
 
                         @if ( $setting->order_status == 'all')
@@ -163,7 +220,6 @@
                                 @foreach ($excluded_statuses as $excluded_statuse)
                                     @if ($excluded_statuse != $order->status)
                                         <tr class="nk-tb-item">
-                                            <td>hello</td>
                                             <td class="nk-tb-col nk-tb-col-check">
                                                 <div class="custom-control custom-control-sm custom-checkbox notext">
                                                     <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
@@ -179,7 +235,7 @@
                                             </td>
                                             <td class="nk-tb-col">
                                                 <div class="user-info">
-                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
+                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->billing->first_name. " ".  $order->billing->last_name }}
                                                     </a>
                                                 </div>
                                             </td>
@@ -222,14 +278,14 @@
                                                 {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
                                             </td>
                                             <td class="nk-tb-col tb-col-md">
-                                                <span>{{$order->date}}</span>
+                                                <span>{{$order->date_created}}</span>
                                             </td>
                                             <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
                                                 {{ $order->total }}
                                             </td>
 
                                             <td class="nk-tb-col tb-col-lg">
-                                                {{ $order->items }}
+                                                {{ count($order->line_items) }}
                                             </td>
 
                                             <td class="nk-tb-col tb-col-md">
@@ -287,6 +343,7 @@
 
                                         </tr><!-- .nk-tb-item  -->
                                     @endif
+
                                 @endforeach
 
                             @else
@@ -306,7 +363,7 @@
                                     </td>
                                     <td class="nk-tb-col">
                                         <div class="user-info">
-                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
+                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->billing->first_name. " ".  $order->billing->last_name }}
                                             </a>
                                         </div>
                                     </td>
@@ -349,14 +406,14 @@
                                         {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
                                     </td>
                                     <td class="nk-tb-col tb-col-md">
-                                        <span>{{$order->date}}</span>
+                                        <span>{{$order->date_created}}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
                                         {{ $order->total }}
                                     </td>
 
                                     <td class="nk-tb-col tb-col-lg">
-                                        {{ $order->items }}
+                                        {{ count($order->line_items) }}
                                     </td>
 
                                     <td class="nk-tb-col tb-col-md">
@@ -404,7 +461,109 @@
                                                             @endif
                                                         @endif
                                     </td>
-                                    
+                                    <td class="nk-tb-col tb-col-mb">
+                                        @if ($order->status == 'on-hold')
+                                        <span class="dot bg-warning d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'completed')
+                                        <span class="dot bg-success d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'failed')
+                                        <span class="dot bg-danger d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'pending')
+                                        <span class="dot bg-info d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'processing')
+                                        <span class="dot bg-primary d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'refunded')
+                                        <span class="dot bg-secondary d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        @if ($order->status == 'cancelled')
+                                        <span class="dot bg-danger d-mb-none"></span>
+                                        <span
+                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                        @endif
+                                        {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
+                                    </td>
+                                    <td class="nk-tb-col tb-col-md">
+                                        <span>{{$order->date_created}}</span>
+                                    </td>
+                                    <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                        {{ $order->total }}
+                                    </td>
+
+                                    <td class="nk-tb-col tb-col-lg">
+                                        {{ count($order->line_items) }}
+                                    </td>
+
+                                    <td class="nk-tb-col tb-col-md">
+
+                                        {{-- <a href="{{ route('orders.show',$order->id) }}"
+                                        class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
+                                        {{-- <ul class="nk-tb-actions gx-1"> --}}
+                                        <li class="nk-tb-action-hidden list-unstyled d-flex">
+                                            <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
+                                                class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
+                                                data-original-title="view at Woocommerce">
+                                                <em class="icon ni ni-eye"></em>
+                                            </a>
+                                            <div class="drodown mr-n1">
+                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                                                        class="icon ni ni-more-h"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                                        <li>
+                                                            <a href="{{ route('orders.show',$order->id) }}">
+                                                                <em class="icon ni ni-eye"></em>
+                                                                <span>Order Details</span>
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a type="button" data-toggle="modal"
+                                                                onclick="orderSetting(this,{{ $order->id }});"
+                                                                data-target="#addTrackingInfo">
+                                                                <em class="icon ni ni-eye"></em>
+                                                                <span>Add Tracking</span>
+                                                            </a>
+                                                        </li>
+
+                                                        
+                                                        @if ($response)
+                                                            @php $data = json_decode($response) @endphp
+
+                                                            @if(count($data) > 0)
+                                                                <li>
+                                                                    <a href="@foreach($data as $d){{ $d->tracking_link }}@endforeach"
+                                                                        target="_blank">
+                                                                        <em class="icon ni ni-eye"></em>
+                                                                        <span>Order Tracking</span>
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endif
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+
+                                    </td>
 
                                 </tr><!-- .nk-tb-item  -->
                             @endif
@@ -430,7 +589,7 @@
                                             </td>
                                             <td class="nk-tb-col">
                                                 <div class="user-info">
-                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
+                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->billing->first_name. " ".  $order->billing->last_name }}
                                                     </a>
                                                 </div>
                                             </td>
@@ -473,14 +632,14 @@
                                                 {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
                                             </td>
                                             <td class="nk-tb-col tb-col-md">
-                                                <span>{{$order->date}}</span>
+                                                <span>{{$order->date_created}}</span>
                                             </td>
                                             <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
                                                 {{ $order->total }}
                                             </td>
 
                                             <td class="nk-tb-col tb-col-lg">
-                                                {{ $order->items }}
+                                                {{ count($order->line_items) }}
                                             </td>
 
                                             <td class="nk-tb-col tb-col-md">
@@ -558,7 +717,7 @@
                                     </td>
                                     <td class="nk-tb-col">
                                         <div class="user-info">
-                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
+                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->billing->first_name. " ".  $order->billing->last_name }}
                                             </a>
                                         </div>
                                     </td>
@@ -601,14 +760,14 @@
                                         {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
                                     </td>
                                     <td class="nk-tb-col tb-col-md">
-                                        <span>{{$order->date}}</span>
+                                        <span>{{$order->date_created}}</span>
                                     </td>
                                     <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
                                         {{ $order->total }}
                                     </td>
 
                                     <td class="nk-tb-col tb-col-lg">
-                                        {{ $order->items }}
+                                        {{ count($order->line_items) }}
                                     </td>
 
                                     <td class="nk-tb-col tb-col-md">
@@ -959,9 +1118,6 @@
         var store_url = $(this).val();
         var key = $(this).children("option:selected").attr('data-key');
         var secret = $(this).children("option:selected").attr('data-secret');
-        $('#fetch_store_url').val(store_url);
-        $('#fetch_consumer_key').val(key);
-        $('#fetch_consumer_secret').val(secret);
         $('#loading').removeClass('d-none');
         $.ajax({
             type: "post",

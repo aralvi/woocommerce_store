@@ -58,7 +58,7 @@
                           <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
                           <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
                           <button type="submit"
-                              class="btn btn-dim text-primary text-left">{{ $order->customer }}</button>
+                              class="btn btn-dim text-primary text-left">{{ $order->billing->first_name. " ".  $order->billing->last_name }}</button>
                       </form>
                   </div>
               </td>
@@ -101,7 +101,7 @@
                   {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
               </td>
               <td class="nk-tb-col tb-col-md">
-                  <span>{{$order->date}}</span>
+                  <span>{{$order->date_created}}</span>
               </td>
               <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
                   {{ $order->total }}
@@ -109,7 +109,7 @@
               <td class="nk-tb-col tb-col-lg">
               </td>
               <td class="nk-tb-col tb-col-lg">
-                  {{ $order->items }}
+                  {{ count($order->line_items) }}
               </td>
 
               <td class="nk-tb-col tb-col-md">
