@@ -25,6 +25,7 @@ class CreateAppOrdersTable extends Migration
             $table->string('total');
             $table->string('items');
             $table->string('page');
+            $table->string('tracking_link')->nullable();
 
             $table->timestamps();
         });

@@ -28,6 +28,8 @@ class OrderController extends Controller
      */
     public function index()
     {
+       
+        
         $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         if ($settingExist) {
             $shops = Shop::all();
@@ -44,6 +46,8 @@ class OrderController extends Controller
     public function fetchOrders(Request $request)
     {
         $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+        $agoDate = \Carbon\Carbon::now()->subDays(7);
+        $currentDate = \Carbon\Carbon::today();
         if ($settingExist) {
             $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shopExist = Shop::where('id', $setting->shop_id)->exists();
@@ -57,29 +61,62 @@ class OrderController extends Controller
                 $store_url = $shopDefault->store_url;
                 $consumer_key = $shopDefault->consumer_key;
                 $consumer_secret = $shopDefault->consumer_secret;
+                $order_page = AppOrder::where('shop_id', $shopDefault->id)->get()->last();
+                if(isset($order_page)){
 
+                    $page = $order_page->page +1;
+                }else{
+                    $page = 1;
+                }
                 $options = [
-                    'page' => 1,
+                    'page' => $page,
                     'per_page' => 100 // Or your desire number
                 ];
                 $fetch_orders = Order::all($options);
                 foreach ($fetch_orders as $fetch_order) {
-                    if (AppOrder::where('id', $fetch_order->id)->doesntExist()) {
-                        $app_order = new AppOrder();
-                        $app_order->id = $fetch_order->id;
-                        $app_order->status = $fetch_order->status;
-                        $app_order->customer = $fetch_order->billing->first_name . " " .  $fetch_order->billing->last_name;
-                        $app_order->date = $fetch_order->date_created;
-                        $app_order->items = count($fetch_order->line_items);
-                        $app_order->total = $fetch_order->total;
-                        $app_order->shop_id = $shopDefault->id;
-                        $app_order->page = $options['page'];
-                        $app_order->user_id = Auth::user()->id;
-                        $app_order->save();
+
+                    if($fetch_order->date_created >= $agoDate && $fetch_order->date_created <= $currentDate){
+
+                        $curl = curl_init();
+                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($curl, CURLOPT_URL, Config::get('woocommerce.store_url') . '/wp-json/wc-ast/v3/orders/' . $fetch_order->id . '/shipment-trackings');
+                        curl_setopt(
+                            $curl,
+                            CURLOPT_USERPWD,
+                            Config::get('woocommerce.consumer_key') . ":" . Config::get('woocommerce.consumer_secret')
+                        );
+                        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+                        curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
+                        $response = curl_exec($curl);
+                        curl_close($curl);
+                        
+                        if (AppOrder::where('id', $fetch_order->id)->doesntExist()) {
+                          
+                            $app_order = new AppOrder();
+                            $app_order->id = $fetch_order->id;
+                            $app_order->status = $fetch_order->status;
+                            $app_order->customer = $fetch_order->billing->first_name . " " .  $fetch_order->billing->last_name;
+                            $app_order->date = $fetch_order->date_created;
+                            $app_order->items = count($fetch_order->line_items);
+                            $app_order->total = $fetch_order->total;
+                            $app_order->shop_id = $shopDefault->id;
+                            $app_order->page = $options['page'];
+                            $app_order->user_id = Auth::user()->id;
+                            if (isset($response)) {
+    
+                                $data = json_decode($response);
+                                if (count($data) > 0){
+        
+                                    $app_order->tracking_link = $data[0]->tracking_link;
+                                }
+                            }
+                        
+                            $app_order->save();
+                        }
                     }
                 }
                 $orders = AppOrder::all();
-                redirect('orders');
+                return back();
                 return view('admin.orders.index', compact('orders', 'shops', 'setting', 'store_url', 'consumer_key', 'consumer_secret'));
             } else {
                 session()->now('error', 'please configure your store settings!');
@@ -197,6 +234,9 @@ class OrderController extends Controller
                         'status' => $request->order_status,
                     ];
                     $order = Order::update($order_id, $data);
+                    $order = AppOrder::findOrFail($id);
+                    $order->status = $request->order_status;
+                    $order->save();
                     return back()->with('success', 'Order status has been updated');
                 } else {
                     return view('admin.orders.index')->with('error', 'please configure your store settings!');
@@ -215,7 +255,10 @@ class OrderController extends Controller
             $data     = [
                 'status' => $request->order_status,
             ];
-            $order = Order::update($order_id, $data);
+             Order::update($order_id, $data);
+            $order = AppOrder::findOrFail($id);
+            $order->status = $request->order_status;
+            $order->save();
             return back()->with('success', 'Order status has been updated');
         }
     }
@@ -348,7 +391,10 @@ class OrderController extends Controller
                         $data     = [
                             'status' => $request->order_status,
                         ];
-                        $order = Order::update($order_id, $data);
+                         Order::update($order_id, $data);
+                        $order = AppOrder::findOrFail($id);
+                        $order->status = $request->order_status;
+                        $order->save();
                     }
                     return back()->with('success', 'Order status has been updated');
                 } else {
@@ -357,6 +403,23 @@ class OrderController extends Controller
             } else {
                 return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
             }
+        }
+        else{
+            Config::set('woocommerce.store_url', $request->store_url);
+            Config::set('woocommerce.consumer_key', $request->key);
+            Config::set('woocommerce.consumer_secret', $request->secret);
+            foreach ($ids as $id) {
+                
+                $order_id = $id;
+                $data     = [
+                    'status' => $request->order_status,
+                ];
+                Order::update($order_id, $data);
+                $order = AppOrder::findOrFail($id);
+                $order->status = $request->order_status;
+                $order->save();
+            }
+            return back()->with('success', 'Order status has been updated');
         }
     }
     public function createTrackingInfo(Request $request)
@@ -466,6 +529,8 @@ class OrderController extends Controller
 
     public function getDetail(Request $request)
     {
+        $order = AppOrder::where('id',$request->order_id)->exists();
+        if($order){
         // dd($request->all());
         $store_url =  $request->store_url;
         $consumer_key = $request->consumer_key;
@@ -474,9 +539,14 @@ class OrderController extends Controller
         Config::set('woocommerce.store_url', $request->store_url);
         Config::set('woocommerce.consumer_key', $request->consumer_key);
         Config::set('woocommerce.consumer_secret', $request->consumer_secret);
-        $orders = Order::find($id);
-        $ordreNotes = Note::all($id);
-        return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'consumer_secret'));
+            $orders = Order::find($id);
+            $ordreNotes = Note::all($id);
+            $questions = Question::where('order_id', $id)->get();
+            return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'consumer_secret', 'questions'));
+        }
+        else{
+            return back()->with('error','no record found');
+        }
     }
 
     public function singleOrderDetail(Request $request)
