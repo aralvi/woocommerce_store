@@ -11,7 +11,7 @@
     }
     /* The Modal (background) */
     
-    .modal {
+    .img-modal {
         display: none;
         /* Hidden by default */
         position: fixed;
@@ -33,15 +33,15 @@
         background-color: rgba(0, 0, 0, 0.9);
         /* Black w/ opacity */
     }
-    /* Modal Content (image) */
+    /* img-modal Content (image) */
     
-    .modal-content {
+    .img-modal-content {
         margin: auto;
         display: block;
         width: 80%;
         max-width: 700px;
     }
-    /* Caption of Modal Image */
+    /* Caption of img-modal Image */
     
     #caption {
         margin: auto;
@@ -55,7 +55,7 @@
     }
     /* Add Animation */
     
-    .modal-content,
+    .img-modal-content,
     #caption {
         -webkit-animation-name: zoom;
         -webkit-animation-duration: 0.6s;
@@ -101,7 +101,7 @@
     /* 100% Image Width on Smaller Screens */
     
     @media only screen and (max-width: 700px) {
-        .modal-content {
+        .img-modal-content {
             width: 100%;
         }
     }
@@ -548,7 +548,7 @@
 </div> 
 <div id="myModal" class="modal img-modal">
     <span id="close">&times;</span>
-    <img class="modal-content img-modal-contetn" id="img01">
+    <img class="modal-content img-modal-content" id="img01">
     <div id="caption"></div>
 </div>
 @endsection @section('script')
