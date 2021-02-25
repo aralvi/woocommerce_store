@@ -143,7 +143,7 @@
                                         </form>
                                     </li>
 
-                                    @if(!$consignment)
+                                    @if(!$consignment && $order->tracking_link ==null)
 
                                       <li>
                                             <a href="{{ route('add.consignment',$order->id) }}">
@@ -154,7 +154,7 @@
 
                                     @endif
 
-                                    @if($consignment)
+                                    @if($consignment && $order->tracking_link == null)
 
                                         <li>
                                             <a type="button" data-toggle="modal"

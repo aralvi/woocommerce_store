@@ -245,7 +245,7 @@
                                                                                     </a>
                                                                                 </li>
 
-                                                                                @if(!$consignment)
+                                                                                @if(!$consignment && $order->tracking_link ==null && $order->tracking_link ==null)
 
                                                                                    <li>
                                                                                         <a href="{{ route('add.consignment',$order->id) }}">
@@ -385,7 +385,7 @@
                                                                             </a>
                                                                         </li>
 
-                                                                        @if(!$consignment)
+                                                                        @if(!$consignment && $order->tracking_link ==null)
 
                                                                            <li>
                                                                                 <a href="{{ route('add.consignment',$order->id) }}">
@@ -396,7 +396,7 @@
 
                                                                         @endif
 
-                                                                        @if($consignment)
+                                                                        @if($consignment && $order->tracking_link == null)
 
                                                                             <li>
                                                                                 <a type="button" data-toggle="modal"
@@ -522,23 +522,39 @@
                                                                                     </a>
                                                                                 </li>
 
-                                                                                <li>
-                                                                                    <a type="button" data-toggle="modal"
-                                                                                        onclick="orderSetting(this,{{ $order->id }},'{{ $consignment->label_number }}');"
-                                                                                        data-target="#addTrackingInfo">
-                                                                                        <em class="icon ni ni-eye"></em>
-                                                                                        <span>Add Tracking</span>
-                                                                                    </a>
-                                                                                </li>
+                                                                                @if(!$consignment && $order->tracking_link ==null)
+
+                                                                                   <li>
+                                                                                        <a href="{{ route('add.consignment',$order->id) }}">
+                                                                                            <em class="icon ni ni-eye"></em>
+                                                                                            <span>Add Consignment</span>
+                                                                                        </a>
+                                                                                    </li>
+
+                                                                                @endif
+
+                                                                                @if($consignment && $order->tracking_link == null)
+
+                                                                                    <li>
+                                                                                        <a type="button" data-toggle="modal"
+                                                                                            onclick="orderSetting(this,{{ $order->id }},'{{ $consignment->label_number }}');"
+                                                                                            data-target="#addTrackingInfo">
+                                                                                            <em class="icon ni ni-eye"></em>
+                                                                                            <span>Add Tracking</span>
+                                                                                        </a>
+                                                                                    </li>
+
+                                                                                @endif
 
                                                                                 
-                                                                                
+                                                                                @if($order->tracking_link !=null)
                                                                                     <li>
                                                                                         <a href="{{ $order->tracking_link }}" target="_blank">
                                                                                             <em class="icon ni ni-eye"></em>
                                                                                             <span>Order Tracking</span>
                                                                                         </a>
                                                                                     </li>
+                                                                                @endif
                                                                                    
 
                                                                             </ul>
@@ -646,23 +662,39 @@
                                                                             </a>
                                                                         </li>
 
-                                                                        <li>
-                                                                            <a type="button" data-toggle="modal"
-                                                                                onclick="orderSetting(this,{{ $order->id }},'{{ $consignment->label_number }}');"
-                                                                                data-target="#addTrackingInfo">
-                                                                                <em class="icon ni ni-eye"></em>
-                                                                                <span>Add Tracking</span>
-                                                                            </a>
-                                                                        </li>
+                                                                        @if(!$consignment && $order->tracking_link ==null)
+
+                                                                           <li>
+                                                                                <a href="{{ route('add.consignment',$order->id) }}">
+                                                                                    <em class="icon ni ni-eye"></em>
+                                                                                    <span>Add Consignment</span>
+                                                                                </a>
+                                                                            </li>
+
+                                                                        @endif
+
+                                                                        @if($consignment && $order->tracking_link == null)
+
+                                                                            <li>
+                                                                                <a type="button" data-toggle="modal"
+                                                                                    onclick="orderSetting(this,{{ $order->id }},'{{ $consignment->label_number }}');"
+                                                                                    data-target="#addTrackingInfo">
+                                                                                    <em class="icon ni ni-eye"></em>
+                                                                                    <span>Add Tracking</span>
+                                                                                </a>
+                                                                            </li>
+
+                                                                        @endif
 
                                                                         
-                                                                        
+                                                                        @if($order->tracking_link !=null)
                                                                             <li>
                                                                                 <a href="{{ $order->tracking_link }}" target="_blank">
                                                                                     <em class="icon ni ni-eye"></em>
                                                                                     <span>Order Tracking</span>
                                                                                 </a>
                                                                             </li>
+                                                                        @endif
                                                                            
 
                                                                     </ul>
