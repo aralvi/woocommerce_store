@@ -427,7 +427,8 @@ class OrderController extends Controller
     public function createTrackingInfo(Request $request)
     {
 
-        if (count($this->userSetting(Auth::user()->id)) > 0) {
+        if (count($this->userSetting(Auth::user()->id)) > 0) 
+        {
 
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -475,6 +476,7 @@ class OrderController extends Controller
                             }
                         }
 
+                        $order = Order::update($request->order_id, ['tracking_link'=>$data->tracking_link]);
                         return back()->with('success', 'Tracking Info has been added successfully');
                     }
                 } else {
