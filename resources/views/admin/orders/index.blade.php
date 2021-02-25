@@ -130,7 +130,7 @@
                                     <th class="nk-tb-col tb-col-mb">Status</th>
                                     <th class="nk-tb-col tb-col-md">Date</th>
                                     <th class="nk-tb-col tb-col-lg">Total</th>
-                                    <th class="nk-tb-col tb-col-md">Itmes</th>
+                                    <th class="nk-tb-col tb-col-md">Items</th>
                                     {{-- <th class="nk-tb-col tb-col-md">Curior</th> --}}
                                     <th class="nk-tb-col tb-col-md">Action</th>
 

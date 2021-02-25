@@ -18,7 +18,6 @@
               <th class="nk-tb-col tb-col-mb">Status</th>
               <th class="nk-tb-col tb-col-md">Date</th>
               <th class="nk-tb-col tb-col-lg">Total</th>
-              <th class="nk-tb-col tb-col-lg">Tracking</th>
               <th class="nk-tb-col tb-col-md">Items</th>
               {{-- <th class="nk-tb-col tb-col-md">Curior</th> --}}
               <th class="nk-tb-col tb-col-md">Action</th>
@@ -107,8 +106,6 @@
                 </td>
                 <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
                     {{ $order->total }}
-                </td>
-                <td class="nk-tb-col tb-col-lg">
                 </td>
                 <td class="nk-tb-col tb-col-lg">
                     {{ $order->items }}
