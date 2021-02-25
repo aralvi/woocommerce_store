@@ -64,21 +64,23 @@ class OrderController extends Controller
                 $consumer_key = $shopDefault->consumer_key;
                 $consumer_secret = $shopDefault->consumer_secret;
                 $order_page = AppOrder::where('shop_id', $shopDefault->id)->get()->last();
-                if(isset($order_page)){
+                // if(isset($order_page)){
 
-                    $page = $order_page->page +1;
-                }else{
+                //     $page = $order_page->page +1;
+                // }else{
                     $page = 1;
-                }
+                // }
                 $options = [
-                    'page' => $page,
+                    // 'page' => $page,
                     'per_page' => 100 // Or your desire number
                 ];
                 $fetch_orders = Order::all($options);
+                // dd($fetch_orders);
                 foreach ($fetch_orders as $fetch_order) {
 
-                    if($fetch_order->date_created >= $agoDate && $fetch_order->date_created <= $currentDate){
+                    if($fetch_order->date_created >= $agoDate || $fetch_order->date_created <= $currentDate){
 
+                        if (AppOrder::where('id', $fetch_order->id)->doesntExist()) {   
                         $curl = curl_init();
                         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
                         curl_setopt($curl, CURLOPT_URL, Config::get('woocommerce.store_url') . '/wp-json/wc-ast/v3/orders/' . $fetch_order->id . '/shipment-trackings');
@@ -92,8 +94,6 @@ class OrderController extends Controller
                         $response = curl_exec($curl);
                         curl_close($curl);
                         
-                        if (AppOrder::where('id', $fetch_order->id)->doesntExist()) {
-                          
                             $app_order = new AppOrder();
                             $app_order->id = $fetch_order->id;
                             $app_order->status = $fetch_order->status;
@@ -102,7 +102,7 @@ class OrderController extends Controller
                             $app_order->items = count($fetch_order->line_items);
                             $app_order->total = $fetch_order->total;
                             $app_order->shop_id = $shopDefault->id;
-                            $app_order->page = $options['page'];
+                            $app_order->page = $page;
                             $app_order->user_id = Auth::user()->id;
                             if (isset($response)) {
     
