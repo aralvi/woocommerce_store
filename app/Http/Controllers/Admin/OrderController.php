@@ -447,7 +447,7 @@ class OrderController extends Controller
                     curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key') . ":" . Config::get('woocommerce.consumer_secret'));
                     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
                     curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode(array("tracking_provider" => $request->provider, "tracking_number" => $request->tracking_number, "date_shipped" => date('Y-m-d', strtotime($request->shipping_date)))));
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode(array("tracking_provider" => $request->provider, "tracking_number" => $request->tracking_number, "date_shipped" => date('Y-m-d', strtotime($request->shipping_date)),'status_shipped'=>1)));
                     $response = curl_exec($curl);
                     $err = curl_error($curl);
                     curl_close($curl);
@@ -582,7 +582,8 @@ class OrderController extends Controller
                     }
                 }
 
-                $array = array("UserID"=>64355,"CompanyName"=>$shipping->company,"Address1"=>'49  Wickliffe Terrace Careys Bay 9023',"Suburb"=>"Careys Bay","Postcode"=>9023,"Items"=>[["Weight"=>1,"Quantity"=>1,"Packaging"=>1]]);
+                // $array = array("UserID"=>64355,"CompanyName"=>$shipping->company,"Address1"=>'49  Wickliffe Terrace Careys Bay 9023',"Suburb"=>"Careys Bay","Postcode"=>9023,"Items"=>[["Weight"=>1,"Quantity"=>1,"Packaging"=>1]]);
+                $array = array("UserID"=>64355,"CompanyName"=>$shipping->company,"Address1"=>$shipping->address_1,"Suburb"=>$shipping->city,"Postcode"=>$shipping->postcode,"Items"=>$items);
                 $curl=curl_init(); 
                 curl_setopt($curl,CURLOPT_URL,'https://nz.api.fastway.org/v2/fastlabel/addconsignment?api_key=5392da608c569953e31e450b4a065bba');
                 curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
