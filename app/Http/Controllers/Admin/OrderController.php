@@ -17,6 +17,8 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use App\Consignment;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -554,6 +556,70 @@ class OrderController extends Controller
         if (count($this->userSetting(Auth::user()->id)) > 0) {
             if (Order::find($request->id)) {
                 return "exist";
+            }
+        }
+    }
+
+    public function addConsignment($id)
+    {
+        if (count($this->userSetting(Auth::user()->id)) > 0)
+        {
+            if(!Consignment::where('order_id',$id)->first())
+            {
+
+                $order = Order::find($id);
+                $shipping = $order['shipping'];
+                $items = [];
+                if(count($order['line_items']) > 0)
+                {
+                    foreach ($order['line_items'] as $key => $value) 
+                    {
+                        $items[] =array('Reference'=>$value->name,'Weight'=>1,'Quantity'=>$value->quantity,'Packaging'=>1);
+                    }
+                }
+
+                $array = array("UserID"=>64355,"CompanyName"=>$shipping->company,"Address1"=>'49  Wickliffe Terrace Careys Bay 9023',"Suburb"=>"Careys Bay","Postcode"=>9023,"Items"=>[["Weight"=>1,"Quantity"=>1,"Packaging"=>1]]);
+                $curl=curl_init(); 
+                curl_setopt($curl,CURLOPT_URL,'https://nz.api.fastway.org/v2/fastlabel/addconsignment?api_key=5392da608c569953e31e450b4a065bba');
+                curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
+                curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+                curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
+                curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode($array));
+                $response = curl_exec($curl);
+                $error = curl_error($curl);
+                curl_close($curl);
+                if($response)
+                {
+                    
+                    $data = json_decode($response);
+                    if(property_exists($data,'result'))
+                    {
+                        $consignment = new Consignment();
+                        $consignment->store_id=DB::table('shops')->first()->id;
+                        $consignment->order_id = $id;
+                        $consignment->consignment_id = $data->result->ConsignmentID;
+                        $consignment->manifest_id = $data->result->ManifestID;
+                        $consignment->label_number = $data->result->LabelNumbers[0];
+                        $consignment->lable_color = $data->result->LabelColour;
+                        $consignment->rf_code = $data->result->DestinationRFCode;
+                        if($consignment->save())
+                        {
+                            return back()->with('success', 'Consignment has been added successfully');
+                        }
+                    }
+                    else if(property_exists($data,'error')){
+                        return back()->with('error', $data->error);
+                    }
+                    // echo "<pre>";
+                    // print_r($data);
+                    // die;
+                    // print_r($data->result->LabelNumbers[0]);
+                }
+
+            }
+            else
+            {
+                return back()->with('warning', 'Consignment for order id ' . $id . ' has been already added');
             }
         }
     }

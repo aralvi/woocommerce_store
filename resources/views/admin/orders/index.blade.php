@@ -108,553 +108,587 @@
                     </div>
                     
 
-    <div id="orders_table">
-        <div class="d-flex justify-content-center">
-            <div class="spinner-border text-primary d-none" id="loading" role="status">
-                <span class="sr-only"></span>
-            </div>
-        </div>
-
-        <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer" data-auto-responsive="false">
-            <thead class="thead-dark">
-                <tr class="nk-tb-item nk-tb-head">
-                    <th class="nk-tb-col nk-tb-col-check">
-                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                            <input type="checkbox" class="custom-control-input" id="uid1">
-                            <label class="custom-control-label" for="uid1"></label>
+                    <div id="orders_table">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary d-none" id="loading" role="status">
+                                <span class="sr-only"></span>
+                            </div>
                         </div>
-                        {{-- <input type="checkbox" name="" class=" " id="orders_check"> --}}
-                    </th>
-                    <th class="nk-tb-col">Order# </th>
-                    <th class="nk-tb-col">Customer </th>
-                    <th class="nk-tb-col tb-col-mb">Status</th>
-                    <th class="nk-tb-col tb-col-md">Date</th>
-                    <th class="nk-tb-col tb-col-lg">Total</th>
-                    <th class="nk-tb-col tb-col-md">Itmes</th>
-                    {{-- <th class="nk-tb-col tb-col-md">Curior</th> --}}
-                    <th class="nk-tb-col tb-col-md">Action</th>
 
-                </tr>
-            </thead>
-            <tbody id="order_table">
-                @if ($orders->count() > 0)
-                    @foreach ($orders as $count=> $order)
-                        @php
-                        
+                        <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer" data-auto-responsive="false">
+                            <thead class="thead-dark">
+                                <tr class="nk-tb-item nk-tb-head">
+                                    <th class="nk-tb-col nk-tb-col-check">
+                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                            <input type="checkbox" class="custom-control-input" id="uid1">
+                                            <label class="custom-control-label" for="uid1"></label>
+                                        </div>
+                                        {{-- <input type="checkbox" name="" class=" " id="orders_check"> --}}
+                                    </th>
+                                    <th class="nk-tb-col">Order# </th>
+                                    <th class="nk-tb-col">Customer </th>
+                                    <th class="nk-tb-col tb-col-mb">Status</th>
+                                    <th class="nk-tb-col tb-col-md">Date</th>
+                                    <th class="nk-tb-col tb-col-lg">Total</th>
+                                    <th class="nk-tb-col tb-col-md">Itmes</th>
+                                    {{-- <th class="nk-tb-col tb-col-md">Curior</th> --}}
+                                    <th class="nk-tb-col tb-col-md">Action</th>
 
-                        @endphp
+                                </tr>
+                            </thead>
+                            <tbody id="order_table">
+                                @if ($orders->count() > 0)
+                                    @foreach ($orders as $count=> $order)
+                                        @php
+                                            $consignment = App\Consignment::where('order_id',$order->id)->first();
 
-                        @if ( $setting->order_status == 'all')
-                            @php
-                                if (isset($setting->excluded_Status)) {
-                                $excluded_statuses = json_decode($setting->excluded_Status);
-                                }
-                                @endphp
-                            @if (isset($excluded_statuses))
-                                @foreach ($excluded_statuses as $excluded_statuse)
-                                    @if ($excluded_statuse != $order->status)
-                                        <tr class="nk-tb-item">
-                                            <td>hello</td>
-                                            <td class="nk-tb-col nk-tb-col-check">
-                                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                    <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
-                                                        value="{{ $order->id }}">
-                                                    <label class="custom-control-label order_check" for="uid{{ $count+2}}"></label>
-                                                </div>
-                                                {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
-                                            </td>
-                                            <td class="nk-tb-col">
-                                                <div class="user-info">
-                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
-                                                </div>
-                                            </td>
-                                            <td class="nk-tb-col">
-                                                <div class="user-info">
-                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
-                                                    </a>
-                                                </div>
-                                            </td>
-                                            <td class="nk-tb-col tb-col-mb">
-                                                @if ($order->status == 'on-hold')
-                                                <span class="dot bg-warning d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'completed')
-                                                <span class="dot bg-success d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'failed')
-                                                <span class="dot bg-danger d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'pending')
-                                                <span class="dot bg-info d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'processing')
-                                                <span class="dot bg-primary d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'refunded')
-                                                <span class="dot bg-secondary d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'cancelled')
-                                                <span class="dot bg-danger d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
-                                            </td>
-                                            <td class="nk-tb-col tb-col-md">
-                                                <span>{{$order->date}}</span>
-                                            </td>
-                                            <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
-                                                {{ $order->total }}
-                                            </td>
+                                        @endphp
 
-                                            <td class="nk-tb-col tb-col-lg">
-                                                {{ $order->items }}
-                                            </td>
-
-                                            <td class="nk-tb-col tb-col-md">
-
-                                                {{-- <a href="{{ route('orders.show',$order->id) }}"
-                                                class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
-                                                {{-- <ul class="nk-tb-actions gx-1"> --}}
-                                                <li class="nk-tb-action-hidden list-unstyled d-flex">
-                                                    <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
-                                                        class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
-                                                        data-original-title="view at Woocommerce">
-                                                        <em class="icon ni ni-eye"></em>
-                                                    </a>
-                                                    <div class="drodown mr-n1">
-                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
-                                                                class="icon ni ni-more-h"></em></a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <ul class="link-list-opt no-bdr">
-                                                                <li>
-                                                                    <a href="{{ route('orders.show',$order->id) }}">
-                                                                        <em class="icon ni ni-eye"></em>
-                                                                        <span>Order Details</span>
+                                        @if ( $setting->order_status == 'all')
+                                            @php
+                                                if (isset($setting->excluded_Status)) {
+                                                $excluded_statuses = json_decode($setting->excluded_Status);
+                                                }
+                                                @endphp
+                                            @if (isset($excluded_statuses))
+                                                @foreach ($excluded_statuses as $excluded_statuse)
+                                                    @if ($excluded_statuse != $order->status)
+                                                        <tr class="nk-tb-item">
+                                                            <td>hello</td>
+                                                            <td class="nk-tb-col nk-tb-col-check">
+                                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                    <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
+                                                                        value="{{ $order->id }}">
+                                                                    <label class="custom-control-label order_check" for="uid{{ $count+2}}"></label>
+                                                                </div>
+                                                                {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
+                                                            </td>
+                                                            <td class="nk-tb-col">
+                                                                <div class="user-info">
+                                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
+                                                                </div>
+                                                            </td>
+                                                            <td class="nk-tb-col">
+                                                                <div class="user-info">
+                                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
                                                                     </a>
+                                                                </div>
+                                                            </td>
+                                                            <td class="nk-tb-col tb-col-mb">
+                                                                @if ($order->status == 'on-hold')
+                                                                <span class="dot bg-warning d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'completed')
+                                                                <span class="dot bg-success d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'failed')
+                                                                <span class="dot bg-danger d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'pending')
+                                                                <span class="dot bg-info d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'processing')
+                                                                <span class="dot bg-primary d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'refunded')
+                                                                <span class="dot bg-secondary d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'cancelled')
+                                                                <span class="dot bg-danger d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
+                                                            </td>
+                                                            <td class="nk-tb-col tb-col-md">
+                                                                <span>{{$order->date}}</span>
+                                                            </td>
+                                                            <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                                                {{ $order->total }}
+                                                            </td>
+
+                                                            <td class="nk-tb-col tb-col-lg">
+                                                                {{ $order->items }}
+                                                            </td>
+
+                                                            <td class="nk-tb-col tb-col-md">
+
+                                                                {{-- <a href="{{ route('orders.show',$order->id) }}"
+                                                                class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
+                                                                {{-- <ul class="nk-tb-actions gx-1"> --}}
+                                                                <li class="nk-tb-action-hidden list-unstyled d-flex">
+                                                                    <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
+                                                                        class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
+                                                                        data-original-title="view at Woocommerce">
+                                                                        <em class="icon ni ni-eye"></em>
+                                                                    </a>
+                                                                    <div class="drodown mr-n1">
+                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                                                                                class="icon ni ni-more-h"></em></a>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <ul class="link-list-opt no-bdr">
+                                                                                <li>
+                                                                                    <a href="{{ route('orders.show',$order->id) }}">
+                                                                                        <em class="icon ni ni-eye"></em>
+                                                                                        <span>Order Details</span>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                                @if(!$consignment)
+
+                                                                                   <li>
+                                                                                        <a href="{{ route('add.consignment',$order->id) }}">
+                                                                                            <em class="icon ni ni-eye"></em>
+                                                                                            <span>Add Consignment</span>
+                                                                                        </a>
+                                                                                    </li>
+
+                                                                                @endif
+
+                                                                                @if($consignment)
+
+                                                                                    <li>
+                                                                                        <a type="button" data-toggle="modal"
+                                                                                            onclick="orderSetting(this,{{ $order->id }},'{{ $consignment->label_number }}');"
+                                                                                            data-target="#addTrackingInfo">
+                                                                                            <em class="icon ni ni-eye"></em>
+                                                                                            <span>Add Tracking</span>
+                                                                                        </a>
+                                                                                    </li>
+
+                                                                                @endif
+
+                                                                                
+                                                                                @if($order->tracking_link !=null)
+                                                                                    <li>
+                                                                                        <a href="{{ $order->tracking_link }}" target="_blank">
+                                                                                            <em class="icon ni ni-eye"></em>
+                                                                                            <span>Order Tracking</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                @endif
+                                                                                
+                                                                                   
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
                                                                 </li>
 
-                                                                <li>
-                                                                    <a type="button" data-toggle="modal"
-                                                                        onclick="orderSetting(this,{{ $order->id }});"
-                                                                        data-target="#addTrackingInfo">
-                                                                        <em class="icon ni ni-eye"></em>
-                                                                        <span>Add Tracking</span>
-                                                                    </a>
-                                                                </li>
 
-                                                                
-                                                                
+                                                            </td>
+
+                                                        </tr><!-- .nk-tb-item  -->
+                                                    @endif
+                                                @endforeach
+
+                                            @else
+                                                <tr class="nk-tb-item">
+                                                    <td class="nk-tb-col nk-tb-col-check">
+                                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                            <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
+                                                                value="{{ $order->id }}">
+                                                            <label class="custom-control-label order_check" for="uid{{ $count+2}}"></label>
+                                                        </div>
+                                                        {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
+                                                    </td>
+                                                    <td class="nk-tb-col">
+                                                        <div class="user-info">
+                                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
+                                                        </div>
+                                                    </td>
+                                                    <td class="nk-tb-col">
+                                                        <div class="user-info">
+                                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-mb">
+                                                        @if ($order->status == 'on-hold')
+                                                        <span class="dot bg-warning d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'completed')
+                                                        <span class="dot bg-success d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'failed')
+                                                        <span class="dot bg-danger d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'pending')
+                                                        <span class="dot bg-info d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'processing')
+                                                        <span class="dot bg-primary d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'refunded')
+                                                        <span class="dot bg-secondary d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'cancelled')
+                                                        <span class="dot bg-danger d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        <span>{{$order->date}}</span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                                        {{ $order->total }}
+                                                    </td>
+
+                                                    <td class="nk-tb-col tb-col-lg">
+                                                        {{ $order->items }}
+                                                    </td>
+
+                                                    <td class="nk-tb-col tb-col-md">
+
+                                                        {{-- <a href="{{ route('orders.show',$order->id) }}"
+                                                        class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
+                                                        {{-- <ul class="nk-tb-actions gx-1"> --}}
+                                                        <li class="nk-tb-action-hidden list-unstyled d-flex">
+                                                            <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
+                                                                class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
+                                                                data-original-title="view at Woocommerce">
+                                                                <em class="icon ni ni-eye"></em>
+                                                            </a>
+                                                            <div class="drodown mr-n1">
+                                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                                                                        class="icon ni ni-more-h"></em></a>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <a href="{{ $order->tracking_link }}" target="_blank">
+                                                                            <a href="{{ route('orders.show',$order->id) }}">
                                                                                 <em class="icon ni ni-eye"></em>
-                                                                                <span>Order Tracking</span>
+                                                                                <span>Order Details</span>
                                                                             </a>
                                                                         </li>
-                                                                   
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </li>
 
+                                                                        @if(!$consignment)
 
-                                            </td>
+                                                                           <li>
+                                                                                <a href="{{ route('add.consignment',$order->id) }}">
+                                                                                    <em class="icon ni ni-eye"></em>
+                                                                                    <span>Add Consignment</span>
+                                                                                </a>
+                                                                            </li>
 
-                                        </tr><!-- .nk-tb-item  -->
-                                    @endif
-                                @endforeach
+                                                                        @endif
 
-                            @else
-                                <tr class="nk-tb-item">
-                                    <td class="nk-tb-col nk-tb-col-check">
-                                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                                            <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
-                                                value="{{ $order->id }}">
-                                            <label class="custom-control-label order_check" for="uid{{ $count+2}}"></label>
-                                        </div>
-                                        {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
-                                    </td>
-                                    <td class="nk-tb-col">
-                                        <div class="user-info">
-                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
-                                        </div>
-                                    </td>
-                                    <td class="nk-tb-col">
-                                        <div class="user-info">
-                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        @if ($order->status == 'on-hold')
-                                        <span class="dot bg-warning d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'completed')
-                                        <span class="dot bg-success d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'failed')
-                                        <span class="dot bg-danger d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'pending')
-                                        <span class="dot bg-info d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'processing')
-                                        <span class="dot bg-primary d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'refunded')
-                                        <span class="dot bg-secondary d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'cancelled')
-                                        <span class="dot bg-danger d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
-                                    </td>
-                                    <td class="nk-tb-col tb-col-md">
-                                        <span>{{$order->date}}</span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
-                                        {{ $order->total }}
-                                    </td>
+                                                                        @if($consignment)
 
-                                    <td class="nk-tb-col tb-col-lg">
-                                        {{ $order->items }}
-                                    </td>
+                                                                            <li>
+                                                                                <a type="button" data-toggle="modal"
+                                                                                    onclick="orderSetting(this,{{ $order->id }},'{{ $consignment->label_number }}');"
+                                                                                    data-target="#addTrackingInfo">
+                                                                                    <em class="icon ni ni-eye"></em>
+                                                                                    <span>Add Tracking</span>
+                                                                                </a>
+                                                                            </li>
 
-                                    <td class="nk-tb-col tb-col-md">
+                                                                        @endif
 
-                                        {{-- <a href="{{ route('orders.show',$order->id) }}"
-                                        class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
-                                        {{-- <ul class="nk-tb-actions gx-1"> --}}
-                                        <li class="nk-tb-action-hidden list-unstyled d-flex">
-                                            <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
-                                                class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
-                                                data-original-title="view at Woocommerce">
-                                                <em class="icon ni ni-eye"></em>
-                                            </a>
-                                            <div class="drodown mr-n1">
-                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
-                                                        class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <ul class="link-list-opt no-bdr">
-                                                        <li>
-                                                            <a href="{{ route('orders.show',$order->id) }}">
-                                                                <em class="icon ni ni-eye"></em>
-                                                                <span>Order Details</span>
-                                                            </a>
-                                                        </li>
+                                                                        
+                                                                        @if($order->tracking_link !=null)
+                                                                            <li>
+                                                                                <a href="{{ $order->tracking_link }}" target="_blank">
+                                                                                    <em class="icon ni ni-eye"></em>
+                                                                                    <span>Order Tracking</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        @endif
+                                                                            
+                                                    </td>
+                                                    
 
-                                                        <li>
-                                                            <a type="button" data-toggle="modal"
-                                                                onclick="orderSetting(this,{{ $order->id }});"
-                                                                data-target="#addTrackingInfo">
-                                                                <em class="icon ni ni-eye"></em>
-                                                                <span>Add Tracking</span>
-                                                            </a>
-                                                        </li>
+                                                </tr><!-- .nk-tb-item  -->
+                                            @endif
 
-                                                        
-                                                                <li>
-                                                                    <a href="{{ $order->tracking_link }}" target="_blank">
-                                                                        <em class="icon ni ni-eye"></em>
-                                                                        <span>Order Tracking</span>
+                                        @else
+                                            @if ($order->status == $setting->order_status)
+                                                @if (isset($excluded_statuses))
+                                                    @foreach ($excluded_statuses as $excluded_statuse)
+                                                        @if ($excluded_statuse != $order->status)
+                                                        <tr class="nk-tb-item">
+                                                            <td class="nk-tb-col nk-tb-col-check">
+                                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                    <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
+                                                                        value="{{ $order->id }}">
+                                                                    <label class="custom-control-label order_check" for="uid{{ $count+2}}"></label>
+                                                                </div>
+                                                                {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
+                                                            </td>
+                                                            <td class="nk-tb-col">
+                                                                <div class="user-info">
+                                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
+                                                                </div>
+                                                            </td>
+                                                            <td class="nk-tb-col">
+                                                                <div class="user-info">
+                                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
                                                                     </a>
+                                                                </div>
+                                                            </td>
+                                                            <td class="nk-tb-col tb-col-mb">
+                                                                @if ($order->status == 'on-hold')
+                                                                <span class="dot bg-warning d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'completed')
+                                                                <span class="dot bg-success d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'failed')
+                                                                <span class="dot bg-danger d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'pending')
+                                                                <span class="dot bg-info d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'processing')
+                                                                <span class="dot bg-primary d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'refunded')
+                                                                <span class="dot bg-secondary d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                @if ($order->status == 'cancelled')
+                                                                <span class="dot bg-danger d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
+                                                                {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
+                                                            </td>
+                                                            <td class="nk-tb-col tb-col-md">
+                                                                <span>{{$order->date}}</span>
+                                                            </td>
+                                                            <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                                                {{ $order->total }}
+                                                            </td>
+
+                                                            <td class="nk-tb-col tb-col-lg">
+                                                                {{ $order->items }}
+                                                            </td>
+
+                                                            <td class="nk-tb-col tb-col-md">
+
+                                                                {{-- <a href="{{ route('orders.show',$order->id) }}"
+                                                                class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
+                                                                {{-- <ul class="nk-tb-actions gx-1"> --}}
+                                                                <li class="nk-tb-action-hidden list-unstyled d-flex">
+                                                                    <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
+                                                                        class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
+                                                                        data-original-title="view at Woocommerce">
+                                                                        <em class="icon ni ni-eye"></em>
+                                                                    </a>
+                                                                    <div class="drodown mr-n1">
+                                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                                                                                class="icon ni ni-more-h"></em></a>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <ul class="link-list-opt no-bdr">
+                                                                                <li>
+                                                                                    <a href="{{ route('orders.show',$order->id) }}">
+                                                                                        <em class="icon ni ni-eye"></em>
+                                                                                        <span>Order Details</span>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                                <li>
+                                                                                    <a type="button" data-toggle="modal"
+                                                                                        onclick="orderSetting(this,{{ $order->id }},'{{ $consignment->label_number }}');"
+                                                                                        data-target="#addTrackingInfo">
+                                                                                        <em class="icon ni ni-eye"></em>
+                                                                                        <span>Add Tracking</span>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                                
+                                                                                
+                                                                                    <li>
+                                                                                        <a href="{{ $order->tracking_link }}" target="_blank">
+                                                                                            <em class="icon ni ni-eye"></em>
+                                                                                            <span>Order Tracking</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                   
+
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
                                                                 </li>
+
+
+                                                            </td>
+
+                                                        </tr><!-- .nk-tb-item  -->
+                                                        @endif
+
+                                                    @endforeach
+                                                @else
+                                                <tr class="nk-tb-item">
+                                                    <td class="nk-tb-col nk-tb-col-check">
+                                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                            <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
+                                                                value="{{ $order->id }}">
+                                                            <label class="custom-control-label order_check" for="uid{{ $count+2}}"></label>
+                                                        </div>
+                                                        {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
+                                                    </td>
+                                                    <td class="nk-tb-col">
+                                                        <div class="user-info">
+                                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
+                                                        </div>
+                                                    </td>
+                                                    <td class="nk-tb-col">
+                                                        <div class="user-info">
+                                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-mb">
+                                                        @if ($order->status == 'on-hold')
+                                                        <span class="dot bg-warning d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'completed')
+                                                        <span class="dot bg-success d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'failed')
+                                                        <span class="dot bg-danger d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'pending')
+                                                        <span class="dot bg-info d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'processing')
+                                                        <span class="dot bg-primary d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'refunded')
+                                                        <span class="dot bg-secondary d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        @if ($order->status == 'cancelled')
+                                                        <span class="dot bg-danger d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
+                                                        {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-md">
+                                                        <span>{{$order->date}}</span>
+                                                    </td>
+                                                    <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
+                                                        {{ $order->total }}
+                                                    </td>
+
+                                                    <td class="nk-tb-col tb-col-lg">
+                                                        {{ $order->items }}
+                                                    </td>
+
+                                                    <td class="nk-tb-col tb-col-md">
+
+                                                        {{-- <a href="{{ route('orders.show',$order->id) }}"
+                                                        class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
+                                                        {{-- <ul class="nk-tb-actions gx-1"> --}}
+                                                        <li class="nk-tb-action-hidden list-unstyled d-flex">
+                                                            <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
+                                                                class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
+                                                                data-original-title="view at Woocommerce">
+                                                                <em class="icon ni ni-eye"></em>
+                                                            </a>
+                                                            <div class="drodown mr-n1">
+                                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
+                                                                        class="icon ni ni-more-h"></em></a>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <ul class="link-list-opt no-bdr">
+                                                                        <li>
+                                                                            <a href="{{ route('orders.show',$order->id) }}">
+                                                                                <em class="icon ni ni-eye"></em>
+                                                                                <span>Order Details</span>
+                                                                            </a>
+                                                                        </li>
+
+                                                                        <li>
+                                                                            <a type="button" data-toggle="modal"
+                                                                                onclick="orderSetting(this,{{ $order->id }},'{{ $consignment->label_number }}');"
+                                                                                data-target="#addTrackingInfo">
+                                                                                <em class="icon ni ni-eye"></em>
+                                                                                <span>Add Tracking</span>
+                                                                            </a>
+                                                                        </li>
+
+                                                                        
+                                                                        
+                                                                            <li>
+                                                                                <a href="{{ $order->tracking_link }}" target="_blank">
+                                                                                    <em class="icon ni ni-eye"></em>
+                                                                                    <span>Order Tracking</span>
+                                                                                </a>
+                                                                            </li>
+                                                                           
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        
+                                                        
                                                             
-                                    </td>
-                                    
+                                                            
 
-                                </tr><!-- .nk-tb-item  -->
-                            @endif
 
-                        @else
-                            @if ($order->status == $setting->order_status)
-                                @if (isset($excluded_statuses))
-                                    @foreach ($excluded_statuses as $excluded_statuse)
-                                        @if ($excluded_statuse != $order->status)
-                                        <tr class="nk-tb-item">
-                                            <td class="nk-tb-col nk-tb-col-check">
-                                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                    <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
-                                                        value="{{ $order->id }}">
-                                                    <label class="custom-control-label order_check" for="uid{{ $count+2}}"></label>
-                                                </div>
-                                                {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
-                                            </td>
-                                            <td class="nk-tb-col">
-                                                <div class="user-info">
-                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
-                                                </div>
-                                            </td>
-                                            <td class="nk-tb-col">
-                                                <div class="user-info">
-                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
-                                                    </a>
-                                                </div>
-                                            </td>
-                                            <td class="nk-tb-col tb-col-mb">
-                                                @if ($order->status == 'on-hold')
-                                                <span class="dot bg-warning d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                    </td>
+
+                                                </tr><!-- .nk-tb-item  -->
                                                 @endif
-                                                @if ($order->status == 'completed')
-                                                <span class="dot bg-success d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'failed')
-                                                <span class="dot bg-danger d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'pending')
-                                                <span class="dot bg-info d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'processing')
-                                                <span class="dot bg-primary d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'refunded')
-                                                <span class="dot bg-secondary d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                @if ($order->status == 'cancelled')
-                                                <span class="dot bg-danger d-mb-none"></span>
-                                                <span
-                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                                @endif
-                                                {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
-                                            </td>
-                                            <td class="nk-tb-col tb-col-md">
-                                                <span>{{$order->date}}</span>
-                                            </td>
-                                            <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
-                                                {{ $order->total }}
-                                            </td>
-
-                                            <td class="nk-tb-col tb-col-lg">
-                                                {{ $order->items }}
-                                            </td>
-
-                                            <td class="nk-tb-col tb-col-md">
-
-                                                {{-- <a href="{{ route('orders.show',$order->id) }}"
-                                                class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
-                                                {{-- <ul class="nk-tb-actions gx-1"> --}}
-                                                <li class="nk-tb-action-hidden list-unstyled d-flex">
-                                                    <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
-                                                        class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
-                                                        data-original-title="view at Woocommerce">
-                                                        <em class="icon ni ni-eye"></em>
-                                                    </a>
-                                                    <div class="drodown mr-n1">
-                                                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
-                                                                class="icon ni ni-more-h"></em></a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <ul class="link-list-opt no-bdr">
-                                                                <li>
-                                                                    <a href="{{ route('orders.show',$order->id) }}">
-                                                                        <em class="icon ni ni-eye"></em>
-                                                                        <span>Order Details</span>
-                                                                    </a>
-                                                                </li>
-
-                                                                <li>
-                                                                    <a type="button" data-toggle="modal"
-                                                                        onclick="orderSetting(this,{{ $order->id }});"
-                                                                        data-target="#addTrackingInfo">
-                                                                        <em class="icon ni ni-eye"></em>
-                                                                        <span>Add Tracking</span>
-                                                                    </a>
-                                                                </li>
-
-                                                                
-                                                                
-                                                                    <li>
-                                                                        <a href="{{ $order->tracking_link }}" target="_blank">
-                                                                            <em class="icon ni ni-eye"></em>
-                                                                            <span>Order Tracking</span>
-                                                                        </a>
-                                                                    </li>
-                                                                   
-
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </li>
 
 
-                                            </td>
-
-                                        </tr><!-- .nk-tb-item  -->
+                                            @endif
                                         @endif
-
                                     @endforeach
-                                @else
-                                <tr class="nk-tb-item">
-                                    <td class="nk-tb-col nk-tb-col-check">
-                                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                                            <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
-                                                value="{{ $order->id }}">
-                                            <label class="custom-control-label order_check" for="uid{{ $count+2}}"></label>
-                                        </div>
-                                        {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
-                                    </td>
-                                    <td class="nk-tb-col">
-                                        <div class="user-info">
-                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
-                                        </div>
-                                    </td>
-                                    <td class="nk-tb-col">
-                                        <div class="user-info">
-                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-mb">
-                                        @if ($order->status == 'on-hold')
-                                        <span class="dot bg-warning d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'completed')
-                                        <span class="dot bg-success d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'failed')
-                                        <span class="dot bg-danger d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'pending')
-                                        <span class="dot bg-info d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'processing')
-                                        <span class="dot bg-primary d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'refunded')
-                                        <span class="dot bg-secondary d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        @if ($order->status == 'cancelled')
-                                        <span class="dot bg-danger d-mb-none"></span>
-                                        <span
-                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                                        @endif
-                                        {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
-                                    </td>
-                                    <td class="nk-tb-col tb-col-md">
-                                        <span>{{$order->date}}</span>
-                                    </td>
-                                    <td class="nk-tb-col tb-col-lg" data-order="Email Verified - Kyc Unverified">
-                                        {{ $order->total }}
-                                    </td>
-
-                                    <td class="nk-tb-col tb-col-lg">
-                                        {{ $order->items }}
-                                    </td>
-
-                                    <td class="nk-tb-col tb-col-md">
-
-                                        {{-- <a href="{{ route('orders.show',$order->id) }}"
-                                        class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
-                                        {{-- <ul class="nk-tb-actions gx-1"> --}}
-                                        <li class="nk-tb-action-hidden list-unstyled d-flex">
-                                            <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
-                                                class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
-                                                data-original-title="view at Woocommerce">
-                                                <em class="icon ni ni-eye"></em>
-                                            </a>
-                                            <div class="drodown mr-n1">
-                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
-                                                        class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <ul class="link-list-opt no-bdr">
-                                                        <li>
-                                                            <a href="{{ route('orders.show',$order->id) }}">
-                                                                <em class="icon ni ni-eye"></em>
-                                                                <span>Order Details</span>
-                                                            </a>
-                                                        </li>
-
-                                                        <li>
-                                                            <a type="button" data-toggle="modal"
-                                                                onclick="orderSetting(this,{{ $order->id }});"
-                                                                data-target="#addTrackingInfo">
-                                                                <em class="icon ni ni-eye"></em>
-                                                                <span>Add Tracking</span>
-                                                            </a>
-                                                        </li>
-
-                                                        
-                                                        
-                                                            <li>
-                                                                <a href="{{ $order->tracking_link }}" target="_blank">
-                                                                    <em class="icon ni ni-eye"></em>
-                                                                    <span>Order Tracking</span>
-                                                                </a>
-                                                            </li>
-                                                           
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        
-                                        
-                                            
-                                            
-
-
-                                    </td>
-
-                                </tr><!-- .nk-tb-item  -->
                                 @endif
-
-
-                            @endif
-                        @endif
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
-    </div>
+                            </tbody>
+                        </table>
+                    </div>
 </div>
 </div>
 <!-- .card-inner -->
@@ -811,11 +845,13 @@
 </div>
 @endsection @section('script')
 <script>
-    function orderSetting(elem, id) {
+    function orderSetting(elem, id,tracking_number)
+    {
         // var c_url = '{{ route("add.tracking.info", ":id") }}';
         // c_url = c_url.replace(':id',id);
         $('#addTrackingInfoForm').attr('action', '{{ route("add.tracking.info")}}');
         $('#order_id_for_tracking').val(id);
+        $('#tracking_number').val(tracking_number);
     }
 
     function getOrderList() {
