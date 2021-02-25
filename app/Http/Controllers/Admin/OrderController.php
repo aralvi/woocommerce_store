@@ -476,7 +476,9 @@ class OrderController extends Controller
                             }
                         }
 
-                        $order = Order::update($request->order_id, ['tracking_link'=>$data->tracking_link]);
+                        $order = AppOrder::findOrFail($request->order_id);
+                        $order->tracking_link=$data->tracking_link;
+                        $order->save();
                         return back()->with('success', 'Tracking Info has been added successfully');
                     }
                 } else {
