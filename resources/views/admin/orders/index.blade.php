@@ -141,7 +141,6 @@
                                     @foreach ($orders as $count=> $order)
                                         @php
                                             $consignment = App\Consignment::where('order_id',$order->id)->first();
-
                                         @endphp
 
                                         @if ( $setting->order_status == 'all')
