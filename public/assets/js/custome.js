@@ -107,7 +107,7 @@ $('.single_order_status').on('click', function() {
 // Order Note add modal
 $('.orderNote').on('click', function() {
     var orderID = $(this).attr('data-orderId');
-    $('#order_id').val(orderID);
+    $('#order').val(orderID);
     $('#OrderNoteModalForm').modal('toggle');
 });
 /*** Open Deleting note  Modal ***/

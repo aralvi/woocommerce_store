@@ -20,7 +20,6 @@ class OrderNoteController extends Controller
      */
     public function index(Request $request)
     {
-        
         $settingExist = Setting::where('user_id', Auth::user()->id)->exists();
         if ($settingExist) {
             $setting = Setting::where('user_id', Auth::user()->id)->first();
@@ -31,10 +30,10 @@ class OrderNoteController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                $id = $_GET['order_id'];
-
+                // $id = $_GET['order_id'];
+                $id = 73;
                 $ordreNotes = Note::all($id);
-
+                dd($ordreNotes);
                 return view('admin.ordernotes.index', compact('ordreNotes'));
             } else {
                 return view('admin.orders.index')->with('error', 'please configure your store settings!');
@@ -74,13 +73,18 @@ class OrderNoteController extends Controller
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $current_time = Carbon::now()->toDateTimeString();
+                if($request->note == 'false'){
+                    $note_status = false;
+                }else{
+                    $note_status = true;
+                }
+
                 $data = [
                     'note' => $request->order_note . "- Added By:" . Auth::user()->name . '- Time:' . $current_time,
-                    'customer_note'=> 'true',
+                    'customer_note'=> $note_status,
                 ];
 
                 $note = Note::create($request->order_id, $data);
-                dd($note);
                 return back()->with('success', 'Order Note has been created!');
             } else {
                 return view('admin.orders.index')->with('error', 'please configure your store settings!');

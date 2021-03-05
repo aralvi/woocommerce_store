@@ -136,16 +136,16 @@
 						</div>
                         </li>
   						<li class="nk-block-tools-opt">
-                           <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" target="_blank" class="btn btn-dim btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
+                           <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" target="_blank" class="btn btn-sm btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
                         </li>
   						<li class="nk-block-tools-opt">
-                         <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
+                         <button type="button" class="btn btn-sm  btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
                         </li>
   						<li class="nk-block-tools-opt">
-                         <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
+                         <button type="button" class="btn btn-sm  btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
                         </li>
   						<li class="nk-block-tools-opt">
-                         <button type="button" class="btn btn-sm btn-dim btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
+                         <button type="button" class="btn btn-sm  btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
                         </li>
                     </ul>
                 </div>
@@ -172,10 +172,10 @@
 							<input type="number" name="order_id" id="order_id" class="form-control" placeholder="Search Order#”">
 							<button type="submit" class="d-none"></button>
 						</div>
-					</form> <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" target="_blank" class="btn btn-dim btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
-					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
-					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
-					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
+					</form> <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" target="_blank" class="btn  btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
+					<button type="button" class="btn btn-sm  btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
+					<button type="button" class="btn btn-sm  btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
+					<button type="button" class="btn btn-sm  btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
 				</div> --}}
 			</div>
 			<div class="table-responsive">
@@ -186,8 +186,8 @@
 							<th class=" ">Image</th>
 							<th class="  ">Qty to ship</th>
 							<th class="  ">
-								<button class="border-0 btn btn-sm btn-primary btn-dim">-</button> Qty
-								<button class="border-0 btn btn-sm btn-primary btn-dim">+</button>
+								<button class="border-0 btn btn-sm btn-primary ">-</button> Qty
+								<button class="border-0 btn btn-sm btn-primary ">+</button>
 							</th>
 							<th class="  ">Sku</th>
 							<th class="  ">supplier</th>
@@ -209,11 +209,11 @@
 								<input type="hidden" name="" id="" class="shipquantity" value="{{ $product->quantity }}"> </td>
 							<td class="td_quantity  ">
 								<div class="d-flex justify-content-between align-items-center btn-group div_quantity">
-									<button type="button"  class="minus border btn btn-sm btn-primary btn-dim">--</button>
-									<button type="button" id="sub" class="sub border btn btn-sm btn-primary btn-dim">-</button>
+									<button type="button"  class="minus border btn btn-sm btn-primary ">--</button>
+									<button type="button" id="sub" class="sub border btn btn-sm btn-primary ">-</button>
 									<input type="number" id="1" value="0" min="0" class="quantity" />
-									<button type="button" id="add" class="add border btn btn-sm btn-primary btn-dim">+</button>
-									<button type="button"  class="plus border btn btn-sm btn-primary btn-dim">++</button>
+									<button type="button" id="add" class="add border btn btn-sm btn-primary ">+</button>
+									<button type="button"  class="plus border btn btn-sm btn-primary ">++</button>
 								</div>
 							</td>
 							<td class=" " data-order="Email Verified - Kyc Unverified"> {{ $product->sku }} </td>
@@ -232,7 +232,7 @@
 									<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
 									<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
 									<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
-									<button class="btn btn-dim border-0 bg-none text-primary" type="submit">{{ $product->name }} </button>
+									<button class="btn  border-0 bg-none text-primary" type="submit">{{ $product->name }} </button>
 									
 								</form>
 							</td>
@@ -376,13 +376,13 @@
 						</tr>
 					</thead>
 					<tbody> @foreach($ordreNotes as $ordreNote)
-						@if ($ordreNote->author == 'WooCommerce')
+						@if ($ordreNote->customer_note == false)
 							
 						<tr id="target_{{ $ordreNote->id }}" style=" background: #d7cad2;">
 							<th scope="row">{{ $ordreNote->id }}</th>
 							<td>{{ $ordreNote->note }}</td>
 							<td class="nk-tb-col tb-col-md"> {{--
-								<button type="button" class="btn btn-dim btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button> --}}
+								<button type="button" class="btn  btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button> --}}
 								<button type="button" class="btn btn-trigger btn-icon deleteNote" data-NoteId="{{ $ordreNote->id }}"><em class="icon ni ni-trash"></em></button>
 							</td>
 						</tr> 
@@ -391,7 +391,7 @@
 							<th scope="row">{{ $ordreNote->id }}</th>
 							<td>{{ $ordreNote->note }}</td>
 							<td class="nk-tb-col tb-col-md"> {{--
-								<button type="button" class="btn btn-dim btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button> --}}
+								<button type="button" class="btn  btn-primary " data-storId="{{ $ordreNote->id }}"><i class="icon ni ni-pen"></i></button> --}}
 								<button type="button" class="btn btn-trigger btn-icon deleteNote" data-NoteId="{{ $ordreNote->id }}"><em class="icon ni ni-trash"></em></button>
 							</td>
 						</tr>
@@ -407,7 +407,7 @@
 	<!-- .card-preview -->
 </div>
 {{-- custom questions --}}
-<div class="col-xxl-12 col-sm-12">
+{{-- <div class="col-xxl-12 col-sm-12">
 	<div class="card card-preview">
 		<div class="card-inner">
 			<div class="card-title-group">
@@ -441,7 +441,7 @@
 		</div>
 	</div>
 	<!-- .card-preview -->
-</div>
+</div> --}}
 <div class="modal fade zoom" tabindex="-1" id="OrderStatusmodalForm">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -477,6 +477,8 @@
 		</div>
 	</div>
 </div>
+
+{{-- order note Modal --}}
 <div class="modal fade zoom" tabindex="-1" id="OrderNoteModalForm">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -486,10 +488,19 @@
 			</div>
 			<form action="{{ route('ordernotes.store') }}" class="form-validate is-alter" method="POST"> @csrf
 				<div class="modal-body">
+					<div class="custom-control custom-radio">
+						<input type="radio" id="customRadio1" name="note" class="custom-control-input" value="false" checked>
+						<label class="custom-control-label" for="customRadio1">Private</label>
+					</div>
+					<div class="custom-control custom-radio">
+						<input type="radio" id="customRadio2" name="note" class="custom-control-input" value="true">
+						<label class="custom-control-label" for="customRadio2">Public</label>
+					</div>
+					
 					<div class="form-group">
 						<label class="form-label" for="ordernote">Order Note</label>
 						<div class="form-control-wrap">
-							<input type="hidden" name="order_id" value="" id="order_id">
+							<input type="hidden" name="order_id" id="order">
 							<textarea name="order_note" class="form-control" id="" cols="30" rows="3"></textarea> 
 							{{-- <input type="text" class="form-control" name="order_note" required>  --}}
 						</div>
@@ -576,7 +587,7 @@
 				<input type="hidden" name="order_id" class="order_id" value="{{ $orders['id'] }}"> 
 			</div>
 			<div class="modal-footer bg-light">
-				<button class="btn btn-dim btn-danger" id="deleteNoteBtn">Yes,sure</button>
+				<button class="btn  btn-danger" id="deleteNoteBtn">Yes,sure</button>
 			</div>
 		</div>
 	</div>
@@ -595,7 +606,7 @@
 				
 			</div>
 			<div class="modal-footer bg-light">
-				<button class="btn btn-dim btn-danger" id="deleteQuestionBtn">Yes,sure</button>
+				<button class="btn  btn-danger" id="deleteQuestionBtn">Yes,sure</button>
 			</div>
 		</div>
 	</div>
