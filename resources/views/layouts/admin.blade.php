@@ -77,9 +77,18 @@
                                             <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill"></em></span> <span class="nk-menu-text">Orders</span>
                                         </a>
                                         <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item {{ Request::is('orders*')?'active':'' }}">
+                                            {{-- <li class="nk-menu-item {{ Request::is('orders*')?'active':'' }}">
                                                 <a href="{{ route('orders.index') }}" class="nk-menu-link"><span class="nk-menu-text">Orders</span></a>
+                                            </li> --}}
+                                            @php
+                                                $stores = App\Models\Shop::where('user_id',Auth::user()->id)->orWhere('user_id',Auth::user()->parent_id)->get();
+                                            @endphp
+                                            @foreach ($stores as $store)
+                                            <li class="nk-menu-item {{ Request::is('orders*')?'active':'' }}">
+                                                <a href="{{ route('orders.index') }}?store_id={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
                                             </li>
+                                                
+                                            @endforeach
                                         </ul>
                                         <!-- .nk-menu-sub -->
                                     </li>

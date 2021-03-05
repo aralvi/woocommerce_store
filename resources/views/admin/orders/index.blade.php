@@ -209,6 +209,11 @@
                                                                 <span
                                                                     class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
                                                                 @endif
+                                                                @if ($order->status == 'backorder')
+                                                                <span class="dot bg-danger d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
                                                                 {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
                                                             </td>
                                                             <td class="nk-tb-col tb-col-md">
@@ -228,7 +233,7 @@
                                                                 class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
                                                                 {{-- <ul class="nk-tb-actions gx-1"> --}}
                                                                 <li class="nk-tb-action-hidden list-unstyled d-flex">
-                                                                    <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
+                                                                    <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}" target="_blank"
                                                                         class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
                                                                         data-original-title="view at Woocommerce">
                                                                         <em class="icon ni ni-eye"></em>
@@ -239,7 +244,7 @@
                                                                         <div class="dropdown-menu dropdown-menu-right">
                                                                             <ul class="link-list-opt no-bdr">
                                                                                 <li>
-                                                                                    <a href="{{ route('orders.show',$order->id) }}">
+                                                                                    <a href="{{ route('orders.show',$order->id) }}" target="_blank">
                                                                                         <em class="icon ni ni-eye"></em>
                                                                                         <span>Order Details</span>
                                                                                     </a>
@@ -349,6 +354,11 @@
                                                         <span
                                                             class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
                                                         @endif
+                                                        @if ($order->status == 'backorder')
+                                                        <span class="dot bg-danger d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
                                                         {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
                                                     </td>
                                                     <td class="nk-tb-col tb-col-md">
@@ -379,7 +389,7 @@
                                                                 <div class="dropdown-menu dropdown-menu-right">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <a href="{{ route('orders.show',$order->id) }}">
+                                                                            <a href="{{ route('orders.show',$order->id) }}" target="_blank">
                                                                                 <em class="icon ni ni-eye"></em>
                                                                                 <span>Order Details</span>
                                                                             </a>
@@ -486,6 +496,11 @@
                                                                 <span
                                                                     class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
                                                                 @endif
+                                                                @if ($order->status == 'backorder')
+                                                                <span class="dot bg-danger d-mb-none"></span>
+                                                                <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                @endif
                                                                 {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
                                                             </td>
                                                             <td class="nk-tb-col tb-col-md">
@@ -507,7 +522,7 @@
                                                                 <li class="nk-tb-action-hidden list-unstyled d-flex">
                                                                     <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
                                                                         class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
-                                                                        data-original-title="view at Woocommerce">
+                                                                        data-original-title="view at Woocommerce" target="_blank">
                                                                         <em class="icon ni ni-eye"></em>
                                                                     </a>
                                                                     <div class="drodown mr-n1">
@@ -516,7 +531,7 @@
                                                                         <div class="dropdown-menu dropdown-menu-right">
                                                                             <ul class="link-list-opt no-bdr">
                                                                                 <li>
-                                                                                    <a href="{{ route('orders.show',$order->id) }}">
+                                                                                    <a href="{{ route('orders.show',$order->id) }}" target="_blank">
                                                                                         <em class="icon ni ni-eye"></em>
                                                                                         <span>Order Details</span>
                                                                                     </a>
@@ -626,6 +641,11 @@
                                                         <span
                                                             class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
                                                         @endif
+                                                        @if ($order->status == 'backorder')
+                                                        <span class="dot bg-danger d-mb-none"></span>
+                                                        <span
+                                                            class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                        @endif
                                                         {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
                                                     </td>
                                                     <td class="nk-tb-col tb-col-md">
@@ -645,7 +665,7 @@
                                                         class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
                                                         {{-- <ul class="nk-tb-actions gx-1"> --}}
                                                         <li class="nk-tb-action-hidden list-unstyled d-flex">
-                                                            <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}" 
+                                                            <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}" target="_blank"
                                                                 class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
                                                                 data-original-title="view at Woocommerce">
                                                                 <em class="icon ni ni-eye"></em>
@@ -656,7 +676,7 @@
                                                                 <div class="dropdown-menu dropdown-menu-right">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <a href="{{ route('orders.show',$order->id) }}">
+                                                                            <a href="{{ route('orders.show',$order->id) }}" target="_blank">
                                                                                 <em class="icon ni ni-eye"></em>
                                                                                 <span>Order Details</span>
                                                                             </a>

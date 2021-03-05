@@ -113,7 +113,7 @@
 
                 <td class="nk-tb-col tb-col-md">
                     <li class="nk-tb-action-hidden list-unstyled d-flex">
-                        <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
+                        <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}" target="_blank"
                             class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
                             data-original-title="view at Woocommerce">
                             <em class="icon ni ni-eye"></em>
@@ -124,7 +124,7 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="link-list-opt no-bdr">
                                     <li>
-                                        <form action="{{ route('orders.show',$order->id) }}">
+                                        <form action="{{ route('orders.show',$order->id) }}" target="_blank">
                                             <input type="hidden" name="store_url" class="store_url"
                                                 value="{{ $store_url }}">
                                             <input type="hidden" name="consumer_key" class="consumer_key"

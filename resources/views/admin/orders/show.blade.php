@@ -115,7 +115,7 @@
 		<div class="card-inner">
 			<div class="col-md-12 d-flex justify-content-between mb-2 p-0">
 				<div class="">
-					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode" autofocus>
+					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Scan Barcode" autofocus>
 					<label class="d-none lbl_scan_alert"></label>
 				</div>
 				<div class="btn-group" aria-label="Basic example">
@@ -124,10 +124,10 @@
 							<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
 							<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
 							<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
-							<input type="number" name="order_id" id="order_id" class="form-control" placeholder="order id view detail">
+							<input type="number" name="order_id" id="order_id" class="form-control" placeholder="Search Order#”">
 							<button type="submit" class="d-none"></button>
 						</div>
-					</form> <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" class="btn btn-dim btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
+					</form> <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" target="_blank" class="btn btn-dim btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
