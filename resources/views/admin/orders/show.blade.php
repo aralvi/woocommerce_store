@@ -1,5 +1,8 @@
 @extends('layouts.admin') @section('style')
 <style>
+	.product_barcode{
+		width: 150px !important;
+	}
 	    #myImg {
         border-radius: 5px;
         cursor: pointer;
@@ -112,7 +115,7 @@
 		<div class="card-inner">
 			<div class="col-md-12 d-flex justify-content-between mb-2 p-0">
 				<div class="">
-					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode">
+					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Enter barcode" autofocus>
 					<label class="d-none lbl_scan_alert"></label>
 				</div>
 				<div class="btn-group" aria-label="Basic example">
@@ -171,7 +174,13 @@
 							<td class=" " data-order="Email Verified - Kyc Unverified"> {{ $product->sku }} </td>
 							<td class=" "> </td>
 							<td class=" ">
-								<input type="text" name="barcode" value="12313{{ $key }}" class="form-control product_barcode" readonly> </td>
+								@foreach ($single_product['meta_data'] as $item)
+								@if ($item->key =='_ywbc_barcode_display_value')
+									
+								<input type="text" name="barcode" value="{{ $item->value }}" class="form-control product_barcode" readonly> </td>
+								@endif
+									
+								@endforeach
 							<td class=" "> 
 								<form action="{{ route('products.show',$product->product_id) }}" target="_blank" method="get">
 									@csrf

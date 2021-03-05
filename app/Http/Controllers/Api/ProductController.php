@@ -70,7 +70,17 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $setting = Setting::first();
+        $shopExist = Shop::where('id', $setting->shop_id)->exists();
+        if ($shopExist) {
+            $shopDefault = Shop::where('id', $setting->shop_id)->first();
+
+            Config::set('woocommerce.store_url', $shopDefault->store_url);
+            Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+            Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+        }
+        $products = Product::find($id);
+        return response()->json($products);
     }
 
     /**
@@ -105,5 +115,10 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getBarcode()
+    {
+        # code...
     }
 }

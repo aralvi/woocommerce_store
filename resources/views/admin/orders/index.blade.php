@@ -645,7 +645,7 @@
                                                         class="btn btn-sm btn-dim btn-primary"><i class="icon ni ni-eye"></i></a> --}}
                                                         {{-- <ul class="nk-tb-actions gx-1"> --}}
                                                         <li class="nk-tb-action-hidden list-unstyled d-flex">
-                                                            <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}"
+                                                            <a href="{{ $store_url."/wp-admin/post.php?post=".$order->id."&action=edit " }}" 
                                                                 class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title=""
                                                                 data-original-title="view at Woocommerce">
                                                                 <em class="icon ni ni-eye"></em>
