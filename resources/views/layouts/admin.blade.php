@@ -98,9 +98,15 @@
                                             <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span> <span class="nk-menu-text">Products</span>
                                         </a>
                                         <ul class="nk-menu-sub">
+                                            @php
+                                                $stores = App\Models\Shop::where('user_id',Auth::user()->id)->orWhere('user_id',Auth::user()->parent_id)->get();
+                                            @endphp
+                                            @foreach ($stores as $store)
                                             <li class="nk-menu-item">
-                                                <a href="{{ route('products.index') }}" class="nk-menu-link"><span class="nk-menu-text">Products</span></a>
+                                                <a href="{{ route('products.index') }}?store_id={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
                                             </li>
+                                                
+                                            @endforeach
                                         </ul>
                                         <!-- .nk-menu-sub -->
                                     </li>

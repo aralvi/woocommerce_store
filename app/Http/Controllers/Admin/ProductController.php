@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppProduct;
 use App\Models\Setting;
 use App\Models\Shop;
 use Codexshaper\WooCommerce\Facades\Product;
@@ -24,20 +25,85 @@ class ProductController extends Controller
             $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shopExist = Shop::where('id', $setting->shop_id)->exists();
             if ($shopExist) {
-                $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                $shopDefault = Shop::where('id', decrypt($_GET['store_id']))->first();
+                $shops = Shop::all();
+                // Config::set('woocommerce.store_url', $shopDefault->store_url);
+                // Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                // Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                // $options = [
+                //     'per_page' => 100 // Or your desire number
+                // ];
+                // $products = Product::all($options);
+                $products = AppProduct::where('shop_id', decrypt($_GET['store_id']))->get();
+                $store_url = $shopDefault->store_url;
+                $consumer_key = $shopDefault->consumer_key;
+                $consumer_secret = $shopDefault->consumer_secret;
+                return view('admin.products.index', compact('products', 'shops', 'setting', 'store_url', 'consumer_key', 'consumer_secret'));
+            } else {
+                return view('admin.products.index')->with('error', 'please configure your store settings!');
+            }
+        } else {
+            session()->now('error', 'please configure your default settings for store and order status!');
+            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
+        }
+        
+    }
+    public function fetchProducts(Request $request)
+    {
+        // dd($request->all());
+        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+        if ($settingExist) {
+            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+            if ($shopExist) {
+                $shopDefault = Shop::where('store_url', $request->store_url)->first();
                 $shops = Shop::all();
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                $store_url = $shopDefault->store_url;
+                $consumer_key = $shopDefault->consumer_key;
+                $consumer_secret = $shopDefault->consumer_secret;
                 $options = [
                     'per_page' => 100 // Or your desire number
                 ];
-                $products = Product::all($options);
-                // $per_page = 10; // Or your desire number
-                // $current_page = 1;
-                // $products = Product::paginate($per_page, $current_page);
-                // dd($products);
-                return view('admin.products.index', compact('products', 'shops', 'setting'));
+                $fetch_products = Product::all($options);
+                foreach($fetch_products as $fetch_product){
+                    if (AppProduct::where('id', $fetch_product->id)->doesntExist()) {   
+                    $product = new AppProduct();
+                    $product->id = $fetch_product->id;
+                    $product->user_id = Auth::user()->id;
+                    $product->shop_id = $shopDefault->id;
+                    $product->title = $fetch_product->name;
+                    $product->slug = $fetch_product->slug;
+                    $product->sku = $fetch_product->sku;
+                    $product->regular_price = $fetch_product->regular_price;
+                    $product->sale_price = $fetch_product->sale_price;
+                    $product->manage_stock = $fetch_product->manage_stock;
+                    $product->stock_quantity = $fetch_product->stock_quantity;
+                    $product->backorders = $fetch_product->backorders;
+                    $product->weight = $fetch_product->weight;
+                    $product->purchase_note = $fetch_product->purchase_note;
+                    $product->catalog_visibility = $fetch_product->catalog_visibility;
+                    $product->out_stock_threshold = $fetch_product->out_stock_threshold;
+                    $product->stock_status = $fetch_product->stock_status;
+                    $product->description = $fetch_product->description;
+                    foreach($fetch_product->images as $img){
+                        $product->image = $img->src;
+                        break;
+                    }
+                    foreach($fetch_product->meta_data as $barcode){
+                        if($barcode->key == '_ywbc_barcode_display_value'){
+
+                            $product->barcode = $barcode->value;
+                            break;
+                        }
+                    }
+                    $product->save();
+                }
+            }
+                $products = AppProduct::where('shop_id',$shopDefault->id)->get();
+                return view('admin.products.index', compact('products', 'shops', 'setting' ,'store_url', 'consumer_key', 'consumer_secret'));
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
@@ -121,22 +187,23 @@ class ProductController extends Controller
      */
     public function edit(Request $request,$id)
     {
-        
         if (empty($request->all())) {
-        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-        if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-            $shopExist = Shop::where('id', $setting->shop_id)->exists();
-            if ($shopExist) {
-                $shopDefault = Shop::where('id', $setting->shop_id)->first();
-                $shops = Shop::all();
+            $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+            if ($settingExist) {
+                $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+                $shopExist = Shop::where('id', $setting->shop_id)->exists();
+                if ($shopExist) {
+                    $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                    $shops = Shop::all();
                     $store_url = $shopDefault->store_url;
                     $consumer_key = $shopDefault->consumer_key;
                     $consumer_secret = $shopDefault->consumer_secret;
-                Config::set('woocommerce.store_url', $shopDefault->store_url);
-                Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
-                Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                $product = Product::find($id);
+                    Config::set('woocommerce.store_url', $shopDefault->store_url);
+                    Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                    Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                    dd(Config::get('woocommerce.consumer_secret'));
+                    $product = Product::find($id);
+                    dd($product);
                 return view('admin.products.edit', compact('product', 'store_url', 'consumer_key', 'consumer_secret'));
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');

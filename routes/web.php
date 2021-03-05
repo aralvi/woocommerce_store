@@ -33,6 +33,7 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::post('order/getdetail', 'Admin\OrderController@getDetail')->name('order.detail');
     Route::post('order/changestaus', 'Admin\OrderController@changeStatus')->name('order.changestatus');
     Route::resource('products','Admin\ProductController');
+    Route::post('fetch/products', 'Admin\ProductController@fetchProducts')->name('fetch.products');
     Route::post('product/store', 'Admin\ProductController@selectStore')->name('product.store');
     Route::resource('settings','Admin\SettingController')->middleware('checkRole');
     Route::resource('users', 'Admin\addUserController');

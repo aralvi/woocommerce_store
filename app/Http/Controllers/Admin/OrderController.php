@@ -68,7 +68,6 @@ class OrderController extends Controller
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                 $store_url = $shopDefault->store_url;
-                $store_url = $shopDefault->store_url;
                 $consumer_key = $shopDefault->consumer_key;
                 $consumer_secret = $shopDefault->consumer_secret;
                 $order_page = AppOrder::where('shop_id', $shopDefault->id)->get()->last();

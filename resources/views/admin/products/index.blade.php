@@ -124,7 +124,7 @@
                                 <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
                                 <div class="toggle-expand-content" data-content="pageMenu">
                                     <ul class="nk-block-tools g-3">
-                                        <li>
+                                        {{-- <li>
                                             <div class="form-group">
                                                 <label for="" class="mb-0">Select Store</label>
                                                 <div class="form-control-wrap">
@@ -138,9 +138,16 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </li>
+                                        </li> --}}
                                         <li>
-                                            <a href="{{ route('products.index') }}" class="btn btn-dim btn-primary top-btn ml-1 mt-3">Fetch Products</a>
+                                            <form action="{{ route('fetch.products') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="store_url"  value="{{ $store_url }}" id="fetch_store_url">
+                                                <input type="hidden" name="consumer_key" value="{{ $consumer_key }}"  id="fetch_consumer_key">
+                                                <input type="hidden" name="consumer_secret" value="{{ $consumer_secret }}"  id="fetch_consumer_secret">
+                                                <button type="submit" class="btn btn-dim btn-primary mt-3">Fetch Orders</button>
+                                            </form>
+                                            {{-- <a href="{{ route('products.index') }}" class="btn btn-dim btn-primary top-btn ml-1 mt-3">Fetch Products</a> --}}
                                         </li>
                                     </ul>
                                 </div>
@@ -221,20 +228,16 @@
                                         </div>
                                     </td>
                                     <td class="nk-tb-col tb-col-mb">
-                                        @if (count($product->images) <> 0) <img id="myImg" class="product_image" src="{{ $product->images[0]->src }}" alt="{{ $product->name }}" width="60" height="60" />
-                                        @endif
+                                         <img id="myImg" class="product_image" src="{{ $product->image }}" alt="{{ $product->name }}" width="60" height="60" />
+                                        
                                     </td>
                                     <td class="nk-tb-col tb-col-md">
                                         <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a><br />
                                         <small>SKU: {{ $product->sku }}</small><br />
-                                        @foreach ($product->meta_data as $item)
-                                        @if ($item->key == '_ywbc_barcode_display_value')
+                                        
                                             
-                                        <small>Barcode: {{ $item->value }}</small>
-                                        @break
-                                        @endif
-                                            
-                                        @endforeach
+                                        <small>Barcode: {{ $product->barcode }}</small>
+                                        
                                     </td>
                                     {{--
                                     <td class="nk-tb-col tb-col-lg">
