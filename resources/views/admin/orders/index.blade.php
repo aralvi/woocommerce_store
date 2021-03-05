@@ -21,7 +21,7 @@
                                 <div class="toggle-expand-content" data-content="pageMenu">
                                     <ul class="nk-block-tools g-3">
                                         <li>
-                                            <div class="form-group">
+                                            {{-- <div class="form-group">
                                                 <label for="" class="mb-0">Select Store</label>
                                                 <div class="form-control-wrap">
                                                     <select class="form-select form-control form-control-lg" id="stores"
@@ -48,7 +48,7 @@
                                                     </select>
                                                 </div>
 
-                                            </div>
+                                            </div> --}}
                                         </li>
                                         <li>
                                             <div class="form-group">
@@ -969,6 +969,11 @@
         var store_url = $('.store_url').val();
         var secret = $('.consumer_secret').val();
         $('#loading').removeClass('d-none');
+        @php 
+            $setting = App\Models\Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+            $shop = App\Models\Shop::where('id', $setting->shop_id)->first();
+        @endphp
+        let store_id = @if(Request::get('store_id')) {{ decrypt(Request::get('store_id')) }} @else {{$shop->id}} @endif;
         $.ajax({
             type: 'post',
             url: "{{ route('order.status')}}",
@@ -977,11 +982,13 @@
                 store_url: store_url,
                 secret: secret,
                 status: status,
+                store_id:store_id,
                 _token: "{{ csrf_token() }}"
             },
             success: function (data) {
-                $('#orders_table').empty();
-                $('#orders_table').html(data);
+                $('#loading').addClass('d-none');
+                $('#order_table').empty();
+                $('#order_table').html(data);
             }
         });
 
@@ -1001,8 +1008,6 @@
             success: function (data) {
                 $('#order_table').empty();
                 $('#order_table').html(data);
-
-
             },
         });
 
@@ -1027,11 +1032,18 @@
             },
 
             success: function (data) {
-                $('#orders_table').empty();
+                $('#order_table').empty();
                 $('#orders_check').removeAttr('checked');
-                $('#orders_table').html(data);
-
-
+                $('#order_table').html(data);
+                // NioApp.DataTable.init = function () {
+                //     NioApp.DataTable('.datatable-init', {
+                //     responsive: {
+                //         details: true
+                //     }
+                //     });
+                //     $.fn.DataTable.ext.pager.numbers_length = 7;
+                // }; // BootStrap Extended
+                // NioApp.DataTable.init();
 
             },
         });
