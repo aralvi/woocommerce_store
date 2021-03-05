@@ -37,7 +37,14 @@ class OrderController extends Controller
             $shops = Shop::all();
             $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shopDefault = Shop::where('id', $setting->shop_id)->first();
-            $orders = AppOrder::where('shop_id', $shopDefault->id)->get();
+            if(isset($_GET['store_id'])){
+
+                $id = decrypt($_GET['store_id']);
+            }else{
+                $id = $shopDefault->id;
+            }
+            // dd($id);
+            $orders = AppOrder::where('shop_id', $id)->get();
             $store_url = $shopDefault->store_url;
             $consumer_key = $shopDefault->consumer_key;
             $consumer_secret = $shopDefault->consumer_secret;
