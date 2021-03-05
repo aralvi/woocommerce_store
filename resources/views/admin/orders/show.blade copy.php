@@ -109,52 +109,7 @@
         }
     }
 </style>
- @endsection @section('title','Order detail')  @section('content')
- <div class="nk-block-head nk-block-head-sm px-2">
-    <div class="nk-block-between">
-        <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Order Detail #{{ $orders['id'] }}</h3>
-        </div>
-        <!-- .nk-block-head-content -->
-        <div class="nk-block-head-content">
-            <div class="toggle-wrap nk-block-tools-toggle">
-                <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-                <div class="toggle-expand-content" data-content="pageMenu">
-                    <ul class="nk-block-tools g-3 flex-wrap">
-  						<li class="nk-block-tools-opt">
-                           <div class="btn-group" aria-label="Basic example">
-							<form action="{{ route('order.detail') }}" target="_blank" id="new_order_form" method="POST"> @csrf
-								<div class="form-group">
-									<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
-									<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
-									<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
-									<input type="number" name="order_id" id="order_id" class="form-control" placeholder="Search Order#”">
-									<button type="submit" class="d-none"></button>
-								</div>
-							</form>
-							
-						</div>
-                        </li>
-  						<li class="nk-block-tools-opt">
-                           <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" target="_blank" class="btn btn-dim btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
-                        </li>
-  						<li class="nk-block-tools-opt">
-                         <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
-                        </li>
-  						<li class="nk-block-tools-opt">
-                         <button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
-                        </li>
-  						<li class="nk-block-tools-opt">
-                         <button type="button" class="btn btn-sm btn-dim btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- .nk-block-head-content -->
-    </div>
-    <!-- .nk-block-between -->
-</div>
+ @endsection @section('title','Order detail') @section('page-title','Order Detail #'. $orders['id']) @section('content')
 <div class="col-xxl-12 col-sm-12">
 	<div class="card card-preview">
 		<div class="card-inner">
@@ -163,7 +118,7 @@
 					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Scan Barcode" autofocus>
 					<label class="d-none lbl_scan_alert"></label>
 				</div>
-				{{-- <div class="btn-group" aria-label="Basic example">
+				<div class="btn-group" aria-label="Basic example">
 					<form action="{{ route('order.detail') }}" target="_blank" id="new_order_form" method="POST"> @csrf
 						<div class="form-group">
 							<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
@@ -176,7 +131,7 @@
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
 					<button type="button" class="btn btn-sm btn-dim btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
-				</div> --}}
+				</div>
 			</div>
 			<div class="table-responsive">
 				<table class="table">
@@ -206,14 +161,14 @@
 									<img id="myImg" class="product_image" src="{{ $image->src }}" alt="" width="60" height="60"> @break @endforeach </div>
 							</td>
 							<td class=" "> <span class="tb-amount ship_quantity">{{ $product->quantity }}</span>
-								<input type="hidden" name="" id="" class="shipquantity" value="{{ $product->quantity }}"> </td>
+								<input type="hidden" name="" id="" class="shipquantity{{ $key }}" value="{{ $product->quantity }}"> </td>
 							<td class="td_quantity  ">
 								<div class="d-flex justify-content-between align-items-center btn-group div_quantity">
-									<button type="button"  class="minus border btn btn-sm btn-primary btn-dim">--</button>
-									<button type="button" id="sub" class="sub border btn btn-sm btn-primary btn-dim">-</button>
-									<input type="number" id="1" value="0" min="0" class="quantity" />
-									<button type="button" id="add" class="add border btn btn-sm btn-primary btn-dim">+</button>
-									<button type="button"  class="plus border btn btn-sm btn-primary btn-dim">++</button>
+									<button type="button" id="sub" class="sub border btn btn-sm btn-primary btn-dim">--</button>
+									<button type="button" id="sub" class="sub border btn btn-sm btn-primary btn-dim" onclick="quantityIncrementDecrement('dec',this,{{ $key }})">-</button>
+									<input type="number" id="1" value="0" min="0" class="quantity{{ $key }}" />
+									<button type="button" id="add" class="add border btn btn-sm btn-primary btn-dim" onclick="quantityIncrementDecrement('inc',this,{{ $key }})">+</button>
+									<button type="button" id="add" class="add border btn btn-sm btn-primary btn-dim">++</button>
 								</div>
 							</td>
 							<td class=" " data-order="Email Verified - Kyc Unverified"> {{ $product->sku }} </td>
@@ -607,62 +562,76 @@
 </div>
 @endsection @section('script')
 <script>
+
+	function quantityIncrementDecrement(status,ele,id)
+	{
+		if(status='inc'){$('.quantity'+id).val(parseInt($('.quantity'+id).val())+1);}else {$('.quantity'+id).val(parseInt($('.quantity'+id).val())-1);}
+		
+		let $quantity = parseInt($('.quantity'+id).val());
+		let $ship_quantity = $('.shipquantity'+id).val();
+		if($ship_quantity > $quantity) {
+			$('.quantity'+id).removeClass('bg-danger');
+			$('.quantity'+id).removeClass('bg-success');
+			$('.quantity'+id).addClass('bg-warning');
+		}
+		else if($ship_quantity == $quantity) {
+			$('.quantity'+id).removeClass('bg-warning');
+			$('.quantity'+id).removeClass('bg-danger');
+			$('.quantity'+id).addClass('bg-success');
+			// $status.html('Packed').addClass(['bg-success', 'text-white']);
+		}
+		else if($ship_quantity < $quantity) {
+			$('.quantity'+id).removeClass('bg-success');
+			$('.quantity'+id).removeClass('bg-waning');
+			$('.quantity'+id).addClass('bg-danger');
+		}
+	}
 $(document).ready(function() {
 	calculateTotal();
-	$(document.body).on("click", "button.plus", function() {
-		$(this).prev('button.add').click();
-	});
-	$(document.body).on("click", "button.minus", function() {
-		$(this).next('button.sub').click();
-	});
-	$(document.body).on("click", "button.add", function() {
-		$quantity = $(this).prev().val(+$(this).prev().val() + 1);
-		$ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
-		$ship_quantity =parseInt($ship_quantity);
-		$status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
-		if($ship_quantity > $quantity.val()) {
-			$quantity.removeClass('bg-danger');
-			$quantity.removeClass('bg-success');
-			$quantity.addClass('bg-warning');
-			console.log('decrese',$quantity.val(),$ship_quantity)
-		}
-		if($ship_quantity == $quantity.val()) {
-			$quantity.removeClass('bg-warning');
-			$quantity.removeClass('bg-danger');
-			$quantity.addClass('bg-success');
-			$status.html('Packed').addClass(['bg-success', 'text-white']);
-		}
-		if($ship_quantity < $quantity.val()) {
-			$quantity.removeClass('bg-success');
-			$quantity.removeClass('bg-waning');
-			$quantity.addClass('bg-danger');
-			console.log('exceed')
-		}
-	});
-	$(document.body).on("click", "button.sub", function() {
-		if($(this).next().val() > 1) {
-			$quantity = $(this).next().val(+$(this).next().val() - 1);
-			$ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
-			$ship_quantity =parseInt($ship_quantity);
-			$status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
-			if($ship_quantity > $quantity.val()) {
-				$quantity.removeClass('bg-danger');
-				$quantity.removeClass('bg-success');
-				$quantity.addClass('bg-warning');
-			}
-			if($ship_quantity == $quantity.val()) {
-				$quantity.removeClass('bg-warning');
-				$quantity.removeClass('bg-danger');
-				$quantity.addClass('bg-success');
-				$status.html('Packed').addClass(['bg-success', 'text-white']);
-			}
-			if($ship_quantity < $quantity.val()) {
-				$quantity.removeClass('bg-success');
-				$quantity.removeClass('bg-waning');
-				$quantity.addClass('bg-danger');
-			}
-		}
-	});
+	// $(document.body).on("click", "button.add", function() {
+	// 	$quantity = $(this).prev().val(+$(this).prev().val() + 1);
+	// 	$ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
+	// 	$status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
+	// 	if($ship_quantity > $quantity.val()) {
+	// 		$quantity.removeClass('bg-danger');
+	// 		$quantity.removeClass('bg-success');
+	// 		$quantity.addClass('bg-warning');
+	// 	}
+	// 	if($ship_quantity == $quantity.val()) {
+	// 		$quantity.removeClass('bg-warning');
+	// 		$quantity.removeClass('bg-danger');
+	// 		$quantity.addClass('bg-success');
+	// 		$status.html('Packed').addClass(['bg-success', 'text-white']);
+	// 	}
+	// 	if($ship_quantity < $quantity.val()) {
+	// 		$quantity.removeClass('bg-success');
+	// 		$quantity.removeClass('bg-waning');
+	// 		$quantity.addClass('bg-danger');
+	// 	}
+	// });
+	// $(document.body).on("click", "button.sub", function() {
+	// 	if($(this).next().val() > 1) {
+	// 		$quantity = $(this).next().val(+$(this).next().val() - 1);
+	// 		$ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
+	// 		$status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
+	// 		if($ship_quantity > $quantity.val()) {
+	// 			$quantity.removeClass('bg-danger');
+	// 			$quantity.removeClass('bg-success');
+	// 			$quantity.addClass('bg-warning');
+	// 		}
+	// 		if($ship_quantity == $quantity.val()) {
+	// 			$quantity.removeClass('bg-warning');
+	// 			$quantity.removeClass('bg-danger');
+	// 			$quantity.addClass('bg-success');
+	// 			$status.html('Packed').addClass(['bg-success', 'text-white']);
+	// 		}
+	// 		if($ship_quantity < $quantity.val()) {
+	// 			$quantity.removeClass('bg-success');
+	// 			$quantity.removeClass('bg-waning');
+	// 			$quantity.addClass('bg-danger');
+	// 		}
+	// 	}
+	// });
 
 	function calculateTotal() {
 		let inputs = document.querySelectorAll("td  input.shipquantity");
