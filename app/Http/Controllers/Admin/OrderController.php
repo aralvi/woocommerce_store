@@ -296,7 +296,7 @@ class OrderController extends Controller
                 Config::set('woocommerce.store_url', $shopDefault->store_url);
                 Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                 Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                return ['shops' => $shops, 'setting' => $setting];
+                return ['shops' => $shops, 'setting' => $setting,];
             }
         }
         return [];
@@ -308,49 +308,66 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // public function filter(Request $request)
+    // {
+    //     $status = $request->status;
+    //     if ($request->key == '' && $request->secret == '' && $request->store_url == '') {
+    //         $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+    //         if ($settingExist) {
+    //             $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+    //             $shopExist = Shop::where('id', $setting->shop_id)->exists();
+    //             if ($shopExist) {
+    //                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
+    //                 $shops = Shop::all();
+    //                 // Config::set('woocommerce.store_url', $shopDefault->store_url);
+    //                 // Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+    //                 // Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+    //                 // dd('fuck');
+    //                 $store_url = $shopDefault->store_url;
+    //                 $key = $shopDefault->consumer_key;
+    //                 $secret = $shopDefault->consumer_secret;
+    //                 if ($status == 'all') {
+    //                     $orders = AppOrder::where('shop_id', $shopDefault->id)->get();
+    //                 } else {
+    //                     $orders = AppOrder::where('status', $status)->where('shop_id', $shopDefault->id)->get();
+    //                 }
+    //                 return view('admin.orders.filter_status', compact('orders', 'store_url', 'key', 'secret'));
+    //             } else {
+    //                 return view('admin.orders.index')->with('error', 'please configure your store settings!');
+    //             }
+    //         } else {
+    //             return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
+    //         }
+    //     } else {
+    //         $store_url = $request->store_url;
+    //         $key = $request->key;
+    //         $secret = $request->secret;
+    //         $shopDefault = Shop::where('store_url', $request->store_url)->first();
+    //         // Config::set('woocommerce.store_url', $store_url);
+    //         // Config::set('woocommerce.consumer_key', $key);
+    //         // Config::set('woocommerce.consumer_secret', $secret);
+    //         if ($status == 'all') {
+    //             $orders = AppOrder::where('shop_id', $shopDefault->id)->get();
+    //         } else {
+    //             $orders = AppOrder::where('status', $status)->where('shop_id', $shopDefault->id)->get();
+    //         }
+    //         return view('admin.orders.filter_status', compact('orders', 'store_url', 'key', 'secret'));
+    //     }
+    // }
+
     public function filter(Request $request)
     {
-        $status = $request->status;
-        if ($request->key == '' && $request->secret == '' && $request->store_url == '') {
-            $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-            if ($settingExist) {
-                $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-                $shopExist = Shop::where('id', $setting->shop_id)->exists();
-                if ($shopExist) {
-                    $shopDefault = Shop::where('id', $setting->shop_id)->first();
-                    $shops = Shop::all();
-                    // Config::set('woocommerce.store_url', $shopDefault->store_url);
-                    // Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
-                    // Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                    // dd('fuck');
-                    $store_url = $shopDefault->store_url;
-                    $key = $shopDefault->consumer_key;
-                    $secret = $shopDefault->consumer_secret;
-                    if ($status == 'all') {
-                        $orders = AppOrder::where('shop_id', $shopDefault->id)->get();
-                    } else {
-                        $orders = AppOrder::where('status', $status)->where('shop_id', $shopDefault->id)->get();
-                    }
-                    return view('admin.orders.filter_status', compact('orders', 'store_url', 'key', 'secret'));
-                } else {
-                    return view('admin.orders.index')->with('error', 'please configure your store settings!');
-                }
+        if (count($this->userSetting(Auth::user()->id)) > 0)
+        {
+            if ($request->status == 'all') {
+                $orders = AppOrder::where('shop_id', $request->store_id)->get();
             } else {
-                return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
+                $orders = AppOrder::where('status', $request->status)->where('shop_id', $request->store_id)->get();
             }
-        } else {
-            $store_url = $request->store_url;
-            $key = $request->key;
-            $secret = $request->secret;
-            $shopDefault = Shop::where('store_url', $request->store_url)->first();
-            // Config::set('woocommerce.store_url', $store_url);
-            // Config::set('woocommerce.consumer_key', $key);
-            // Config::set('woocommerce.consumer_secret', $secret);
-            if ($status == 'all') {
-                $orders = AppOrder::where('shop_id', $shopDefault->id)->get();
-            } else {
-                $orders = AppOrder::where('status', $status)->where('shop_id', $shopDefault->id)->get();
-            }
+            $shop = Shop::where('id', $request->store_id)->first();
+            $key = $shop->consumer_key;
+            $secret = $shop->consumer_secret;
+            $store_url = $shop->store_url;
             return view('admin.orders.filter_status', compact('orders', 'store_url', 'key', 'secret'));
         }
     }
