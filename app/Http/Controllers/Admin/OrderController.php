@@ -36,11 +36,12 @@ class OrderController extends Controller
         if ($settingExist) {
             $shops = Shop::all();
             $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-            $shopDefault = Shop::where('id', $setting->shop_id)->first();
             if(isset($_GET['store_id'])){
-
+                
                 $id = decrypt($_GET['store_id']);
+                $shopDefault = Shop::where('id', $id)->first();
             }else{
+                $shopDefault = Shop::where('id', $setting->shop_id)->first();
                 $id = $shopDefault->id;
             }
             // dd($id);

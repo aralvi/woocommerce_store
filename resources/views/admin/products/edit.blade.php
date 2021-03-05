@@ -28,7 +28,8 @@
                             </div>
 							<div class="form-group col-md-6">
 								<label for="sku" class="mb-0">Sku</label>
-								<input type="text" name="sku" id="sku" value="{{ $product['sku'] }}" class="form-control"> </div>
+								<input type="text" name="sku" id="sku" value="{{ $product['sku'] }}" class="form-control"> 
+                            </div>
 							<div class="form-group col-md-6">
 								<label for="status" class="mb-0">status</label>
 								<select id="product_status" name="product_status" class="form-control form-select" data-search="on">

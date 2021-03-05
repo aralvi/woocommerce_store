@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 <style>
-	    #myImg {
+    #myImg {
         border-radius: 5px;
         cursor: pointer;
         transition: 0.3s;
     }
-    
+
     #myImg:hover {
         opacity: 0.7;
     }
     /* The Modal (background) */
-    
+
     .modal {
         display: none;
         /* Hidden by default */
@@ -34,7 +34,7 @@
         /* Black w/ opacity */
     }
     /* Modal Content (image) */
-    
+
     .modal-content {
         margin: auto;
         display: block;
@@ -42,7 +42,7 @@
         max-width: 700px;
     }
     /* Caption of Modal Image */
-    
+
     #caption {
         margin: auto;
         display: block;
@@ -54,7 +54,7 @@
         height: 150px;
     }
     /* Add Animation */
-    
+
     .modal-content,
     #caption {
         -webkit-animation-name: zoom;
@@ -62,26 +62,26 @@
         animation-name: zoom;
         animation-duration: 0.6s;
     }
-    
+
     @-webkit-keyframes zoom {
         from {
-            -webkit-transform: scale(0)
+            -webkit-transform: scale(0);
         }
         to {
-            -webkit-transform: scale(1)
+            -webkit-transform: scale(1);
         }
     }
-    
+
     @keyframes zoom {
         from {
-            transform: scale(0)
+            transform: scale(0);
         }
         to {
-            transform: scale(1)
+            transform: scale(1);
         }
     }
     /* The Close Button */
-    
+
     #close {
         position: absolute;
         top: 70px;
@@ -91,7 +91,7 @@
         font-weight: bold;
         transition: 0.3s;
     }
-    
+
     #close:hover,
     #close:focus {
         color: #bbb;
@@ -99,7 +99,7 @@
         cursor: pointer;
     }
     /* 100% Image Width on Smaller Screens */
-    
+
     @media only screen and (max-width: 700px) {
         .modal-content {
             width: 100%;
@@ -115,84 +115,59 @@
                 <div class="card-title-group"></div>
                 {{-- card header section end --}}
                 <div class="data">
-                     <div class="nk-block-between">
+                    <div class="nk-block-between">
                         <div class="nk-block-head-content">
                             <h3 class="nk-block-title page-title">Products</h3>
                         </div>
                         <div class="nk-block-head-content">
-                            <div class="toggle-wrap nk-block-tools-toggle"><a href="#"
-                                    class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em
-                                        class="icon ni ni-more-v"></em></a>
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
                                 <div class="toggle-expand-content" data-content="pageMenu">
                                     <ul class="nk-block-tools g-3">
                                         <li>
                                             <div class="form-group">
                                                 <label for="" class="mb-0">Select Store</label>
                                                 <div class="form-control-wrap">
-                                                    <select class="form-select form-control form-control-lg" id="stores" data-placeholder="Select Store"
-                                                        name="store" data-search="on">
-                                                        @if (isset($shops))
+                                                    <select class="form-select form-control form-control-lg" id="stores" data-placeholder="Select Store" name="store" data-search="on">
+                                                        @if (isset($shops)) @foreach ($shops as $shop) @if (Auth::user()->id == $shop->user_id || Auth::user()->role == 'SuperAdmin' || Auth::user()->parent_id == $shop->user_id)
 
-                                                        @foreach ($shops as $shop)
-                                                        @if (Auth::user()->id == $shop->user_id || Auth::user()->role
-                                                        == 'SuperAdmin'
-                                                        || Auth::user()->parent_id == $shop->user_id)
-
-                                                        <option class="text-capitalize" value="{{ $shop->store_url }}"
-                                                            data-key="{{ $shop->consumer_key }}"
-                                                            data-secret="{{ $shop->consumer_secret }}"
-                                                            {{ ($shop->id == $setting->shop_id) ? "selected":'' }}>
-                                                            {{ $shop->name }}
+                                                        <option class="text-capitalize" value="{{ $shop->store_url }}" data-key="{{ $shop->consumer_key }}" data-secret="{{ $shop->consumer_secret }}" {{ ($shop->
+                                                            id == $setting->shop_id) ? "selected":'' }}> {{ $shop->name }}
                                                         </option>
-                                                        @endif
-
-                                                        @endforeach
-                                                        @endif
-
+                                                        @endif @endforeach @endif
                                                     </select>
                                                 </div>
-
                                             </div>
                                         </li>
                                         <li>
-                                            <a href="{{ route('products.index') }}"  class="btn btn-dim btn-primary top-btn ml-1 mt-3">Fetch Products</a>
+                                            <a href="{{ route('products.index') }}" class="btn btn-dim btn-primary top-btn ml-1 mt-3">Fetch Products</a>
                                         </li>
-                                      
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="row mb-4">
+                    {{--
+                    <div class="row mb-4">
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="" class="mb-0">Select Store</label>
                                 <div class="form-control-wrap select_store">
-                                    <select class="form-select form-control form-control-lg" id="stores" name="store"
-                                        data-search="on">
+                                    <select class="form-select form-control form-control-lg" id="stores" name="store" data-search="on">
                                         <option value="default_option">Choose store</option>
-                                        @if (isset($shops))
+                                        @if (isset($shops)) @foreach ($shops as $shop) @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin' || Auth::user()->parent_id == $shop->user_id)
 
-                                        @foreach ($shops as $shop)
-                                        @if ((Auth::user()->id == $shop->user_id) || Auth::user()->role == 'SuperAdmin'
-                                        || Auth::user()->parent_id == $shop->user_id)
-
-                                        <option class="text-capitalize" value="{{ $shop->store_url }}"
-                                            data-key="{{ $shop->consumer_key }}"
-                                            data-secret="{{ $shop->consumer_secret }}"
-                                            {{ ($shop->id == $setting->shop_id) ? "selected":'' }}>{{ $shop->name }}
+                                        <option class="text-capitalize" value="{{ $shop->store_url }}" data-key="{{ $shop->consumer_key }}" data-secret="{{ $shop->consumer_secret }}" {{ ($shop->
+                                            id == $setting->shop_id) ? "selected":'' }}>{{ $shop->name }}
                                         </option>
-                                        @endif
-
-                                        @endforeach
-                                        @endif
-
+                                        @endif @endforeach @endif
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2"> --}}
-                            {{-- <div class="form-group">
+                        <div class="col-md-2">
+                            --}} {{--
+                            <div class="form-group">
                                 <label for="" class="mb-0">Select curior Service</label>
                                 <div class="form-control-wrap">
                                     <select class="form-select form-control form-control-lg" data-search="on">
@@ -201,100 +176,94 @@
                                         <option value="option_select_name">Lepord</option>
                                     </select>
                                 </div>
-                            </div> --}}
-                        {{-- </div>
-                        <div class="col-md-2"> --}}
-                            {{-- <div class="form-group">
-                                <label for="filter By Status" class="mb-0">Search</label>
-                                <input class="mu-input-box form-control" name="order_search" id="search_order"
-                                    type="text" placeholder="search order status" />
-                            </div> --}}
-                        {{-- </div>
-                        <div class="col-md-4">
-
-
+                            </div>
+                            --}} {{--
                         </div>
                         <div class="col-md-2">
-
+                            --}} {{--
+                            <div class="form-group">
+                                <label for="filter By Status" class="mb-0">Search</label>
+                                <input class="mu-input-box form-control" name="order_search" id="search_order" type="text" placeholder="search order status" />
+                            </div>
+                            --}} {{--
                         </div>
-                    </div> --}}
+                        <div class="col-md-4"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    --}}
                     <div id="products_table">
-
-                          <div class="d-flex justify-content-center">
-  <div class="spinner-border text-primary d-none" id="loading" role="status">
-    <span class="sr-only"></span>
-  </div>
-</div>
-                        <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer"
-                            data-auto-responsive="false">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary d-none" id="loading" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                        </div>
+                        <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer" data-auto-responsive="false">
                             <thead class="thead-dark">
                                 <tr class="nk-tb-item nk-tb-head">
-                                    <th class="nk-tb-col"># </th>
+                                    <th class="nk-tb-col">#</th>
                                     <th class="nk-tb-col nk-tb-col-check">Image</th>
-                                    <th class="nk-tb-col">Name </th>
-                                    {{-- <th class="nk-tb-col tb-col-mb">Sku</th>
-                                    <th class="nk-tb-col tb-col-md">Barcode</th> --}}
+                                    <th class="nk-tb-col">Name</th>
+                                    {{--
+                                    <th class="nk-tb-col tb-col-mb">Sku</th>
+                                    <th class="nk-tb-col tb-col-md">Barcode</th>
+                                    --}}
                                     <th class="nk-tb-col tb-col-lg">Stock Status</th>
                                     <th class="nk-tb-col tb-col-md">Action</th>
-    
                                 </tr>
                             </thead>
                             <tbody id="product_table">
-                                @if (isset($products))
-    
-                                @foreach ($products as $product)
-    
+                                @if (isset($products)) @foreach ($products as $product)
+
                                 <tr class="nk-tb-item">
-    
                                     <td class="nk-tb-col">
                                         <div class="user-info">
-                                            <span class="tb-lead">{{ $product->id }}<span
-                                                    class="dot dot-success d-md-none ml-1"></span></span>
+                                            <span class="tb-lead">{{ $product->id }}<span class="dot dot-success d-md-none ml-1"></span></span>
                                         </div>
                                     </td>
                                     <td class="nk-tb-col tb-col-mb">
-                                        @if (count($product->images) <> 0) <img id="myImg" class="product_image" 
-                                                 src="{{ $product->images[0]->src }}"
-                                                alt="{{ $product->name }}" width="60" height="60">
-                                            @endif
+                                        @if (count($product->images) <> 0) <img id="myImg" class="product_image" src="{{ $product->images[0]->src }}" alt="{{ $product->name }}" width="60" height="60" />
+                                        @endif
                                     </td>
-                                    <td class="nk-tb-col tb-col-md ">
-                                        <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a><br>
-                                        <small>SKU: {{ $product->sku }}</small><br>
-                                        <small>Barcode: </small>
+                                    <td class="nk-tb-col tb-col-md">
+                                        <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a><br />
+                                        <small>SKU: {{ $product->sku }}</small><br />
+                                        @foreach ($product->meta_data as $item)
+                                        @if ($item->key == '_ywbc_barcode_display_value')
+                                            
+                                        <small>Barcode: {{ $item->value }}</small>
+                                        @break
+                                        @endif
+                                            
+                                        @endforeach
                                     </td>
-                                    {{-- <td class="nk-tb-col tb-col-lg">
+                                    {{--
+                                    <td class="nk-tb-col tb-col-lg">
                                         {{ $product->sku }}
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
-                                        <input type="text" name="barcode" class="form-control">
-                                    </td> --}}
+                                        <input type="text" name="barcode" class="form-control" />
+                                    </td>
+                                    --}}
                                     <td class="nk-tb-col tb-col-lg">
                                         @if ($product->stock_status == 'instock')
                                         <p class="text-success">
-    
                                             {{ $product->stock_status }}
                                         </p>
                                         @else
                                         <p class="text-danger">
-    
                                             {{ $product->stock_status }}
                                         </p>
-    
+
                                         @endif
                                     </td>
                                     <td class="nk-tb-col tb-col-md">
-                                        {{-- <a class="btn btn-dim btn-sm btn-primary"
-                                            href="{{ route('products.show',$product->id) }}"><i
-                                                class="icon ni ni-eye"></i></a> --}}
-                                                <li class="nk-tb-action-hidden list-unstyled d-flex">
-                                                <a href="{{ route('products.show',$product->id) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip"
-                                                    data-placement="top" title="" data-original-title="View Detail">
-                                                    <em class="icon ni ni-eye"></em>
-                                                </a>
-                                                 <div class="drodown mr-n1">
-                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em
-                                                        class="icon ni ni-more-h"></em></a>
+                                        {{-- <a class="btn btn-dim btn-sm btn-primary" href="{{ route('products.show',$product->id) }}"><i class="icon ni ni-eye"></i></a> --}}
+                                        <li class="nk-tb-action-hidden list-unstyled d-flex">
+                                            <a href="{{ route('products.show',$product->id) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="View Detail">
+                                                <em class="icon ni ni-eye"></em>
+                                            </a>
+                                            <div class="drodown mr-n1">
+                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li>
@@ -306,13 +275,11 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            </li>
+                                        </li>
                                     </td>
-    
-                                </tr><!-- .nk-tb-item  -->
-                                @endforeach
-                                @endif
-    
+                                </tr>
+                                <!-- .nk-tb-item  -->
+                                @endforeach @endif
                             </tbody>
                         </table>
                     </div>
@@ -333,15 +300,12 @@
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
-            <div class="requestdata">
-
-            </div>
-
+            <div class="requestdata"></div>
         </div>
     </div>
 </div>
 
-{{-- delete mdal  --}}
+{{-- delete mdal --}}
 
 <div class="modal fade zoom" tabindex="-1" id="DeleteModal">
     <div class="modal-dialog" role="document">
@@ -364,20 +328,17 @@
 <!-- The Modal -->
 <div id="myModal" class="modal">
     <span id="close">&times;</span>
-    <img class="modal-content" id="img01">
+    <img class="modal-content" id="img01" />
     <div id="caption"></div>
 </div>
-@endsection
-
-@section('script')
+@endsection @section('script')
 <script>
     $(document).ready(function () {
-
-        $('#stores').on('change', function (e) {
+        $("#stores").on("change", function (e) {
             var store_url = $(this).val();
-            var key = $(this).children("option:selected").attr('data-key');
-            var secret = $(this).children("option:selected").attr('data-secret');
-            $('#loading').removeClass('d-none');
+            var key = $(this).children("option:selected").attr("data-key");
+            var secret = $(this).children("option:selected").attr("data-secret");
+            $("#loading").removeClass("d-none");
             $.ajax({
                 type: "post",
                 url: "{{ route('product.store')}}",
@@ -385,19 +346,15 @@
                     store_url: store_url,
                     key: key,
                     secret: secret,
-                    _token: "{{ csrf_token() }}"
+                    _token: "{{ csrf_token() }}",
                 },
 
                 success: function (data) {
-                    $('#products_table').empty();
-                    $('#products_table').html(data);
+                    $("#products_table").empty();
+                    $("#products_table").html(data);
                 },
             });
         });
-
-        
-
     });
-
 </script>
 @endsection

@@ -153,7 +153,6 @@
                                                 @foreach ($excluded_statuses as $excluded_statuse)
                                                     @if ($excluded_statuse != $order->status)
                                                         <tr class="nk-tb-item">
-                                                            <td>hello</td>
                                                             <td class="nk-tb-col nk-tb-col-check">
                                                                 <div class="custom-control custom-control-sm custom-checkbox notext">
                                                                     <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
