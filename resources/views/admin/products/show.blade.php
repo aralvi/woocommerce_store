@@ -98,7 +98,7 @@
                                                 <span class="sku_wrapper">SKU: <span
                                                         class="sku">{{ $product->sku }}</span></span><br>
                                                 <span class="posted_in">Category:
-                                                    {{-- {{ $product->categorie->name }}</span> --}}
+                                                    {{ $product->category }}</span>
                                             </div>
                                         </div>
                                     </div>

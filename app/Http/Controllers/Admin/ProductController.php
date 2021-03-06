@@ -260,7 +260,7 @@ class ProductController extends Controller
                     'sale_price'    => $request->sale_price, // 50% off
                     'purchase_price'    => $request->purchase_price, // 50% off
                     'sku'    => $request->sku, // 50% off
-                    'product_status'    => $request->product_status, // 50% off
+                    'status'    => $request->product_status, // 50% off
                     'manage_stock'    => $request->manage_stock, // 50% off
                     'stock_quantity'    => $request->stock_quantity, // 50% off
                     'backorders'    => $request->backorders, // 50% off
@@ -270,7 +270,27 @@ class ProductController extends Controller
                     'out_stock_threshold'    => $request->out_stock_threshold, // 50% off
                 ];
 
-                $product = Product::update($id, $data);
+                 Product::update($id, $data);
+                $product = AppProduct::findOrFail($id);
+                $product->name = $request->name;
+                $product->regular_price = $request->regular_price;
+                $product->sale_price = $request->sale_price;
+                // $product->purchase_price = $request->purchase_price;
+                $product->sku = $request->sku;
+                $product->status = $request->status;
+                if(isset($request->manage_stock)){
+
+                    $product->manage_stock = $request->manage_stock;
+                }else{
+                    $product->manage_stock =false;
+                }
+                $product->stock_quantity = $request->stock_quantity;
+                $product->backorders = $request->backorders;
+                // $product->wieght = $request->wieght;
+                // $product->purchase_note = $request->purchase_note;
+                $product->catalog_visibility = $request->catalog_visibility;
+                // $product->out_stock_threshold = $request->out_stock_threshold;
+                $product->save();
                 return back()->with('success', 'Product has been updated');
         //     } else {
         //         return view('admin.products.index')->with('error', 'please configure your store settings!');
