@@ -36,15 +36,14 @@ class OrderController extends Controller
         if ($settingExist) {
             $shops = Shop::all();
             $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-            if(isset($_GET['store_id'])){
+            if(isset($_GET['store'])){
                 
-                $id = decrypt($_GET['store_id']);
+                $id = decrypt($_GET['store']);
                 $shopDefault = Shop::where('id', $id)->first();
             }else{
                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
                 $id = $shopDefault->id;
             }
-            // dd($id);
             $orders = AppOrder::where('shop_id', $id)->get();
             $store_url = $shopDefault->store_url;
             $consumer_key = $shopDefault->consumer_key;
@@ -72,22 +71,22 @@ class OrderController extends Controller
                 $consumer_secret = $shopDefault->consumer_secret;
                 $order_page = AppOrder::where('shop_id', $shopDefault->id)->get()->last();
                 // if(isset($order_page)){
-
+                    
                 //     $page = $order_page->page +1;
                 // }else{
                     $page = 1;
-                // }
-                $options = [
-                    // 'page' => $page,
-                    'per_page' => 100 // Or your desire number
-                ];
-                $fetch_orders = Order::all($options);
-                // dd($fetch_orders);
+                    // }
+                    $options = [
+                        // 'page' => $page,
+                        'per_page' => 100 // Or your desire number
+                    ];
+                    $fetch_orders = Order::all($options);
                 foreach ($fetch_orders as $fetch_order) {
 
                     if($fetch_order->date_created >= $agoDate || $fetch_order->date_created <= $currentDate){
 
                         if (AppOrder::where('id', $fetch_order->id)->doesntExist()) {   
+                            dd('hoi');
                         $curl = curl_init();
                         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
                         curl_setopt($curl, CURLOPT_URL, Config::get('woocommerce.store_url') . '/wp-json/wc-ast/v3/orders/' . $fetch_order->id . '/shipment-trackings');
@@ -168,13 +167,13 @@ class OrderController extends Controller
     {
         // dd($request->all());
 
-        if (empty($request->all())) {
+        // if (empty($request->all())) {
             $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
             if ($settingExist) {
                 $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-                $shopExist = Shop::where('id', $setting->shop_id)->exists();
+                $shopExist = Shop::where('id', decrypt($_GET['store']))->exists();
                 if ($shopExist) {
-                    $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                    $shopDefault = Shop::where('id', decrypt($_GET['store']))->first();
                     $shops = Shop::all();
                     $store_url =  $shopDefault->store_url;
                     $consumer_key =  $shopDefault->consumer_key;
@@ -182,7 +181,7 @@ class OrderController extends Controller
                     Config::set('woocommerce.store_url', $shopDefault->store_url);
                     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                    dd( Config::set('woocommerce.consumer_secret'));
+                    
                     $orders = Order::find($id);
                     $ordreNotes = Note::all($id);
                     $questions = Question::where('order_id', $id)->get();
@@ -193,18 +192,18 @@ class OrderController extends Controller
             } else {
                 return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
             }
-        } else {
-            $store_url =  $request->store_url;
-            $consumer_key = $request->consumer_key;
-            $consumer_secret = $request->consumer_secret;
-            Config::set('woocommerce.store_url', $request->store_url);
-            Config::set('woocommerce.consumer_key', $request->consumer_key);
-            Config::set('woocommerce.consumer_secret', $request->consumer_secret);
-            $orders = Order::find($id);
-            $ordreNotes = Note::all($id);
-            $questions = Question::where('order_id', $id)->get();
-            return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'consumer_secret', 'questions'));
-        }
+        // } else {
+        //     $store_url =  $request->store_url;
+        //     $consumer_key = $request->consumer_key;
+        //     $consumer_secret = $request->consumer_secret;
+        //     Config::set('woocommerce.store_url', $request->store_url);
+        //     Config::set('woocommerce.consumer_key', $request->consumer_key);
+        //     Config::set('woocommerce.consumer_secret', $request->consumer_secret);
+        //     $orders = Order::find($id);
+        //     $ordreNotes = Note::all($id);
+        //     $questions = Question::where('order_id', $id)->get();
+        //     return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'consumer_secret', 'questions'));
+        // }
     }
 
     /**
@@ -399,15 +398,16 @@ class OrderController extends Controller
 
     public function changeStatus(Request $request)
     {
+        // dd($request->all());
         $ids = explode(',', $request->order_list);
-        if ($request->key == 'undefined' && $request->secret == 'undefined' && $request->store_url == 'undefined') {
+        // if ($request->key == 'undefined' && $request->secret == 'undefined' && $request->store_url == 'undefined') {
 
             $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
             if ($settingExist) {
                 $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-                $shopExist = Shop::where('id', $setting->shop_id)->exists();
+                $shopExist = Shop::where('id', $request->store)->exists();
                 if ($shopExist) {
-                    $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                    $shopDefault = Shop::where('id', $request->store)->first();
                     $shops = Shop::all();
                     Config::set('woocommerce.store_url', $shopDefault->store_url);
                     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
@@ -430,24 +430,24 @@ class OrderController extends Controller
             } else {
                 return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
             }
-        }
-        else{
-            Config::set('woocommerce.store_url', $request->store_url);
-            Config::set('woocommerce.consumer_key', $request->key);
-            Config::set('woocommerce.consumer_secret', $request->secret);
-            foreach ($ids as $id) {
+        // }
+        // else{
+        //     Config::set('woocommerce.store_url', $request->store_url);
+        //     Config::set('woocommerce.consumer_key', $request->key);
+        //     Config::set('woocommerce.consumer_secret', $request->secret);
+        //     foreach ($ids as $id) {
                 
-                $order_id = $id;
-                $data     = [
-                    'status' => $request->order_status,
-                ];
-                Order::update($order_id, $data);
-                $order = AppOrder::findOrFail($id);
-                $order->status = $request->order_status;
-                $order->save();
-            }
-            return back()->with('success', 'Order status has been updated');
-        }
+        //         $order_id = $id;
+        //         $data     = [
+        //             'status' => $request->order_status,
+        //         ];
+        //         Order::update($order_id, $data);
+        //         $order = AppOrder::findOrFail($id);
+        //         $order->status = $request->order_status;
+        //         $order->save();
+        //     }
+        //     return back()->with('success', 'Order status has been updated');
+        // }
     }
     public function createTrackingInfo(Request $request)
     {

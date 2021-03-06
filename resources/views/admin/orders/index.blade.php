@@ -16,8 +16,8 @@
                         </div>
                         <div class="nk-block-head-content">
                             <div class="toggle-wrap nk-block-tools-toggle"><a href="#"
-                                    class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em
-                                        class="icon ni ni-more-v"></em></a>
+                                class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em
+                                class="icon ni ni-more-v"></em></a>
                                 <div class="toggle-expand-content" data-content="pageMenu">
                                     <ul class="nk-block-tools g-3">
                                         <li>
@@ -33,7 +33,7 @@
                                                         @if (Auth::user()->id == $shop->user_id || Auth::user()->role
                                                         == 'SuperAdmin'
                                                         || Auth::user()->parent_id == $shop->user_id)
-
+                                                        
                                                         <option class="text-capitalize" value="{{ $shop->store_url }}"
                                                             data-key="{{ $shop->consumer_key }}"
                                                             data-secret="{{ $shop->consumer_secret }}"
@@ -41,10 +41,10 @@
                                                             {{ $shop->name }}
                                                         </option>
                                                         @endif
-
+                                                        
                                                         @endforeach
                                                         @endif
-
+                                                        
                                                     </select>
                                                 </div>
 
@@ -54,45 +54,45 @@
                                             <div class="form-group">
                                                 <label for="filter By Status" class="mb-0">Filter Status</label>
                                                 <select id="order_status" name="order_status"
-                                                    class="form-control form-select" data-search="on">
-                                                    @if (isset($setting))
-
-                                                    <option value="all"
-                                                        {{ 'all' == $setting->order_status ? "selected":'' }}>All
-                                                    </option>
-                                                    <option value="pending"
-                                                        {{ 'pending' == $setting->order_status ? "selected":'' }}>
-                                                        Pending payment</option>
-                                                    <option value="processing"
+                                                class="form-control form-select" data-search="on">
+                                                @if (isset($setting))
+                                                
+                                                <option value="all"
+                                                {{ 'all' == $setting->order_status ? "selected":'' }}>All
+                                            </option>
+                                            <option value="pending"
+                                            {{ 'pending' == $setting->order_status ? "selected":'' }}>
+                                            Pending payment</option>
+                                            <option value="processing"
                                                         {{ 'processing' == $setting->order_status ? "selected":'' }}>
                                                         Processing</option>
-                                                    <option value="on-hold"
+                                                        <option value="on-hold"
                                                         {{ 'on-hold' == $setting->order_status ? "selected":'' }}>On
                                                         hold</option>
-                                                    <option value="completed"
+                                                        <option value="completed"
                                                         {{ 'completed' == $setting->order_status ? "selected":'' }}>
                                                         Completed</option>
-                                                    <option value="cancelled"
+                                                        <option value="cancelled"
                                                         {{ 'cancelled' == $setting->order_status ? "selected":'' }}>
                                                         Cancelled</option>
-                                                    <option value="refunded"
+                                                        <option value="refunded"
                                                         {{ 'refunded' == $setting->order_status ? "selected":'' }}>
                                                         Refunded</option>
-                                                    <option value="failed"
+                                                        <option value="failed"
                                                         {{ 'failed' == $setting->order_status ? "selected":'' }}>
                                                         Failed</option>
-                                                    @endif
-                                                </select>
-                                            </div>
-                                        </li>
-                                        <li class="nk-block-tools-opt pb-0">
-                                            {{-- <div class="btn-group"> --}}
-                                            <button class="btn btn-md btn-dim btn-primary order_status mt-3"
-                                                onclick="getOrderList();" data-toggle="modal"
-                                                data-target="#modalForm">Change Order Status </button>
-                                            {{-- </div> --}}
-                                        </li>
-                                        <li class="nk-block-tools-opt pb-0">
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </li>
+                                            <li class="nk-block-tools-opt pb-0">
+                                                {{-- <div class="btn-group"> --}}
+                                                    <button class="btn btn-md btn-dim btn-primary order_status mt-3"
+                                                    onclick="getOrderList();" data-toggle="modal"
+                                                    data-target="#modalForm">Change Order Status </button>
+                                                    {{-- </div> --}}
+                                                </li>
+                                                <li class="nk-block-tools-opt pb-0">
                                             <form action="{{ route('fetch.orders') }}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="store_url"  value="{{ $store_url }}" id="fetch_store_url">
@@ -107,14 +107,14 @@
                         </div>
                     </div>
                     
-
+                    
                     <div id="orders_table">
                         <div class="d-flex justify-content-center">
                             <div class="spinner-border text-primary d-none" id="loading" role="status">
                                 <span class="sr-only"></span>
                             </div>
                         </div>
-
+                        
                         <table class="datatable-init nowrap nk-tb-list is-separate dataTable no-footer" data-auto-responsive="false">
                             <thead class="thead-dark">
                                 <tr class="nk-tb-item nk-tb-head">
@@ -133,30 +133,30 @@
                                     <th class="nk-tb-col tb-col-md">Items</th>
                                     {{-- <th class="nk-tb-col tb-col-md">Curior</th> --}}
                                     <th class="nk-tb-col tb-col-md">Action</th>
-
+                                    
                                 </tr>
                             </thead>
                             <tbody id="order_table">
                                 @if ($orders->count() > 0)
-                                    @foreach ($orders as $count=> $order)
-                                        @php
+                                @foreach ($orders as $count=> $order)
+                                @php
                                             $consignment = App\Consignment::where('order_id',$order->id)->first();
-                                        @endphp
+                                            @endphp
 
-                                        @if ( $setting->order_status == 'all')
-                                            @php
+                                            @if ( $setting->order_status == 'all')
+                                                @php
                                                 if (isset($setting->excluded_Status)) {
-                                                $excluded_statuses = json_decode($setting->excluded_Status);
+                                                    $excluded_statuses = json_decode($setting->excluded_Status);
                                                 }
                                                 @endphp
                                             @if (isset($excluded_statuses))
-                                                @foreach ($excluded_statuses as $excluded_statuse)
-                                                    @if ($excluded_statuse != $order->status)
-                                                        <tr class="nk-tb-item">
-                                                            <td class="nk-tb-col nk-tb-col-check">
-                                                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                                    <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
-                                                                        value="{{ $order->id }}">
+                                            @foreach ($excluded_statuses as $excluded_statuse)
+                                            @if ($excluded_statuse != $order->status)
+                                            <tr class="nk-tb-item">
+                                                <td class="nk-tb-col nk-tb-col-check">
+                                                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                        <input type="checkbox" class="custom-control-input order_check" id="uid{{ $count+2 }}"
+                                                        value="{{ $order->id }}">
                                                                     <label class="custom-control-label order_check" for="uid{{ $count+2}}"></label>
                                                                 </div>
                                                                 {{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
@@ -243,7 +243,7 @@
                                                                         <div class="dropdown-menu dropdown-menu-right">
                                                                             <ul class="link-list-opt no-bdr">
                                                                                 <li>
-                                                                                    <a href="{{ route('orders.show',$order->id) }}" target="_blank">
+                                                                                    <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">
                                                                                         <em class="icon ni ni-eye"></em>
                                                                                         <span>Order Details</span>
                                                                                     </a>
@@ -388,7 +388,7 @@
                                                                 <div class="dropdown-menu dropdown-menu-right">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <a href="{{ route('orders.show',$order->id) }}" target="_blank">
+                                                                            <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">
                                                                                 <em class="icon ni ni-eye"></em>
                                                                                 <span>Order Details</span>
                                                                             </a>
@@ -435,6 +435,7 @@
                                             @endif
 
                                         @else
+
                                             @if ($order->status == $setting->order_status)
                                                 @if (isset($excluded_statuses))
                                                     @foreach ($excluded_statuses as $excluded_statuse)
@@ -530,7 +531,7 @@
                                                                         <div class="dropdown-menu dropdown-menu-right">
                                                                             <ul class="link-list-opt no-bdr">
                                                                                 <li>
-                                                                                    <a href="{{ route('orders.show',$order->id) }}" target="_blank">
+                                                                                    <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">
                                                                                         <em class="icon ni ni-eye"></em>
                                                                                         <span>Order Details</span>
                                                                                     </a>
@@ -675,7 +676,7 @@
                                                                 <div class="dropdown-menu dropdown-menu-right">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <a href="{{ route('orders.show',$order->id) }}" target="_blank">
+                                                                            <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">
                                                                                 <em class="icon ni ni-eye"></em>
                                                                                 <span>Order Details</span>
                                                                             </a>
@@ -832,6 +833,7 @@
                         $change_able_statuses = json_decode($setting->change_able_Status);
                         }
                         @endphp
+                        <input type="hidden" name="store" value="{{ decrypt($_GET['store']) }}">
                         <select id="change_order_status" name="order_status" class="form-control form-select"
                             data-search="on">
                             @if(isset($change_able_statuses))
@@ -972,7 +974,7 @@
             $setting = App\Models\Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shop = App\Models\Shop::where('id', $setting->shop_id)->first();
         @endphp
-        let store_id = @if(Request::get('store_id')) {{ decrypt(Request::get('store_id')) }} @else {{$shop->id}} @endif;
+        let store_id = @if(Request::get('store')) {{ decrypt(Request::get('store')) }} @else {{$shop->id}} @endif;
         $.ajax({
             type: 'post',
             url: "{{ route('order.status')}}",

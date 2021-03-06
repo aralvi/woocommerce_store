@@ -97,8 +97,8 @@
                                     class="icon ni ni-more-h"></em></a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="link-list-opt no-bdr">
-                                    <li>
-                                        <form action="{{ route('orders.show',$order->id) }}" target="_blank">
+                                    {{-- <li>
+                                        <form action="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">
                                             <input type="hidden" name="store_url" class="store_url"
                                                 value="{{ $store_url }}">
                                             <input type="hidden" name="consumer_key" class="consumer_key"
@@ -109,10 +109,15 @@
                                                 data-placement="top" title="" data-original-title="View Detail">
                                                 <em class="icon ni ni-eye"></em><span class="text-primary">Order Detail</span>
                                             </button>
-                                            {{-- <button type="submit" class="btn btn-sm btn-dim btn-primary"><i
-                              class="icon ni ni-eye"></i></button> --}}
+                                            
                                         </form>
-                                    </li>
+                                    </li> --}}
+                                    <li>
+                                                                            <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">
+                                                                                <em class="icon ni ni-eye"></em>
+                                                                                <span>Order Details</span>
+                                                                            </a>
+                                                                        </li>
 
                                     @if(!$consignment && $order->tracking_link ==null)
 
