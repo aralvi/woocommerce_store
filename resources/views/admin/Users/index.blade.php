@@ -22,8 +22,7 @@
                         </thead>
                         <tbody>
                             @foreach($Users as $user)
-                            @if ($user->parent_id == Auth::user()->id && $user->role != 'SuperAdmin' ||
-                            (Auth::user()->parent_id == $user->parent_id && Auth::user()->id != $user->id )|| (Auth::user()->role == 'SuperAdmin'))
+                            @if ($user->parent_id == Auth::user()->id && $user->role != 'SuperAdmin' || (Auth::user()->parent_id == $user->parent_id && Auth::user()->id != $user->id )|| (Auth::user()->role == 'SuperAdmin'))
                             <tr class="nk-tb-item" id="target_{{ $user->id }}">
                                 <td class="nk-tb-col">
                                     <div class="user-info">
