@@ -149,7 +149,7 @@ class ProductController extends Controller
         // if (empty($request->all())) {
             // $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
             // if ($settingExist) {
-                // $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+                $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
                 $shopExist = Shop::where('id', decrypt($_GET['store']))->exists();
                 if ($shopExist) {
                     $shopDefault = Shop::where('id', decrypt($_GET['store']))->first();
@@ -204,9 +204,7 @@ class ProductController extends Controller
                     Config::set('woocommerce.store_url', $shopDefault->store_url);
                     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                    dd(Config::get('woocommerce.consumer_secret'));
                     $product = Product::find($id);
-                    dd($product);
                 return view('admin.products.edit', compact('product', 'store_url', 'consumer_key', 'consumer_secret'));
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');
