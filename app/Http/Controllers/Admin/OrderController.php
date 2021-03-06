@@ -182,6 +182,7 @@ class OrderController extends Controller
                     Config::set('woocommerce.store_url', $shopDefault->store_url);
                     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                    dd( Config::set('woocommerce.consumer_secret'));
                     $orders = Order::find($id);
                     $ordreNotes = Note::all($id);
                     $questions = Question::where('order_id', $id)->get();

@@ -210,10 +210,10 @@
                                     <th class="nk-tb-col">#</th>
                                     <th class="nk-tb-col nk-tb-col-check">Image</th>
                                     <th class="nk-tb-col">Name</th>
-                                    {{--
-                                    <th class="nk-tb-col tb-col-mb">Sku</th>
-                                    <th class="nk-tb-col tb-col-md">Barcode</th>
-                                    --}}
+                                    
+                                    <th class="nk-tb-col tb-col-mb">Regular Price</th>
+                                    <th class="nk-tb-col tb-col-md">Sale Price</th>
+                                   
                                     <th class="nk-tb-col tb-col-lg">Stock Status</th>
                                     <th class="nk-tb-col tb-col-md">Action</th>
                                 </tr>
@@ -239,14 +239,14 @@
                                         <small>Barcode: {{ $product->barcode }}</small>
                                         
                                     </td>
-                                    {{--
+                                    
                                     <td class="nk-tb-col tb-col-lg">
-                                        {{ $product->sku }}
+                                        {{ $product->regular_price }}
                                     </td>
                                     <td class="nk-tb-col tb-col-lg">
-                                        <input type="text" name="barcode" class="form-control" />
+                                        {{ $product->sale_price }}
                                     </td>
-                                    --}}
+                                   
                                     <td class="nk-tb-col tb-col-lg">
                                         @if ($product->stock_status == 'instock')
                                         <p class="text-success">
@@ -262,7 +262,7 @@
                                     <td class="nk-tb-col tb-col-md">
                                         {{-- <a class="btn btn-dim btn-sm btn-primary" href="{{ route('products.show',$product->id) }}"><i class="icon ni ni-eye"></i></a> --}}
                                         <li class="nk-tb-action-hidden list-unstyled d-flex">
-                                            <a href="{{ route('products.show',$product->id) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="View Detail">
+                                            <a href="{{ route('products.show',$product->id) }}?store={{ encrypt($product->shop_id) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="View Detail">
                                                 <em class="icon ni ni-eye"></em>
                                             </a>
                                             <div class="drodown mr-n1">

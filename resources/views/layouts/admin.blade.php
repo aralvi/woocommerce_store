@@ -85,7 +85,7 @@
                                             @endphp
                                             @foreach ($stores as $store)
                                             <li class="nk-menu-item {{ Request::is('orders*')?'active':'' }}">
-                                                <a href="{{ route('orders.index') }}?store_id={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
+                                                <a href="{{ route('orders.index') }}?store={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
                                             </li>
                                                 
                                             @endforeach
@@ -103,7 +103,7 @@
                                             @endphp
                                             @foreach ($stores as $store)
                                             <li class="nk-menu-item">
-                                                <a href="{{ route('products.index') }}?store_id={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
+                                                <a href="{{ route('products.index') }}?store={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
                                             </li>
                                                 
                                             @endforeach

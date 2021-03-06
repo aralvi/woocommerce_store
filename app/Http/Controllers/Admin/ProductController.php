@@ -25,7 +25,7 @@ class ProductController extends Controller
             $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shopExist = Shop::where('id', $setting->shop_id)->exists();
             if ($shopExist) {
-                $shopDefault = Shop::where('id', decrypt($_GET['store_id']))->first();
+                $shopDefault = Shop::where('id', decrypt($_GET['store']))->first();
                 $shops = Shop::all();
                 // Config::set('woocommerce.store_url', $shopDefault->store_url);
                 // Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
@@ -34,7 +34,7 @@ class ProductController extends Controller
                 //     'per_page' => 100 // Or your desire number
                 // ];
                 // $products = Product::all($options);
-                $products = AppProduct::where('shop_id', decrypt($_GET['store_id']))->get();
+                $products = AppProduct::where('shop_id', decrypt($_GET['store']))->get();
                 $store_url = $shopDefault->store_url;
                 $consumer_key = $shopDefault->consumer_key;
                 $consumer_secret = $shopDefault->consumer_secret;
@@ -74,9 +74,10 @@ class ProductController extends Controller
                     $product->id = $fetch_product->id;
                     $product->user_id = Auth::user()->id;
                     $product->shop_id = $shopDefault->id;
-                    $product->title = $fetch_product->name;
+                    $product->name = $fetch_product->name;
                     $product->slug = $fetch_product->slug;
                     $product->sku = $fetch_product->sku;
+                    $product->supplier_sku = $fetch_product->supplier_sku;
                     $product->regular_price = $fetch_product->regular_price;
                     $product->sale_price = $fetch_product->sale_price;
                     $product->manage_stock = $fetch_product->manage_stock;
@@ -88,6 +89,8 @@ class ProductController extends Controller
                     $product->out_stock_threshold = $fetch_product->out_stock_threshold;
                     $product->stock_status = $fetch_product->stock_status;
                     $product->description = $fetch_product->description;
+                    $product->status = $fetch_product->status;
+                    $product->category = $fetch_product->categories[0]->name;
                     foreach($fetch_product->images as $img){
                         $product->image = $img->src;
                         break;
@@ -143,40 +146,40 @@ class ProductController extends Controller
      */
     public function show(Request $request,$id)
     {
-
-        if (empty($request->all())) {
-            $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-            if ($settingExist) {
-                $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-                $shopExist = Shop::where('id', $setting->shop_id)->exists();
+        // if (empty($request->all())) {
+            // $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+            // if ($settingExist) {
+                // $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+                $shopExist = Shop::where('id', decrypt($_GET['store']))->exists();
                 if ($shopExist) {
-                    $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                    $shopDefault = Shop::where('id', decrypt($_GET['store']))->first();
                     $shops = Shop::all();
                     $store_url = $shopDefault->store_url;
                     $consumer_key = $shopDefault->consumer_key;
                     $consumer_secret = $shopDefault->consumer_secret;
-                    Config::set('woocommerce.store_url', $shopDefault->store_url);
-                    Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
-                    Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                    $product = Product::find($id);
+                //     Config::set('woocommerce.store_url', $shopDefault->store_url);
+                //     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                //     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                    $product = AppProduct::findOrFail($id);
+                   
                     
                     return view('admin.products.show', compact('product', 'shops','setting', 'store_url', 'consumer_key', 'consumer_secret'));
                 } else {
                     return view('admin.products.index')->with('error', 'please configure your store settings!');
                 }
-            } else {
-                return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
-            }
-        } else {
-            $store_url = $request->store_url;
-            $consumer_key = $request->consumer_key;
-            $consumer_secret = $request->consumer_secret;
-            Config::set('woocommerce.store_url', $request->store_url);
-            Config::set('woocommerce.consumer_key', $request->consumer_key);
-            Config::set('woocommerce.consumer_secret', $request->consumer_secret);
-            $product = Product::find($id);
-            return view('admin.products.show', compact('product', 'store_url', 'consumer_key', 'consumer_secret'));
-        }
+            // } else {
+            //     return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
+            // }
+        // } else {
+        //     $store_url = $request->store_url;
+        //     $consumer_key = $request->consumer_key;
+        //     $consumer_secret = $request->consumer_secret;
+        //     Config::set('woocommerce.store_url', $request->store_url);
+        //     Config::set('woocommerce.consumer_key', $request->consumer_key);
+        //     Config::set('woocommerce.consumer_secret', $request->consumer_secret);
+        //     $product = Product::find($id);
+        //     return view('admin.products.show', compact('product', 'store_url', 'consumer_key', 'consumer_secret'));
+        // }
     }
 
     /**

@@ -19,13 +19,16 @@ class CreateAppProductsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('shop_id')->nullable();
             $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
-            $table->string('title');
+            $table->string('name');
+            $table->string('category')->nullable();
+            $table->string('status')->nullable();
             $table->string('slug')->nullable();
             $table->string('sku')->nullable();
+            $table->string('supplier_sku')->nullable();
+            $table->boolean('manage_stock');
             $table->string('barcode')->nullable();
             $table->string('regular_price')->nullable();
             $table->string('sale_price')->nullable();
-            $table->string('manage_stock')->nullable();
             $table->string('stock_quantity')->nullable();
             $table->string('backorders')->nullable();
             $table->string('weight')->nullable();
