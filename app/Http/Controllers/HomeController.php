@@ -45,7 +45,7 @@ class HomeController extends Controller
         //         $cancelled_orders = Order::where('status', 'cancelled')->get();
         //         $refunded_orders = Order::where('status', 'refunded')->get();
         //         $failed_orders = Order::where('status', 'failed')->get();
-                return redirect('orders');
+                return redirect('stores');
                 // return view('home', compact('orders', 'shops', 'setting', 'completed_orders', 'pending_orders', 'processing_orders', 'cancelled_orders', 'refunded_orders', 'failed_orders'));
         //     } else {
         //         session()->now('error', 'please configure your store settings!');
