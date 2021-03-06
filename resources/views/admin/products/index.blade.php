@@ -270,7 +270,7 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li>
-                                                            <a href="{{ route('products.edit',$product->id) }}">
+                                                            <a href="{{ route('products.edit',$product->id) }}?store={{ encrypt($product->shop_id) }}">
                                                                 <em class="icon ni ni-pen"></em>
                                                                 <span>Edit Details</span>
                                                             </a>

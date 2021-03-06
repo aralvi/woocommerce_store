@@ -190,13 +190,13 @@ class ProductController extends Controller
      */
     public function edit(Request $request,$id)
     {
-        if (empty($request->all())) {
-            $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-            if ($settingExist) {
+        // if (empty($request->all())) {
+        //     $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+        //     if ($settingExist) {
                 $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-                $shopExist = Shop::where('id', $setting->shop_id)->exists();
+                $shopExist = Shop::where('id', decrypt($_GET['store']))->exists();
                 if ($shopExist) {
-                    $shopDefault = Shop::where('id', $setting->shop_id)->first();
+                    $shopDefault = Shop::where('id', decrypt($_GET['store']))->first();
                     $shops = Shop::all();
                     $store_url = $shopDefault->store_url;
                     $consumer_key = $shopDefault->consumer_key;
@@ -209,19 +209,19 @@ class ProductController extends Controller
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
-        } else {
-            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
-        }
-        } else {
-            $store_url = $request->store_url;
-            $consumer_key = $request->consumer_key;
-            $consumer_secret = $request->consumer_secret;
-            Config::set('woocommerce.store_url', $request->store_url);
-            Config::set('woocommerce.consumer_key', $request->consumer_key);
-            Config::set('woocommerce.consumer_secret', $request->consumer_secret);
-            $product = Product::find($id);
-            return view('admin.products.edit', compact('product', 'store_url', 'consumer_key', 'consumer_secret'));
-        }
+        // } else {
+        //     return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
+        // }
+        // } else {
+        //     $store_url = $request->store_url;
+        //     $consumer_key = $request->consumer_key;
+        //     $consumer_secret = $request->consumer_secret;
+        //     Config::set('woocommerce.store_url', $request->store_url);
+        //     Config::set('woocommerce.consumer_key', $request->consumer_key);
+        //     Config::set('woocommerce.consumer_secret', $request->consumer_secret);
+        //     $product = Product::find($id);
+        //     return view('admin.products.edit', compact('product', 'store_url', 'consumer_key', 'consumer_secret'));
+        // }
         
     }
 
