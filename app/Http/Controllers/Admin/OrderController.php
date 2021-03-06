@@ -165,7 +165,6 @@ class OrderController extends Controller
      */
     public function show(Request $request, $id)
     {
-        // dd($request->all());
 
         // if (empty($request->all())) {
             $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
@@ -174,6 +173,7 @@ class OrderController extends Controller
                 $shopExist = Shop::where('id', decrypt($_GET['store']))->exists();
                 if ($shopExist) {
                     $shopDefault = Shop::where('id', decrypt($_GET['store']))->first();
+                    
                     $shops = Shop::all();
                     $store_url =  $shopDefault->store_url;
                     $consumer_key =  $shopDefault->consumer_key;
