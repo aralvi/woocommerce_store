@@ -1,4 +1,4 @@
-@extends('layouts.admin') @section('title','Stores') @section('page-title','Add Store')
+@extends('layouts.admin') @section('title','Stores') @section('page-title','Stores')
 
 @section('content')
 <div class="col-xxl-12 col-sm-12">
