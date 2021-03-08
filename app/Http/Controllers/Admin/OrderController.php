@@ -409,9 +409,9 @@ class OrderController extends Controller
         $ids = explode(',', $request->order_list);
         // if ($request->key == 'undefined' && $request->secret == 'undefined' && $request->store_url == 'undefined') {
 
-            $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-            if ($settingExist) {
-                $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+            // $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+            // if ($settingExist) {
+            //     $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
                 $shopExist = Shop::where('id', $request->store)->exists();
                 if ($shopExist) {
                     $shopDefault = Shop::where('id', $request->store)->first();
@@ -434,9 +434,9 @@ class OrderController extends Controller
                 } else {
                     return view('admin.orders.index')->with('error', 'please configure your store settings!');
                 }
-            } else {
-                return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
-            }
+            // } else {
+            //     return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
+            // }
         // }
         // else{
         //     Config::set('woocommerce.store_url', $request->store_url);
