@@ -55,7 +55,7 @@ class ProductController extends Controller
         // dd($request->all());
         // $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         // if ($settingExist) {
-        //     $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+                $setting = SettingStore::where('shop_id', decrypt($_GET['store']))->first();
             $shopExist = Shop::where('store_url', $request->store_url)->exists();
             if ($shopExist) {
                 $shopDefault = Shop::where('store_url', $request->store_url)->first();
