@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AppProduct;
 use App\Models\Setting;
+use App\Models\SettingStore;
 use App\Models\Shop;
 use Codexshaper\WooCommerce\Facades\Product;
 use Illuminate\Http\Request;
@@ -20,10 +21,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-        if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+        // $settingExist = SettingStore::where('shop_id', decrypt($_GET['store']))->exists();
+        // if ($settingExist) {
+        //     $setting = SettingStore::where('shop_id', decrypt($_GET['store']))->first();
+        //     dd($setting);
+            $shopExist = Shop::where('id', decrypt($_GET['store']))->exists();
             if ($shopExist) {
                 $shopDefault = Shop::where('id', decrypt($_GET['store']))->first();
                 $shops = Shop::all();
@@ -42,19 +44,19 @@ class ProductController extends Controller
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
-        } else {
-            session()->now('error', 'please configure your default settings for store and order status!');
-            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
-        }
+        // } else {
+        //     session()->now('error', 'please configure your default settings for store and order status!');
+        //     return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
+        // }
         
     }
     public function fetchProducts(Request $request)
     {
         // dd($request->all());
-        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-        if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-            $shopExist = Shop::where('id', $setting->shop_id)->exists();
+        // $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+        // if ($settingExist) {
+        //     $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+            $shopExist = Shop::where('store_url', $request->store_url)->exists();
             if ($shopExist) {
                 $shopDefault = Shop::where('store_url', $request->store_url)->first();
                 $shops = Shop::all();
@@ -110,10 +112,10 @@ class ProductController extends Controller
             } else {
                 return view('admin.products.index')->with('error', 'please configure your store settings!');
             }
-        } else {
-            session()->now('error', 'please configure your default settings for store and order status!');
-            return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
-        }
+        // } else {
+        //     session()->now('error', 'please configure your default settings for store and order status!');
+        //     return view('admin.products.index')->with('error', 'please configure your default settings for store and order status!');
+        // }
         
     }
 
@@ -149,7 +151,7 @@ class ProductController extends Controller
         // if (empty($request->all())) {
             // $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
             // if ($settingExist) {
-                $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+                // $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
                 $shopExist = Shop::where('id', decrypt($_GET['store']))->exists();
                 if ($shopExist) {
                     $shopDefault = Shop::where('id', decrypt($_GET['store']))->first();
@@ -163,7 +165,7 @@ class ProductController extends Controller
                     $product = AppProduct::findOrFail($id);
                    
                     
-                    return view('admin.products.show', compact('product', 'shops','setting', 'store_url', 'consumer_key', 'consumer_secret'));
+                    return view('admin.products.show', compact('product', 'shops', 'store_url', 'consumer_key', 'consumer_secret'));
                 } else {
                     return view('admin.products.index')->with('error', 'please configure your store settings!');
                 }
@@ -193,7 +195,7 @@ class ProductController extends Controller
         // if (empty($request->all())) {
         //     $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         //     if ($settingExist) {
-                $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+                // $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
                 $shopExist = Shop::where('id', decrypt($_GET['store']))->exists();
                 if ($shopExist) {
                     $shopDefault = Shop::where('id', decrypt($_GET['store']))->first();
