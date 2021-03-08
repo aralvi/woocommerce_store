@@ -167,11 +167,11 @@ class OrderController extends Controller
      */
     public function show(Request $request, $id)
     {
-
+        
         // if (empty($request->all())) {
-            $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
-            if ($settingExist) {
-                $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+            // $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+            // if ($settingExist) {
+                //     $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
                 $shopExist = Shop::where('id', decrypt($_GET['store']))->exists();
                 if ($shopExist) {
                     $shopDefault = Shop::where('id', decrypt($_GET['store']))->first();
@@ -192,9 +192,9 @@ class OrderController extends Controller
                 } else {
                     return view('admin.orders.index')->with('error', 'please configure your store settings!');
                 }
-            } else {
-                return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
-            }
+            // } else {
+            //     return view('admin.orders.index')->with('error', 'please configure your default settings for store and order status!');
+            // }
         // } else {
         //     $store_url =  $request->store_url;
         //     $consumer_key = $request->consumer_key;

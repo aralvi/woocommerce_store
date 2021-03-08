@@ -201,9 +201,12 @@
 						<tr class="">
 							<td class=""> {{ $product->product_id }} </td>
 							<td class="">
-								<div class="user-info"> @php $single_product = Product::find($product->product_id); @endphp 
-									@foreach ($single_product['images'] as $image) 
-									<img id="myImg" class="product_image" src="{{ $image->src }}" alt="" width="60" height="60"> @break @endforeach </div>
+								<div class="user-info"> @php $single_product = Product::find($product->product_id); @endphp
+									@if (isset($single_product))
+										
+										@foreach ($single_product['images'] as $image) 
+										<img id="myImg" class="product_image" src="{{ $image->src }}" alt="" width="60" height="60"> @break @endforeach </div>
+									@endif 
 							</td>
 							<td class=" "> <span class="tb-amount ship_quantity">{{ $product->quantity }}</span>
 								<input type="hidden" name="" id="" class="shipquantity" value="{{ $product->quantity }}"> </td>
@@ -219,6 +222,8 @@
 							<td class=" " data-order="Email Verified - Kyc Unverified"> {{ $product->sku }} </td>
 							<td class=" "> </td>
 							<td class=" ">
+								@if (isset($single_product))
+									
 								@foreach ($single_product['meta_data'] as $item)
 								@if ($item->key =='_ywbc_barcode_display_value')
 									
@@ -226,6 +231,7 @@
 								@endif
 									
 								@endforeach
+								@endif
 							<td class=" "> 
 								{{-- <form action="{{ route('products.show',$product->product_id) }}" target="_blank" method="get">
 									@csrf
