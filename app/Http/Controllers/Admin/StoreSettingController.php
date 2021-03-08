@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SettingStore;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StoreSettingController extends Controller
 {
@@ -15,7 +16,7 @@ class StoreSettingController extends Controller
      */
     public function index()
     {
-        $store_setting = SettingStore::where('id',decrypt($_GET['store']))->get()->first();
+        $store_setting = SettingStore::where('shop_id',decrypt($_GET['store']))->get()->first();
         return view('admin.store_settings.index',compact('store_setting'));
     }
 
@@ -37,7 +38,19 @@ class StoreSettingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $store_settingExists = SettingStore::where('user_id', Auth::user()->id)->where('shop_id', $request->store)->exists();
+        if ($store_settingExists) {
+            $store_setting = SettingStore::where('user_id', Auth::user()->id)->where('shop_id', $request->store)->first();
+        } else {
+            $store_setting = new SettingStore();
+        }
+        $store_setting->user_id = Auth::user()->id;
+        $store_setting->shop_id = $request->store;
+        $store_setting->order_status = $request->order_status;
+        $store_setting->excluded_Status = json_encode($request->excluded_status);
+        $store_setting->change_able_status = json_encode($request->change_able_status);
+        $store_setting->save();
+        return back()->with('success', "setting has been updated"); 
     }
 
     /**

@@ -9,7 +9,7 @@
                     </h4> </div>
 				<div class="row gy-4">
 					<form action="" method="post" class="col-sm-12" enctype="multipart/form-data"> @csrf
-						<div class="row">
+						{{-- <div class="row">
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="" class="mb-0">Select Store</label>
@@ -143,7 +143,7 @@
 												 @endif >Failed</option> @endif </select>
 								</div>
 							</div>
-						</div>
+						</div> --}}
 						<div class="row">
 							<div class="col-sm-6 mt-4">
 								<div class="form-group">

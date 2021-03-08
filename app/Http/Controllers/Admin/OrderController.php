@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use App\Consignment;
+use App\Models\SettingStore;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -31,20 +32,21 @@ class OrderController extends Controller
     public function index()
     {
        
-        
-        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+        // dd(decrypt($_GET['store']));
+        $settingExist = SettingStore::where('shop_id', decrypt($_GET['store']))->exists();
         if ($settingExist) {
             $shops = Shop::all();
-            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
-            if(isset($_GET['store'])){
+            $setting = SettingStore::where('shop_id', decrypt($_GET['store']))->first();
+            // dd($setting);
+            // if(isset($_GET['store'])){
                 
-                $id = decrypt($_GET['store']);
-                $shopDefault = Shop::where('id', $id)->first();
-            }else{
+            //     $id = decrypt($_GET['store']);
+            //     $shopDefault = Shop::where('id', $id)->first();
+            // }else{
                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
-                $id = $shopDefault->id;
-            }
-            $orders = AppOrder::where('shop_id', $id)->get();
+            //     $id = $shopDefault->id;
+            // }
+            $orders = AppOrder::where('shop_id', $shopDefault->id)->get();
             $store_url = $shopDefault->store_url;
             $consumer_key = $shopDefault->consumer_key;
             $consumer_secret = $shopDefault->consumer_secret;
