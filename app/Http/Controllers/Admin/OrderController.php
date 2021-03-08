@@ -50,7 +50,8 @@ class OrderController extends Controller
             $store_url = $shopDefault->store_url;
             $consumer_key = $shopDefault->consumer_key;
             $consumer_secret = $shopDefault->consumer_secret;
-            return view('admin.orders.index', compact('orders', 'shops', 'setting', 'store_url', 'consumer_key', 'consumer_secret'));
+            $shop_id = $shopDefault->id;
+            return view('admin.orders.index', compact('orders', 'shops', 'setting', 'store_url', 'consumer_key', 'consumer_secret', 'shop_id'));
         } else {
             session()->now('error', 'please configure your default settings for store and order status!');
             return view('admin.orders.index')->with('error', 'please configure your store settings for store and order status!');
@@ -59,11 +60,11 @@ class OrderController extends Controller
 
     public function fetchOrders(Request $request)
     {
-        $settingExist = SettingStore::where('shop_id', 1)->where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+        $settingExist = SettingStore::where('shop_id', $request->shop_id)->where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         $agoDate = \Carbon\Carbon::now()->subDays(7);
         $currentDate = \Carbon\Carbon::today();
         if ($settingExist) {
-            $setting = SettingStore::where('shop_id', 1)->where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+            $setting = SettingStore::where('shop_id', $request->shop_id)->where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shopExist = Shop::where('id', $setting->shop_id)->exists();
             if ($shopExist) {
                 $shopDefault = Shop::where('store_url', $request->store_url)->first();

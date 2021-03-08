@@ -40,41 +40,52 @@
                     </div>
                 </td>
                 <td class="nk-tb-col tb-col-mb">
-                    @if ($order->status == 'on-hold')
-                    <span class="dot bg-warning d-mb-none"></span>
-                    <span
-                        class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
-                    @endif
-                    @if ($order->status == 'completed')
-                    <span class="dot bg-success d-mb-none"></span>
-                    <span
-                        class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
-                    @endif
-                    @if ($order->status == 'failed')
-                    <span class="dot bg-danger d-mb-none"></span>
-                    <span
-                        class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                    @endif
-                    @if ($order->status == 'pending')
-                    <span class="dot bg-info d-mb-none"></span>
-                    <span
-                        class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
-                    @endif
-                    @if ($order->status == 'processing')
-                    <span class="dot bg-primary d-mb-none"></span>
-                    <span
-                        class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                    @endif
-                    @if ($order->status == 'refunded')
-                    <span class="dot bg-secondary d-mb-none"></span>
-                    <span
-                        class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
-                    @endif
-                    @if ($order->status == 'cancelled')
-                    <span class="dot bg-danger d-mb-none"></span>
-                    <span
-                        class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
-                    @endif
+                   
+                                                                    @if ($order->status == 'on-hold')
+                                                                    <span class="dot bg-warning d-mb-none"></span>
+                                                                    <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-warning d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                    @endif
+                                                                    @if ($order->status == 'completed')
+                                                                    <span class="dot bg-success d-mb-none"></span>
+                                                                    <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-success d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                    @endif
+                                                                    @if ($order->status == 'failed')
+                                                                    <span class="dot bg-danger d-mb-none"></span>
+                                                                    <span
+                                                                        class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                        @endif
+                                                                        @if ($order->status == 'pending')
+                                                                        <span class="dot bg-info d-mb-none"></span>
+                                                                    <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                    @endif
+                                                                    @if ($order->status == 'processing')
+                                                                    <span class="dot bg-primary d-mb-none"></span>
+                                                                    <span
+                                                                        class="badge badge-sm badge-dot has-bg badge-primary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                        @endif
+                                                                    @if ($order->status == 'refunded')
+                                                                    <span class="dot bg-secondary d-mb-none"></span>
+                                                                    <span
+                                                                        class="badge badge-sm badge-dot has-bg badge-secondary d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                        @endif
+                                                                    @if ($order->status == 'cancelled')
+                                                                    <span class="dot bg-danger d-mb-none"></span>
+                                                                    <span
+                                                                    class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                    @endif
+                                                                    @if ($order->status == 'backorder')
+                                                                    <span class="dot bg-danger d-mb-none"></span>
+                                                                    <span class="badge badge-sm badge-dot has-bg badge-danger d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                    @endif
+                                                                    @if ($order->status != 'on-hold' && $order->status != 'completed' && $order->status != 'failed' && $order->status != 'pending' && $order->status != 'processing' && $order->status != 'refunded' && $order->status != 'cancelled' && $order->status != 'backorder')
+                                                                   
+                                                                    
+                                                                    <span class="dot bg-danger d-mb-none"></span>
+                                                                    <span class="badge badge-sm badge-dot has-bg badge-info d-none d-mb-inline-flex">{{ $order->status }}</span>
+                                                                    @endif
                     {{-- <span class="tb-amount">{{ $order->status }}</span> --}}
                 </td>
                 <td class="nk-tb-col tb-col-md">
