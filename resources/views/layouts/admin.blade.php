@@ -133,7 +133,7 @@
                                         </ul>
                                         <!-- .nk-menu-sub -->
                                     </li>
-                                    <li class="nk-menu-item has-sub">
+                                    {{-- <li class="nk-menu-item has-sub">
                                         <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-delivery-fast"></em></span> <span class="nk-menu-text">Curior Companies</span>
                                         </a>
@@ -141,6 +141,20 @@
                                             <li class="nk-menu-item">
                                                 <a href="javascript:void(0)" class="nk-menu-link"><span class="nk-menu-text">Curior Companies</span></a>
                                             </li>
+                                        </ul>
+                                    </li> --}}
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span> <span class="nk-menu-text">Store Settings</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            @foreach ($stores as $store)
+                                                
+                                            <li class="nk-menu-item">
+                                                <a href="{{ route('store-settings.index') }}?store={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
+                                            </li>
+                                            @endforeach
+                                            
                                         </ul>
                                         <!-- .nk-menu-sub -->
                                     </li>
