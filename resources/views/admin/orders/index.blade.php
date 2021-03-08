@@ -1000,7 +1000,7 @@
         var secret = $('.consumer_secret').val();
         $('#loading').removeClass('d-none');
         @php 
-            $setting = App\Models\SettingStore::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+            $setting = App\Models\SettingStore::where('shop_id',1)->first();
             $shop = App\Models\Shop::where('id', $setting->shop_id)->first();
         @endphp
         let store_id = @if(Request::get('store')) {{ decrypt(Request::get('store')) }} @else {{$shop->id}} @endif;

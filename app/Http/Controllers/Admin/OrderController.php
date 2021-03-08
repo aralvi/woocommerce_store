@@ -363,8 +363,9 @@ class OrderController extends Controller
 
     public function filter(Request $request)
     {
-        if (count($this->userSetting(Auth::user()->id)) > 0)
-        {
+        // dd($request->all());
+        // if (count($this->userSetting(Auth::user()->id)) > 0)
+        // {
             if ($request->status == 'all') {
                 $orders = AppOrder::where('shop_id', $request->store_id)->get();
             } else {
@@ -375,7 +376,7 @@ class OrderController extends Controller
             $secret = $shop->consumer_secret;
             $store_url = $shop->store_url;
             return view('admin.orders.filter_status', compact('orders', 'store_url', 'key', 'secret'));
-        }
+        // }
     }
 
     public function search(Request $request)
