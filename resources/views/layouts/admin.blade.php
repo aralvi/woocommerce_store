@@ -30,9 +30,9 @@
                         <div class="nk-sidebar-brand">
                             <a href="javascript:void(0)" class="logo-link nk-sidebar-logo">
                                 @php
-                                   $settingExist = App\Models\Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+                                   $settingExist = App\Models\Setting::where('id', 1)->exists();
                                     if ($settingExist) {
-                                        $setting = App\Models\Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+                                        $setting = App\Models\Setting::where('id', 1)->first();
                                     }
                                 @endphp
                                 @if(isset($setting) && $setting->logo != null)
@@ -144,6 +144,7 @@
                                             </li>
                                         </ul>
                                     </li> --}}
+                                    @if (Auth::user()->role != 'Staff')
                                     <li class="nk-menu-item has-sub">
                                         <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span> <span class="nk-menu-text">Store Settings</span>
@@ -159,7 +160,8 @@
                                         </ul>
                                         <!-- .nk-menu-sub -->
                                     </li>
-                                    @if (Auth::user()->role != 'Staff')
+                                    @endif
+                                    @if (Auth::user()->role == 'SuperAdmin')
                                     <li class="nk-menu-item has-sub">
                                         <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span> <span class="nk-menu-text">Settings</span>

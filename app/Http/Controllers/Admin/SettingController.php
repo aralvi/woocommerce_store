@@ -18,10 +18,10 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $setting = Setting::where('user_id',Auth::user()->id)->first();
-        $shopExists = Shop::where('user_id',Auth::user()->id)->exists();
+        $setting = Setting::where('id',1)->first();
+        $shopExists = Shop::where('id',1)->exists();
         if($shopExists){
-            $shops = Shop::where('user_id', Auth::user()->id)->get();
+            $shops = Shop::where('id', 1)->get();
             return view('admin.settings.index',compact('setting','shops'));
         }else{
             session()->now('error', 'please configure your store settings first!');
@@ -49,17 +49,14 @@ class SettingController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $this->validate($request, [
-            'store' => 'required',
-            'order_status' => 'required',
-            ]);
-            $settingExists = Setting::where('user_id',Auth::user()->id)->exists();
+        
+            $settingExists = Setting::where('id',1)->exists();
             if($settingExists){
-                $setting = Setting::where('user_id', Auth::user()->id)->first();
+                $setting = Setting::where('id', 1)->first();
             }else{
                 $setting = new Setting();
             }
-            $setting->user_id = Auth::user()->id;
+            
             if ($company_logo = $request->file('logo')) {
                 $company_logo_original_name = $company_logo->getClientOriginalName();
                 $image_changed_name = time() . '_' . str_replace('', '-', '');
@@ -71,11 +68,10 @@ class SettingController extends Controller
                 $company_logo->move($destinationPath, $image_changed_name);
                 $setting->logo = $image_changed_name;
             }
-        $setting->shop_id = $request->store;
+        
         $setting->expiry_time = $request->expiry_time;
-        $setting->order_status = $request->order_status;
-        $setting->excluded_Status = json_encode($request->excluded_status);
-        $setting->change_able_status = json_encode($request->change_able_status);
+        
+        
         $setting->save();
         
         return back()->with('success',"setting has been updated");

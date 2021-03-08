@@ -30,9 +30,14 @@
                 <div class="nk-content ">
                     <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
                         <div class="brand-logo pb-4 text-center">
-                            <a href="html/index.html" class="logo-link">
+                            <a href="javascript:void(0)" class="logo-link">
+                                @if(isset($setting) && $setting->logo != null)
+                                <img class="logo-light logo-img logo-img-lg" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo">
+                                <img class="logo-dark logo-img logo-img-lg" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo-dark">
+                                @else
                                 <img class="logo-light logo-img logo-img-lg" src="{{ asset('images/logo.png') }}" srcset="./images/logo2x.png 2x" alt="logo">
                                 <img class="logo-dark logo-img logo-img-lg" src="{{ asset('images/logo-dark.png') }}" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+                                @endif
                             </a>
                         </div>
                         <div class="card">
