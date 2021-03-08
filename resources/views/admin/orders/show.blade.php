@@ -227,14 +227,15 @@
 									
 								@endforeach
 							<td class=" "> 
-								<form action="{{ route('products.show',$product->product_id) }}" target="_blank" method="get">
+								{{-- <form action="{{ route('products.show',$product->product_id) }}" target="_blank" method="get">
 									@csrf
 									<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
 									<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
 									<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
 									<button class="btn  border-0 bg-none text-primary" type="submit">{{ $product->name }} </button>
 									
-								</form>
+								</form> --}}
+								<a href="{{ route('products.show',$product->product_id) }}?store={{ encrypt($shop_id) }}">{{ $product->name }}</a>
 							</td>
 							<td class=" "> ${{ $product->price }} </td>
 							<td class="">

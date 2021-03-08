@@ -178,6 +178,7 @@ class OrderController extends Controller
                     $store_url =  $shopDefault->store_url;
                     $consumer_key =  $shopDefault->consumer_key;
                     $consumer_secret =  $shopDefault->consumer_secret;
+                    $shop_id =  $shopDefault->id;
                     Config::set('woocommerce.store_url', $shopDefault->store_url);
                     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
                     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
@@ -185,7 +186,7 @@ class OrderController extends Controller
                     $orders = Order::find($id);
                     $ordreNotes = Note::all($id);
                     $questions = Question::where('order_id', $id)->get();
-                    return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_secret', 'consumer_key', 'questions'));
+                    return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_secret', 'consumer_key', 'questions', 'shop_id'));
                 } else {
                     return view('admin.orders.index')->with('error', 'please configure your store settings!');
                 }
@@ -522,13 +523,15 @@ class OrderController extends Controller
         $consumer_key = $request->consumer_key;
         $consumer_secret = $request->consumer_secret;
         $id = $request->order_id;
+        $shop = Shop::where('store_url', $request->store_url)->get()->first();
+        $shop_id = $shop->id;
         Config::set('woocommerce.store_url', $request->store_url);
         Config::set('woocommerce.consumer_key', $request->consumer_key);
         Config::set('woocommerce.consumer_secret', $request->consumer_secret);
             $orders = Order::find($id);
             $ordreNotes = Note::all($id);
             $questions = Question::where('order_id', $id)->get();
-            return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'consumer_secret', 'questions'));
+            return view('admin.orders.show', compact('orders', 'ordreNotes', 'store_url', 'consumer_key', 'consumer_secret', 'questions', 'shop_id'));
         }
         else{
             return back()->with('error','no record found');

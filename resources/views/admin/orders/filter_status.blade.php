@@ -16,25 +16,27 @@
                 </td>
                 <td class="nk-tb-col">
                     <div class="user-info">
-                        <form action="{{ route('orders.show',$order->id) }}">
+                        {{-- <form action="{{ route('orders.show',$order->id) }}">
                             <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
                             <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
                             <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
                             <button type="submit"
                                 class="btn btn-dim text-primary text-left">{{ $order->id }}</button>
-                        </form>
+                        </form> --}}
                         {{-- <span class="tb-lead">{{ $order->id }}<span class="dot dot-success d-md-none ml-1"></span></span> --}}
+                         <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">{{ $order->id }}</a>
                     </div>
                 </td>
                 <td class="nk-tb-col">
                     <div class="user-info">
-                        <form action="{{ route('orders.show',$order->id) }}">
+                        {{-- <form action="{{ route('orders.show',$order->id) }}">
                             <input type="hidden" name="store_url" class="store_url" value="{{ $store_url }}">
                             <input type="hidden" name="consumer_key" class="consumer_key" value="{{ $key }}">
                             <input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ $secret }}">
                             <button type="submit"
                                 class="btn btn-dim text-primary text-left">{{ $order->customer }}</button>
-                        </form>
+                        </form> --}}
+                         <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">{{ $order->customer }}
                     </div>
                 </td>
                 <td class="nk-tb-col tb-col-mb">

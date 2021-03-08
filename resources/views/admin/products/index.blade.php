@@ -232,7 +232,7 @@
                                         
                                     </td>
                                     <td class="nk-tb-col tb-col-md">
-                                        <a href="{{ route('products.show',$product->id) }}">{{ $product->name }}</a><br />
+                                        <a href="{{ route('products.show',$product->id) }}?store={{ encrypt($product->shop_id) }}">{{ $product->name }}</a><br />
                                         <small>SKU: {{ $product->sku }}</small><br />
                                         
                                             

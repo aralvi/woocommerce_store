@@ -163,12 +163,12 @@
                                                             </td>
                                                             <td class="nk-tb-col">
                                                                 <div class="user-info">
-                                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
+                                                                    <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">{{ $order->id }}</a>
                                                                 </div>
                                                             </td>
                                                             <td class="nk-tb-col">
                                                                 <div class="user-info">
-                                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
+                                                                    <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">{{ $order->customer }}
                                                                     </a>
                                                                 </div>
                                                             </td>
@@ -308,12 +308,12 @@
                                                     </td>
                                                     <td class="nk-tb-col">
                                                         <div class="user-info">
-                                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
+                                                            <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">{{ $order->id }}</a>
                                                         </div>
                                                     </td>
                                                     <td class="nk-tb-col">
                                                         <div class="user-info">
-                                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
+                                                            <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">{{ $order->customer }}
                                                             </a>
                                                         </div>
                                                     </td>
@@ -451,12 +451,12 @@
                                                             </td>
                                                             <td class="nk-tb-col">
                                                                 <div class="user-info">
-                                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
+                                                                    <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">{{ $order->id }}</a>
                                                                 </div>
                                                             </td>
                                                             <td class="nk-tb-col">
                                                                 <div class="user-info">
-                                                                    <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
+                                                                    <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">{{ $order->customer }}
                                                                     </a>
                                                                 </div>
                                                             </td>
@@ -596,12 +596,12 @@
                                                     </td>
                                                     <td class="nk-tb-col">
                                                         <div class="user-info">
-                                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->id }}</a>
+                                                            <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">{{ $order->id }}</a>
                                                         </div>
                                                     </td>
                                                     <td class="nk-tb-col">
                                                         <div class="user-info">
-                                                            <a href="{{ route('orders.show',$order->id) }}">{{ $order->customer }}
+                                                            <a href="{{ route('orders.show',$order->id) }}?store={{ encrypt($order->shop_id) }}" target="_blank">{{ $order->customer }}
                                                             </a>
                                                         </div>
                                                     </td>
