@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
         // $settingExist = SettingStore::where('shop_id', decrypt($_GET['store']))->exists();
         // if ($settingExist) {
-        //     $setting = SettingStore::where('shop_id', decrypt($_GET['store']))->first();
+            $setting = SettingStore::where('shop_id', decrypt($_GET['store']))->first();
         //     dd($setting);
             $shopExist = Shop::where('id', decrypt($_GET['store']))->exists();
             if ($shopExist) {
@@ -148,6 +148,7 @@ class ProductController extends Controller
      */
     public function show(Request $request,$id)
     {
+        dd($id);
         // if (empty($request->all())) {
             // $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
             // if ($settingExist) {
@@ -159,10 +160,11 @@ class ProductController extends Controller
                     $store_url = $shopDefault->store_url;
                     $consumer_key = $shopDefault->consumer_key;
                     $consumer_secret = $shopDefault->consumer_secret;
-                //     Config::set('woocommerce.store_url', $shopDefault->store_url);
-                //     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
-                //     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                    //     Config::set('woocommerce.store_url', $shopDefault->store_url);
+                    //     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                    //     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
                     $product = AppProduct::findOrFail($id);
+                    dd($product);
                    
                     
                     return view('admin.products.show', compact('product', 'shops', 'store_url', 'consumer_key', 'consumer_secret'));

@@ -2,6 +2,8 @@
 @section('title','Orders')
 
 @section('content')
+@if (isset($orders))
+    
 <div class="col-xxl-12 col-sm-12">
     <div class="">
         <div class="nk-ecwg nk-ecwg6">
@@ -895,6 +897,7 @@
         </div>
     </div>
 </div>
+
 @endsection @section('script')
 <script>
     function orderSetting(elem, id,tracking_number)
@@ -971,7 +974,7 @@
         var secret = $('.consumer_secret').val();
         $('#loading').removeClass('d-none');
         @php 
-            $setting = App\Models\Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+            $setting = App\Models\SettingStore::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shop = App\Models\Shop::where('id', $setting->shop_id)->first();
         @endphp
         let store_id = @if(Request::get('store')) {{ decrypt(Request::get('store')) }} @else {{$shop->id}} @endif;
@@ -1085,3 +1088,6 @@
 
 </script>
 @endsection
+@else
+    
+@endif

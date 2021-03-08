@@ -51,16 +51,19 @@ class OrderController extends Controller
             $consumer_key = $shopDefault->consumer_key;
             $consumer_secret = $shopDefault->consumer_secret;
             return view('admin.orders.index', compact('orders', 'shops', 'setting', 'store_url', 'consumer_key', 'consumer_secret'));
+        } else {
+            session()->now('error', 'please configure your default settings for store and order status!');
+            return view('admin.orders.index')->with('error', 'please configure your store settings for store and order status!');
         }
     }
 
     public function fetchOrders(Request $request)
     {
-        $settingExist = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
+        $settingExist = SettingStore::where('shop_id', 1)->where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
         $agoDate = \Carbon\Carbon::now()->subDays(7);
         $currentDate = \Carbon\Carbon::today();
         if ($settingExist) {
-            $setting = Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
+            $setting = SettingStore::where('shop_id', 1)->where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
             $shopExist = Shop::where('id', $setting->shop_id)->exists();
             if ($shopExist) {
                 $shopDefault = Shop::where('store_url', $request->store_url)->first();
@@ -88,7 +91,6 @@ class OrderController extends Controller
                     if($fetch_order->date_created >= $agoDate || $fetch_order->date_created <= $currentDate){
 
                         if (AppOrder::where('id', $fetch_order->id)->doesntExist()) {   
-                            dd('hoi');
                         $curl = curl_init();
                         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
                         curl_setopt($curl, CURLOPT_URL, Config::get('woocommerce.store_url') . '/wp-json/wc-ast/v3/orders/' . $fetch_order->id . '/shipment-trackings');
