@@ -135,7 +135,7 @@
                                     @if(!$consignment && $order->tracking_link ==null)
 
                                       <li>
-                                            <a href="{{ route('add.consignment',$order->id) }}">
+                                            <a href="{{ route('add.consignment',$order->id) }}?store={{ encrypt($order->shop_id) }}">
                                                 <em class="icon ni ni-eye"></em>
                                                 <span>Add Consignment</span>
                                             </a>

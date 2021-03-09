@@ -292,9 +292,9 @@ class OrderController extends Controller
     // user store setting
     private function userSetting($id)
     {
-        $settingExist = Setting::where('user_id', $id)->exists();
+        $settingExist = SettingStore::where('shop_id', decrypt($_GET['store']))->exists();
         if ($settingExist) {
-            $setting = Setting::where('user_id', $id)->first();
+            $setting = SettingStore::where('shop_id', decrypt($_GET['store']))->first();
             $shopExist = Shop::where('id', $setting->shop_id)->exists();
             if ($shopExist) {
                 $shopDefault = Shop::where('id', $setting->shop_id)->first();
@@ -460,6 +460,7 @@ class OrderController extends Controller
     {
         if (count($this->userSetting(Auth::user()->id)) > 0) 
         {
+           
 
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -559,7 +560,8 @@ class OrderController extends Controller
         {
             if(!Consignment::where('order_id',$id)->first())
             {
-
+                
+                
                 $order = Order::find($id);
                 $shipping = $order['shipping'];
                 $items = [];
