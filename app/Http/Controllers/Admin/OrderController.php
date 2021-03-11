@@ -456,12 +456,11 @@ class OrderController extends Controller
         //     return back()->with('success', 'Order status has been updated');
         // }
     }
-    public function createTrackingInfo(Request $request)
+
+    public function createTrackingInfo_11_3_21_bkp(Request $request)
     {
         if (count($this->userSetting(Auth::user()->id)) > 0) 
-        {
-           
-
+        {          
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_URL, Config::get('woocommerce.store_url') . '/wp-json/wc-ast/v3/orders/' . $request->order_id . '/shipment-trackings');
@@ -521,6 +520,63 @@ class OrderController extends Controller
         }
     }
 
+    public function createTrackingInfo(Request $request)
+    {
+        if (count($this->userSetting(Auth::user()->id)) > 0) 
+        {       
+            $order = Order::find($request->order_id);
+            $sku = [];
+            $qty = [];
+            if($request->tracking_items)
+            {
+                $tracking = Consignment::where('order_id',$request->order_id)->where('order_detail_id',$request->tracking_items[0])->first();
+
+                if(count($order['line_items']) > 0)
+                {
+                    foreach ($order['line_items'] as $key => $value) 
+                    {
+                        if(in_array($value->id,$request->tracking_items))
+                        {
+                            $sku[] = $value->sku;
+                            $qty[] =$value->quantity;
+                        }
+                    }
+                }
+            }
+            $qty = implode(',',$qty);
+            $sku = implode(',',$sku);
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_URL, Config::get('woocommerce.store_url') . '/wp-json/wc-ast/v3/orders/' . $request->order_id . '/shipment-trackings');
+            curl_setopt($curl, CURLOPT_USERPWD, Config::get('woocommerce.consumer_key') . ":" . Config::get('woocommerce.consumer_secret'));
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json"));
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode(array("tracking_provider" => 'fastway-au', "tracking_number" =>$tracking->label_number, "date_shipped" => date('Y-m-d', strtotime($request->shipping_date)),'status_shipped'=>1,'sku'=>$sku,'qty'=>$qty)));
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            curl_close($curl);
+            if ($err) {
+                echo "Create Shipping Error #:" . $err;
+            } else {
+                $data = json_decode($response);
+                if (property_exists($data, 'data')) {
+                    if ($data->data->status == 404) {
+                        return back()->with('error', $data->message);
+                    }
+                }
+
+                foreach($request->tracking_items as $i)
+                {
+                    $order = Consignment::where('order_id',$request->order_id)->where('order_detail_id',$i)->first();
+                    $order->tracking_link=$data->tracking_link;
+                    $order->save();
+                }
+                
+                return back()->with('success', 'Tracking Info has been added successfully');
+            }
+        }
+    }
+
     public function getDetail(Request $request)
     {
         $order = AppOrder::where('id',$request->order_id)->exists();
@@ -554,14 +610,12 @@ class OrderController extends Controller
         }
     }
 
-    public function addConsignment($id)
+    public function addConsignment11_3_21Bkp($id)
     {
         if (count($this->userSetting(Auth::user()->id)) > 0)
         {
             if(!Consignment::where('order_id',$id)->first())
             {
-                
-                
                 $order = Order::find($id);
                 $shipping = $order['shipping'];
                 $items = [];
@@ -585,8 +639,7 @@ class OrderController extends Controller
                 $error = curl_error($curl);
                 curl_close($curl);
                 if($response)
-                {
-                    
+                { 
                     $data = json_decode($response);
                     if(property_exists($data,'result'))
                     {
@@ -616,6 +669,70 @@ class OrderController extends Controller
             else
             {
                 return back()->with('warning', 'Consignment for order id ' . $id . ' has been already added');
+            }
+        }
+    }
+
+    public function addConsignment(Request $request)
+    {
+        if (count($this->userSetting(Auth::user()->id)) > 0)
+        {
+            $order = Order::find($request->order_id);
+            $shipping = $order['shipping'];
+            $items = [];
+            $item_ids = [];
+            if($request->items)
+            {
+                if(count($order['line_items']) > 0)
+                {
+                    foreach ($order['line_items'] as $key => $value) 
+                    {
+                        if(in_array($value->id,$request->items))
+                        {
+                            $item_ids[] = $value->id;
+                            $items[] =array('Reference'=>$value->name,'Weight'=>1,'Quantity'=>$value->quantity,'Packaging'=>1);
+                        }
+                    }
+                }
+            }
+            // $array = array("UserID"=>64355,"CompanyName"=>$shipping->company,"Address1"=>'49  Wickliffe Terrace Careys Bay 9023',"Suburb"=>"Careys Bay","Postcode"=>9023,"Items"=>[["Weight"=>1,"Quantity"=>1,"Packaging"=>1]]);
+            $array = array("UserID"=>64355,"CompanyName"=>$shipping->company,"Address1"=>$shipping->address_1,"Suburb"=>$shipping->city,"Postcode"=>$shipping->postcode,"Items"=>$items);
+            $curl=curl_init(); 
+            curl_setopt($curl,CURLOPT_URL,'https://nz.api.fastway.org/v2/fastlabel/addconsignment?api_key=5392da608c569953e31e450b4a065bba');
+            curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
+            curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: application/json")); 
+            curl_setopt($curl,CURLOPT_POSTFIELDS, json_encode($array));
+            $response = curl_exec($curl);
+            $error = curl_error($curl);
+            curl_close($curl);
+            if($response)
+            { 
+                $data = json_decode($response);
+                if(property_exists($data,'result'))
+                {
+                    foreach($item_ids as $i)
+                    {
+                        $consignment = new Consignment();
+                        $consignment->store_id=DB::table('shops')->first()->id;
+                        $consignment->order_id = $request->order_id;
+                        $consignment->order_detail_id = $i;
+                        $consignment->consignment_id = $data->result->ConsignmentID;
+                        $consignment->manifest_id = $data->result->ManifestID;
+                        $consignment->label_number = $data->result->LabelNumbers[0];
+                        $consignment->lable_color = $data->result->LabelColour;
+                        $consignment->rf_code = $data->result->DestinationRFCode;
+                        $consignment->save();
+                    }
+                    return back()->with('success', 'Consignment has been added successfully');
+                }
+                else if(property_exists($data,'error')){
+                    return back()->with('error', $data->error);
+                }
+                // echo "<pre>";
+                // print_r($data);
+                // die;
+                // print_r($data->result->LabelNumbers[0]);
             }
         }
     }

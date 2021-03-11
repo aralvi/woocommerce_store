@@ -132,7 +132,7 @@
                                                                             </a>
                                                                         </li>
 
-                                    {{-- @if(!$consignment && $order->tracking_link ==null)
+                                    @if(!$consignment && $order->tracking_link ==null)
 
                                       <li>
                                             <a href="{{ route('add.consignment',$order->id) }}?store={{ encrypt($order->shop_id) }}">
@@ -164,7 +164,7 @@
                                                 <span>Order Tracking</span>
                                             </a>
                                         </li>
-                                    @endif --}}
+                                    @endif
                                         
                                 </ul>
                             </div>

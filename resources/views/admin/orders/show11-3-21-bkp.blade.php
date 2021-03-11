@@ -179,155 +179,87 @@
 				</div> --}}
 			</div>
 			<div class="table-responsive">
-				<form action="" method="get" id="add-form">
-					@csrf
-					<input type="hidden" name="store" value="{{ encrypt($shop_id) }}">
-					<input type="hidden" name="order_id" value="{{ $orders['id'] }}">
-					<table class="table">
-						<thead>
-							<tr>
-								<th class=""></th>
-								<th class=""> # </th>
-								<th class="">Image</th>
-								<th class="">Qty to ship</th>
-								<th class="">
-									<button class="border-0 btn btn-sm btn-primary ">-</button> Qty
-									<button class="border-0 btn btn-sm btn-primary ">+</button>
-								</th>
-								<th class="">Sku</th>
-								<th class="">supplier</th>
-								<th class="">Barcode</th>
-								<th class="">Tracking</th>
-								<th class="">Product Name</th>
-								<th class="">Price</th>
-								<th class="">Scan status</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							
-							@foreach ($orders['line_items'] as $key=> $product)
-								@php
-									$item_consignment = App\Consignment::where('order_id',$orders['id'])->where('order_detail_id',$product->id)->first();
-								@endphp
-								<tr class="">
-									<td class="nk-tb-col nk-tb-col-check">
+				<table class="table">
+					<thead>
+						<tr>
+							<th class=""> # </th>
+							<th class=" ">Image</th>
+							<th class="  ">Qty to ship</th>
+							<th class="  ">
+								<button class="border-0 btn btn-sm btn-primary ">-</button> Qty
+								<button class="border-0 btn btn-sm btn-primary ">+</button>
+							</th>
+							<th class="  ">Sku</th>
+							<th class="  ">supplier</th>
+							<th class="  ">Barcode</th>
+							<th class="  ">Product Name</th>
+							<th class="  ">Price</th>
+							<th class="  ">Scan status</th>
+						</tr>
+					</thead>
+					<tbody> @foreach ($orders['line_items'] as $key=> $product)
+						<tr class="">
+							<td class=""> {{ $product->product_id }} </td>
+							<td class="">
+								<div class="user-info"> @php $single_product = Product::find($product->product_id); @endphp
+									@if (isset($single_product))
 										
-											@if($item_consignment==null)
-												<div class="custom-control custom-control-sm custom-checkbox notext">
-													<input type="checkbox" name="items[{{$key}}]" class="custom-control-input order_check" id="uid{{ $product->id }}"
-											value="{{ $product->id }}">
-													<label class="custom-control-label order_check" for="uid{{ $product->id }}"></label>
-
-												</div>
-											@else
-												<div class="custom-control custom-control-sm custom-checkbox notext">
-													<input type="checkbox" name="tracking_items[{{$key}}]" class="custom-control-input order_check" id="uid{{ $product->id }}"
-											value="{{ $product->id }}">
-													<label class="custom-control-label order_check" for="uid{{ $product->id }}"></label>
-
-												</div>
-											@endif
-
-																					
-										{{-- <input type="checkbox" name="" class="order_check " value="{{ $order->id }}"> --}}
-									</td>
-									<td class=""> {{ $product->product_id }} </td>
-									<td class="">
-										<div class="user-info"> @php $single_product = Product::find($product->product_id); @endphp
-											@if (isset($single_product))
-												
-												@foreach ($single_product['images'] as $image) 
-												<img id="myImg" class="product_image" src="{{ $image->src }}" alt="" width="60" height="60"> @break @endforeach </div>
-											@endif 
-									</td>
-									<td class=" "> <span class="tb-amount ship_quantity">{{ $product->quantity }}</span>
-										<input type="hidden" name="shipQuantity[][]" id="" class="shipquantity" value="{{ $product->quantity }}"> </td>
-									<td class="td_quantity  ">
-										<div class="d-flex justify-content-between align-items-center btn-group div_quantity">
-											<button type="button"  class="minus border btn btn-sm btn-primary ">--</button>
-											<button type="button" id="sub" class="sub border btn btn-sm btn-primary ">-</button>
-											<input type="number" id="1" value="0" min="0" class="quantity" />
-											<button type="button" id="add" class="add border btn btn-sm btn-primary ">+</button>
-											<button type="button"  class="plus border btn btn-sm btn-primary ">++</button>
-										</div>
-									</td>
-									<td class=" " data-order="Email Verified - Kyc Unverified"> {{ $product->sku }} </td>
-									<td class=" "> </td>
-									<td class=" ">
-										@if (isset($single_product))
-											
-										@foreach ($single_product['meta_data'] as $item)
-										@if ($item->key =='_ywbc_barcode_display_value')
-											
-										<input type="text" name="barcode" value="{{ $item->value }}" class="form-control product_barcode" readonly> </td>
-										@endif
-											
-										@endforeach
-										@endif
-									<td>
-										@if ($item_consignment !=null)
-											{{ $item_consignment->label_number }}
-										@endif
-									</td>
-									<td class=" "> 
-										{{-- <form action="{{ route('products.show',$product->product_id) }}" target="_blank" method="get">
-											@csrf
-											<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
-											<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
-											<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
-											<button class="btn  border-0 bg-none text-primary" type="submit">{{ $product->name }} </button>
-											
-										</form> --}}
-										<a href="{{ route('products.show',$product->product_id) }}?store={{ encrypt($shop_id) }}">{{ $product->name }}</a>
-									</td>
-									<td class=" "> ${{ $product->price }} </td>
-									<td class="">
-										<label class="pack_status p-2">Un-Packed</label>
-									</td>
-
-									<td>
-										@if($item_consignment !=null && $item_consignment->tracking_link !=null)
-											<a href="{{ $item_consignment->tracking_link }}" class="btn btn-sm  btn-primary" target="_blank">
-												<span>Order Tracking</span>
-											</a>
-										@endif
+										@foreach ($single_product['images'] as $image) 
+										<img id="myImg" class="product_image" src="{{ $image->src }}" alt="" width="60" height="60"> @break @endforeach </div>
+									@endif 
+							</td>
+							<td class=" "> <span class="tb-amount ship_quantity">{{ $product->quantity }}</span>
+								<input type="hidden" name="" id="" class="shipquantity" value="{{ $product->quantity }}"> </td>
+							<td class="td_quantity  ">
+								<div class="d-flex justify-content-between align-items-center btn-group div_quantity">
+									<button type="button"  class="minus border btn btn-sm btn-primary ">--</button>
+									<button type="button" id="sub" class="sub border btn btn-sm btn-primary ">-</button>
+									<input type="number" id="1" value="0" min="0" class="quantity" />
+									<button type="button" id="add" class="add border btn btn-sm btn-primary ">+</button>
+									<button type="button"  class="plus border btn btn-sm btn-primary ">++</button>
+								</div>
+							</td>
+							<td class=" " data-order="Email Verified - Kyc Unverified"> {{ $product->sku }} </td>
+							<td class=" "> </td>
+							<td class=" ">
+								@if (isset($single_product))
 									
-									</td>
-								</tr>
-							@endforeach
-							
-							
-						</tbody>
-						<tfoot>
-							<tr>
-								<th colspan="3" class="text-right pt-3">Total Weight</th>
-								<td>
-									<input type="number" name="" id="" class="form-control" /> </td>
-								<th colspan="3" class="text-right pt-3">Product count</th>
-								<td colspan="2">
-									<input type="number" name="count" value="" id="" class="form-control count" readonly /> </td>
-							</tr>
-						</tfoot>
-					</table>
-
-					<div class="nk-block-head-content">
-						<div class="toggle-wrap nk-block-tools-toggle">
-							<a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-							<div class="toggle-expand-content" data-content="pageMenu">
-								<ul class="nk-block-tools g-3 flex-wrap">
-									<li class="nk-block-tools-opt  mt-2 mb-2">
-									 	<button type="button" class="btn btn-sm  btn-primary ml-1 top-btn" onclick='addConsignmentTracking("{{ route("add.consignment")}}")'>Add Consignment</button>
-									</li>
-
-									<li class="nk-block-tools-opt  mt-2 mb-2">
-										<button type="button" class="btn btn-sm  btn-primary ml-1 tracking-btn" onclick='addConsignmentTracking("{{ route("add.tracking.info")}}")'>Add Tracking</button>
-								   </li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</form> 
+								@foreach ($single_product['meta_data'] as $item)
+								@if ($item->key =='_ywbc_barcode_display_value')
+									
+								<input type="text" name="barcode" value="{{ $item->value }}" class="form-control product_barcode" readonly> </td>
+								@endif
+									
+								@endforeach
+								@endif
+							<td class=" "> 
+								{{-- <form action="{{ route('products.show',$product->product_id) }}" target="_blank" method="get">
+									@csrf
+									<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
+									<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
+									<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
+									<button class="btn  border-0 bg-none text-primary" type="submit">{{ $product->name }} </button>
+									
+								</form> --}}
+								<a href="{{ route('products.show',$product->product_id) }}?store={{ encrypt($shop_id) }}">{{ $product->name }}</a>
+							</td>
+							<td class=" "> ${{ $product->price }} </td>
+							<td class="">
+								<label class="pack_status p-2">Un-Packed</label>
+							</td>
+						</tr>
+						<!-- .nk-tb-item  -->@endforeach </tbody>
+					<tfoot>
+						<tr>
+							<th colspan="3" class="text-right pt-3">Total Weight</th>
+							<td>
+								<input type="number" name="" id="" class="form-control" /> </td>
+							<th colspan="3" class="text-right pt-3">Product count</th>
+							<td colspan="2">
+								<input type="number" name="count" value="" id="" class="form-control count" readonly /> </td>
+						</tr>
+					</tfoot>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -693,15 +625,7 @@
 </div>
 @endsection @section('script')
 <script>
-	function addConsignmentTracking(path)
-	{
-		$('#add-form').attr('action',path);
-		$('#add-form').submit();
-	}
 $(document).ready(function() {
-
-	
-
 	calculateTotal();
 	$(document.body).on("click", "button.plus", function() {
 		$(this).prev('button.add').click();
