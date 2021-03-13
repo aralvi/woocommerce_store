@@ -159,10 +159,10 @@ class ProductController extends Controller
                     $store_url = $shopDefault->store_url;
                     $consumer_key = $shopDefault->consumer_key;
                     $consumer_secret = $shopDefault->consumer_secret;
-                    //     Config::set('woocommerce.store_url', $shopDefault->store_url);
-                    //     Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
-                    //     Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
-                    $product = AppProduct::findOrFail($id);
+                        Config::set('woocommerce.store_url', $shopDefault->store_url);
+                        Config::set('woocommerce.consumer_key', $shopDefault->consumer_key);
+                        Config::set('woocommerce.consumer_secret', $shopDefault->consumer_secret);
+                    $product = Product::find($id);
                    
                     
                     return view('admin.products.show', compact('product', 'shops', 'store_url', 'consumer_key', 'consumer_secret'));

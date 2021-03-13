@@ -108,6 +108,9 @@
             width: 100%;
         }
     }
+	.div_quantity{
+		width: 300px;
+	}
 </style>
  @endsection @section('title','Order detail')  @section('content')
  <div class="nk-block-head nk-block-head-sm px-2">
@@ -163,20 +166,7 @@
 					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Scan Barcode" autofocus>
 					<label class="d-none lbl_scan_alert"></label>
 				</div>
-				{{-- <div class="btn-group" aria-label="Basic example">
-					<form action="{{ route('order.detail') }}" target="_blank" id="new_order_form" method="POST"> @csrf
-						<div class="form-group">
-							<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
-							<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
-							<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
-							<input type="number" name="order_id" id="order_id" class="form-control" placeholder="Search Order#”">
-							<button type="submit" class="d-none"></button>
-						</div>
-					</form> <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" target="_blank" class="btn  btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
-					<button type="button" class="btn btn-sm  btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
-					<button type="button" class="btn btn-sm  btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
-					<button type="button" class="btn btn-sm  btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
-				</div> --}}
+				
 			</div>
 			<div class="table-responsive">
 				<form action="" method="get" id="add-form">
@@ -727,10 +717,18 @@ $(document).ready(function() {
 
 	calculateTotal();
 	$(document.body).on("click", "button.plus", function() {
-		$(this).prev('button.add').click();
+		$ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
+		$ship_quantity =parseInt($ship_quantity);
+		$quantity = $(this).prev().prev().val($ship_quantity);
+		$quantity.addClass('bg-success');
+		$status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
+		$status.html('Packed').addClass(['bg-success', 'text-white']);
 	});
 	$(document.body).on("click", "button.minus", function() {
-		$(this).next('button.sub').click();
+		$quantity = $(this).next().next().val(0);
+		$quantity.removeClass(['bg-success', 'bg-danger','bg-warning']);
+		$status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
+		$status.html('Un-Packed').removeClass(['bg-success', 'text-white']);
 	});
 	$(document.body).on("click", "button.add", function() {
 		$quantity = $(this).prev().val(+$(this).prev().val() + 1);
