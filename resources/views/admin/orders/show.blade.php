@@ -163,20 +163,7 @@
 					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Scan Barcode" autofocus>
 					<label class="d-none lbl_scan_alert"></label>
 				</div>
-				{{-- <div class="btn-group" aria-label="Basic example">
-					<form action="{{ route('order.detail') }}" target="_blank" id="new_order_form" method="POST"> @csrf
-						<div class="form-group">
-							<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
-							<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
-							<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
-							<input type="number" name="order_id" id="order_id" class="form-control" placeholder="Search Order#”">
-							<button type="submit" class="d-none"></button>
-						</div>
-					</form> <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" target="_blank" class="btn  btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
-					<button type="button" class="btn btn-sm  btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
-					<button type="button" class="btn btn-sm  btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
-					<button type="button" class="btn btn-sm  btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
-				</div> --}}
+				
 			</div>
 			<div class="table-responsive">
 				<table class="table">

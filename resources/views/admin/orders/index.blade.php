@@ -930,7 +930,7 @@
     {
         // var c_url = '{{ route("add.tracking.info", ":id") }}';
         // c_url = c_url.replace(':id',id);
-        $('#addTrackingInfoForm').attr('action', '{{ route("add.tracking.info")}}');
+        $('#addTrackingInfoForm').attr('action', '{{ route("add.tracking.info")}}?store={{ encrypt($shop_id) }}');
         $('#order_id_for_tracking').val(id);
         $('#tracking_number').val(tracking_number);
     }
