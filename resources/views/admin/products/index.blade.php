@@ -145,7 +145,7 @@
                                                 <input type="hidden" name="store_url"  value="{{ $store_url }}" id="fetch_store_url">
                                                 <input type="hidden" name="consumer_key" value="{{ $consumer_key }}"  id="fetch_consumer_key">
                                                 <input type="hidden" name="consumer_secret" value="{{ $consumer_secret }}"  id="fetch_consumer_secret">
-                                                <button type="submit" class="btn btn-dim btn-primary mt-3">Fetch Orders</button>
+                                                <button type="submit" class="btn btn-dim btn-primary mt-3">Fetch Products</button>
                                             </form>
                                             {{-- <a href="{{ route('products.index') }}" class="btn btn-dim btn-primary top-btn ml-1 mt-3">Fetch Products</a> --}}
                                         </li>

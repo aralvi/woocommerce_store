@@ -43,7 +43,8 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::resource('store-settings', 'Admin\StoreSettingController');
     Route::resource('ordernotes', 'Admin\OrderNoteController');
     Route::resource('questions', 'Admin\QuestionController');
-    Route::post('add/tracking/info','Admin\OrderController@createTrackingInfo')->name('add.tracking.info');
-    Route::get('addconsignment/{id}','Admin\OrderController@addConsignment')->name('add.consignment');
+    Route::get('add/tracking/info','Admin\OrderController@createTrackingInfo')->name('add.tracking.info');
+    // Route::get('addconsignment/{id}','Admin\OrderController@addConsignment')->name('add.consignment');
+    Route::get('addconsignment','Admin\OrderController@addConsignment')->name('add.consignment');
     Route::get('courierorder','Admin\OrderController@addCourierOrder')->name('add.courier.order');
 });

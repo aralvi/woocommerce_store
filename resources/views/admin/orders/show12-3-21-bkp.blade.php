@@ -163,7 +163,20 @@
 					<input type="text" name="barcode" id="barcode" class="form-control" placeholder="Scan Barcode" autofocus>
 					<label class="d-none lbl_scan_alert"></label>
 				</div>
-				
+				{{-- <div class="btn-group" aria-label="Basic example">
+					<form action="{{ route('order.detail') }}" target="_blank" id="new_order_form" method="POST"> @csrf
+						<div class="form-group">
+							<input type="hidden" name="store_url" class="store_url" value="{{ isset($store_url)? $store_url : '' }}">
+							<input type="hidden" name="consumer_key" class="consumer_key" value="{{ isset($consumer_key)? $consumer_key:'' }}">
+							<input type="hidden" name="consumer_secret" class="consumer_secret" value="{{ isset($consumer_secret)? $consumer_secret : '' }}">
+							<input type="number" name="order_id" id="order_id" class="form-control" placeholder="Search Order#”">
+							<button type="submit" class="d-none"></button>
+						</div>
+					</form> <a href="{{ $store_url."/wp-admin/post.php?post=".$orders['id']."&action=edit"}}" target="_blank" class="btn  btn-primary top-btn ml-1" ><em class="icon ni ni-eye"> Woocommerce</em></a>
+					<button type="button" class="btn btn-sm  btn-primary ml-1 single_order_status top-btn" data-orderId="{{ $orders['id'] }}">Change Order status</button>
+					<button type="button" class="btn btn-sm  btn-primary ml-1 orderNote top-btn" data-orderId="{{ $orders['id'] }}">Add Note</button>
+					<button type="button" class="btn btn-sm  btn-primary ml-1  top-btn" data-toggle="modal" data-target="#AddCustomQuestionModal">Add Question</button>
+				</div> --}}
 			</div>
 			<div class="table-responsive">
 				<form action="" method="get" id="add-form">
@@ -192,27 +205,24 @@
 							</tr>
 						</thead>
 						<tbody>
-							@php $consignment_check=false; $track_check = false; @endphp
+							
 							@foreach ($orders['line_items'] as $key=> $product)
 								@php
 									$item_consignment = App\Consignment::where('order_id',$orders['id'])->where('order_detail_id',$product->id)->first();
-									if(App\Consignment::where('order_id',$orders['id'])->where('order_detail_id',$product->id)->where('tracking_status',1)->first() !=null)
-									{
-										$track_check = true;
-									}else if(App\Consignment::where('order_id',$orders['id'])->where('order_detail_id',$product->id)->where('tracking_status',2)->first() !=null)
-									{
-										$track_check = false;
-									}
-									else {
-										$consignment_check=true;
-									}
 								@endphp
 								<tr class="">
 									<td class="nk-tb-col nk-tb-col-check">
 										
-											@if(App\Consignment::where('order_id',$orders['id'])->where('order_detail_id',$product->id)->first() ==null || (App\Consignment::where('order_id',$orders['id'])->where('order_detail_id',$product->id)->first() !=null && App\Consignment::where('order_id',$orders['id'])->where('order_detail_id',$product->id)->where('tracking_status','=','0')->first() != null))
+											@if($item_consignment==null)
 												<div class="custom-control custom-control-sm custom-checkbox notext">
 													<input type="checkbox" name="items[{{$key}}]" class="custom-control-input order_check" id="uid{{ $product->id }}"
+											value="{{ $product->id }}">
+													<label class="custom-control-label order_check" for="uid{{ $product->id }}"></label>
+
+												</div>
+											@else
+												<div class="custom-control custom-control-sm custom-checkbox notext">
+													<input type="checkbox" name="tracking_items[{{$key}}]" class="custom-control-input order_check" id="uid{{ $product->id }}"
 											value="{{ $product->id }}">
 													<label class="custom-control-label order_check" for="uid{{ $product->id }}"></label>
 
@@ -300,39 +310,30 @@
 							</tr>
 						</tfoot>
 					</table>
+					<div class="custom-control custom-control-sm custom-checkbox mt-2 mb-2">
+						<input type="radio" name="order_shipping_status" class="custom-control-input" id="order_completed"
+				value="1">
+						<label class="custom-control-label" for="order_completed">Completed</label>
+					</div>
 
-					@if($track_check)
-
-						<div class="custom-control custom-control-sm custom-checkbox mt-2 mb-2">
-							<input type="radio" name="order_shipping_status" class="custom-control-input" id="order_completed"
-					value="1">
-							<label class="custom-control-label" for="order_completed">Completed</label>
-						</div>
-
-						<div class="custom-control custom-control-sm custom-checkbox ml-2 mt-2 mb-2">
-							<input type="radio" name="order_shipping_status" class="custom-control-input" id="order_partial"
-					value="2">
-							<label class="custom-control-label" for="order_partial">Partial Shipped</label>
-						</div>
-
-					@endif
+					<div class="custom-control custom-control-sm custom-checkbox ml-2 mt-2 mb-2">
+						<input type="radio" name="order_shipping_status" class="custom-control-input" id="order_partial"
+				value="2">
+						<label class="custom-control-label" for="order_partial">Partial Shipped</label>
+					</div>
 
 					<div class="nk-block-head-content">
 						<div class="toggle-wrap nk-block-tools-toggle">
 							<a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
 							<div class="toggle-expand-content" data-content="pageMenu">
 								<ul class="nk-block-tools g-3 flex-wrap">
-									@if($consignment_check)
-										<li class="nk-block-tools-opt  mt-2 mb-2">
-											<button type="button" class="btn btn-sm  btn-primary ml-1 top-btn" onclick='addConsignmentTracking("{{ route("add.consignment")}}")'>Add Consignment</button>
-									   </li>
-									@endif
-									@if($track_check)
-										<li class="nk-block-tools-opt  mt-2 mb-2">
-											<button type="button" class="btn btn-sm  btn-primary ml-1 tracking-btn" onclick='addConsignmentTracking("{{ route("add.tracking.info")}}")'>Update Tracking To Woocommerce</button>
-										</li>
-									@endif
-									
+									<li class="nk-block-tools-opt  mt-2 mb-2">
+									 	<button type="button" class="btn btn-sm  btn-primary ml-1 top-btn" onclick='addConsignmentTracking("{{ route("add.consignment")}}")'>Add Consignment</button>
+									</li>
+
+									<li class="nk-block-tools-opt  mt-2 mb-2" style="display:none;">
+										<button type="button" class="btn btn-sm  btn-primary ml-1 tracking-btn" onclick='addConsignmentTracking("{{ route("add.tracking.info")}}")'>Add Tracking</button>
+								   </li>
 								</ul>
 							</div>
 						</div>
