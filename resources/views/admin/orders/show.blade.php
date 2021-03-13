@@ -108,6 +108,9 @@
             width: 100%;
         }
     }
+	.div_quantity{
+		width: 300px;
+	}
 </style>
  @endsection @section('title','Order detail')  @section('content')
  <div class="nk-block-head nk-block-head-sm px-2">
@@ -714,10 +717,18 @@ $(document).ready(function() {
 
 	calculateTotal();
 	$(document.body).on("click", "button.plus", function() {
-		$(this).prev('button.add').click();
+		$ship_quantity = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.ship_quantity').text();
+		$ship_quantity =parseInt($ship_quantity);
+		$quantity = $(this).prev().prev().val($ship_quantity);
+		$quantity.addClass('bg-success');
+		$status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
+		$status.html('Packed').addClass(['bg-success', 'text-white']);
 	});
 	$(document.body).on("click", "button.minus", function() {
-		$(this).next('button.sub').click();
+		$quantity = $(this).next().next().val(0);
+		$quantity.removeClass(['bg-success', 'bg-danger','bg-warning']);
+		$status = $(this).parent('div.div_quantity').parent('td.td_quantity').siblings('td').children('.pack_status');
+		$status.html('Un-Packed').removeClass(['bg-success', 'text-white']);
 	});
 	$(document.body).on("click", "button.add", function() {
 		$quantity = $(this).prev().val(+$(this).prev().val() + 1);
