@@ -1,6 +1,6 @@
 <div id="success_errror_any">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row mb-2">
             <div class="col-12 invalidOrderIdError">
             </div>
         </div>
@@ -8,7 +8,7 @@
 
     @if (session('success'))
         <div class="container-fluid">
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col-12">
                     <div class="alert alert-success alert-block" role="alert">
                         <button type="button" class="close" data-dismiss="alert">×</button>
@@ -21,7 +21,7 @@
 
     @if (session('warning'))
         <div class="container-fluid">
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col-12">
                     <div class="alert alert-warning alert-block" role="alert">
                         <button type="button" class="close" data-dismiss="alert">×</button>
@@ -34,7 +34,7 @@
 
     @if (session('error'))
         <div class="container-fluid">
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col-12">
                     <div class="alert alert-danger alert-block" role="alert">
                         <button type="button" class="close" data-dismiss="alert">×</button>

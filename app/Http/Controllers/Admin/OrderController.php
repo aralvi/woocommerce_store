@@ -605,6 +605,18 @@ class OrderController extends Controller
                             }
                         }
                     }
+
+                    if($request->order_shipping_status=='1')
+                    { $order_status = "completed"; }
+                    else if($request->order_shipping_status=='2')
+                    { $order_status = 'partial-shipped'; }
+
+                    $arr     = ['status' => $order_status];
+                    Order::update($request->order_id, $arr);
+                    $order_update = AppOrder::findOrFail($request->order_id);
+                    $order_update->status = $order_status;
+                    $order_update->save();
+
                     $qty = implode(',',$qty);
                     $sku = implode(',',$sku);
                     $curl = curl_init();
@@ -825,6 +837,9 @@ class OrderController extends Controller
                         }
                     }
                 }
+            }
+            else{
+                return back()->with('error', 'Please Select Item for Shipment');
             }
             // $array = array("UserID"=>64355,"CompanyName"=>$shipping->company,"Address1"=>'49  Wickliffe Terrace Careys Bay 9023',"Suburb"=>"Careys Bay","Postcode"=>9023,"Items"=>[["Weight"=>1,"Quantity"=>1,"Packaging"=>1]]);
             $array = array("UserID"=>64355,"CompanyName"=>$shipping->company,"Address1"=>$shipping->address_1,"Suburb"=>$shipping->city,"Postcode"=>$shipping->postcode,"Items"=>$items);

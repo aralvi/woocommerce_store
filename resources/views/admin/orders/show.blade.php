@@ -316,13 +316,13 @@
 
 					@if($track_check)
 
-						<div class="custom-control custom-control-sm custom-checkbox mt-2 mb-2">
+						<div class="custom-control custom-control-sm custom-radio mt-2 mb-2">
 							<input type="radio" name="order_shipping_status" class="custom-control-input" id="order_completed"
-					value="1">
+					value="1" checked>
 							<label class="custom-control-label" for="order_completed">Completed</label>
 						</div>
 
-						<div class="custom-control custom-control-sm custom-checkbox ml-2 mt-2 mb-2">
+						<div class="custom-control custom-control-sm custom-radio ml-2 mt-2 mb-2">
 							<input type="radio" name="order_shipping_status" class="custom-control-input" id="order_partial"
 					value="2">
 							<label class="custom-control-label" for="order_partial">Partial Shipped</label>
