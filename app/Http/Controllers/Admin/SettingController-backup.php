@@ -18,11 +18,15 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $setting = Setting::where('id',1)->first();
-       
-            return view('admin.settings.index',compact('setting'));
-        
-    
+        $setting = Setting::where('user_id', Auth::user()->id)->first();
+        $shopExists = Shop::where('user_id', Auth::user()->id)->exists();
+        if ($shopExists) {
+            $shops = Shop::where('user_id', Auth::user()->id)->get();
+            return view('admin.settings.index', compact('setting', 'shops'));
+        } else {
+            session()->now('error', 'please configure your store settings first!');
+            return view('admin.settings.index');
+        }
     }
 
     /**
@@ -44,32 +48,36 @@ class SettingController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        
-            $settingExists = Setting::where('id',1)->exists();
-            if($settingExists){
-                $setting = Setting::where('id', 1)->first();
-            }else{
-                $setting = new Setting();
-            }
-            
-            if ($company_logo = $request->file('logo')) {
-                $company_logo_original_name = $company_logo->getClientOriginalName();
-                $image_changed_name = time() . '_' . str_replace('', '-', '');
-                if($setting->logo != null){
+        $this->validate($request, [
+            'store' => 'required',
+            'order_status' => 'required',
+        ]);
+        $settingExists = Setting::where('user_id', Auth::user()->id)->exists();
+        if ($settingExists) {
+            $setting = Setting::where('user_id', Auth::user()->id)->first();
+        } else {
+            $setting = new Setting();
+        }
+        $setting->user_id = Auth::user()->id;
+        if ($company_logo = $request->file('logo')) {
+            $company_logo_original_name = $company_logo->getClientOriginalName();
+            $image_changed_name = time() . '_' . str_replace('', '-', '');
+            if ($setting->logo != null) {
 
-                    unlink( 'uploads/logo/' . $setting->logo);
-                }
-                $destinationPath = 'uploads/logo/'; // upload path
-                $company_logo->move($destinationPath, $image_changed_name);
-                $setting->logo = $image_changed_name;
+                unlink('uploads/logo/' . $setting->logo);
             }
-        
+            $destinationPath = 'uploads/logo/'; // upload path
+            $company_logo->move($destinationPath, $image_changed_name);
+            $setting->logo = $image_changed_name;
+        }
+        $setting->shop_id = $request->store;
         $setting->expiry_time = $request->expiry_time;
-        
-        
+        $setting->order_status = $request->order_status;
+        $setting->excluded_Status = json_encode($request->excluded_status);
+        $setting->change_able_status = json_encode($request->change_able_status);
         $setting->save();
-        
-        return back()->with('success',"setting has been updated");
+
+        return back()->with('success', "setting has been updated");
     }
 
     /**
