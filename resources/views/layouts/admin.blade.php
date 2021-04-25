@@ -30,17 +30,16 @@
                         <div class="nk-sidebar-brand">
                             <a href="javascript:void(0)" class="logo-link nk-sidebar-logo">
                                 @php
-                                   $settingExist = App\Models\Setting::where('id', 1)->exists();
+                                   $settingExist = App\Models\Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->exists();
                                     if ($settingExist) {
-                                        $setting = App\Models\Setting::where('id', 1)->first();
+                                        $setting = App\Models\Setting::where('user_id', Auth::user()->id)->orWhere('user_id', Auth::user()->parent_id)->first();
                                     }
                                 @endphp
-                                @if(isset($setting) && $setting->logo != null)
-                                    
-                                    
-                                    <img class="logo-light logo-img" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo" />
-                                    <img class="logo-dark logo-img" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo-dark" />
-                                    <img class="logo-small logo-img logo-img-small" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo-small" />
+                                @if ($setting->logo != null)
+                                
+                                <img class="logo-light logo-img" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo" />
+                                <img class="logo-dark logo-img" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo-dark" />
+                                <img class="logo-small logo-img logo-img-small" src="{{ asset('uploads/logo/'.$setting->logo) }}" srcset="{{ asset('uploads/logo/'.$setting->logo) }}" alt="logo-small" />
                                 @else
                                 <img class="logo-light logo-img" src="{{ asset('assets/images/icons/logo.png') }}" srcset="{{ asset('assets/images/icons/logo2x.png 2x') }}" alt="logo" />
                                 <img class="logo-dark logo-img" src="{{ asset('assets/images/icons/logo-dark.png') }}" srcset="{{ asset('assets/images/icons/logo-dark2x.png 2x') }}" alt="logo-dark" />
@@ -86,7 +85,7 @@
                                             @endphp
                                             @foreach ($stores as $store)
                                             <li class="nk-menu-item {{ Request::is('orders*')?'active':'' }}">
-                                                <a href="{{ route('orders.index') }}?store={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
+                                                <a href="{{ route('orders.index') }}?store_id={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
                                             </li>
                                                 
                                             @endforeach
@@ -104,7 +103,7 @@
                                             @endphp
                                             @foreach ($stores as $store)
                                             <li class="nk-menu-item">
-                                                <a href="{{ route('products.index') }}?store={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
+                                                <a href="{{ route('products.index') }}?store_id={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
                                             </li>
                                                 
                                             @endforeach
@@ -134,7 +133,7 @@
                                         </ul>
                                         <!-- .nk-menu-sub -->
                                     </li>
-                                    {{-- <li class="nk-menu-item has-sub">
+                                    <li class="nk-menu-item has-sub">
                                         <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-delivery-fast"></em></span> <span class="nk-menu-text">Curior Companies</span>
                                         </a>
@@ -143,25 +142,9 @@
                                                 <a href="javascript:void(0)" class="nk-menu-link"><span class="nk-menu-text">Curior Companies</span></a>
                                             </li>
                                         </ul>
-                                    </li> --}}
-                                    @if (Auth::user()->role != 'Staff')
-                                    <li class="nk-menu-item has-sub">
-                                        <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span> <span class="nk-menu-text">Store Settings</span>
-                                        </a>
-                                        <ul class="nk-menu-sub">
-                                            @foreach ($stores as $store)
-                                                
-                                            <li class="nk-menu-item">
-                                                <a href="{{ route('store-settings.index') }}?store={{ encrypt($store->id) }}" class="nk-menu-link"><span class="nk-menu-text">{{ $store->name }}</span></a>
-                                            </li>
-                                            @endforeach
-                                            
-                                        </ul>
                                         <!-- .nk-menu-sub -->
                                     </li>
-                                    @endif
-                                    @if (Auth::user()->role == 'SuperAdmin')
+                                    @if (Auth::user()->role != 'Staff')
                                     <li class="nk-menu-item has-sub">
                                         <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span> <span class="nk-menu-text">Settings</span>
