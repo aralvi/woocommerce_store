@@ -228,7 +228,12 @@
                                         </div>
                                     </td>
                                     <td class="nk-tb-col tb-col-mb">
-                                         <img id="myImg" class="product_image" src="{{ $product->image }}" alt="{{ $product->name }}" width="60" height="60" />
+                                        @if ($product->image != null)
+                                            
+                                        <img id="myImg" class="product_image" src="{{ $product->image }}" alt="{{ $product->name }}" width="60" height="60" />
+                                        @else
+                                            <p>no image</p>
+                                        @endif
                                         
                                     </td>
                                     <td class="nk-tb-col tb-col-md">
